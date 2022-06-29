@@ -4,6 +4,17 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    "paths": {
+      "@core/models": [
+        "src/app/core/models"
+      ],
+      "@core/services": [
+        "src/app/core/services"
+      ],
+      "@core/interfaces": [
+        "src/app/core/interfaces"
+      ]
+    },
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,
