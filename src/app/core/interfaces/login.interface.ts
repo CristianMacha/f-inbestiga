@@ -1,11 +1,11 @@
 import { User } from "@core/models";
 
 export interface ILogin {
-    user: string;
+    email: string;
     password: string;
 }
 
 export interface ILoginResponse {
     token: string;
-    user: User;
+    userDb: User;
 }

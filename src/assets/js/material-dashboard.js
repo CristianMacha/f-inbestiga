@@ -16,7 +16,9 @@
 
     if (document.getElementsByClassName('navbar-collapse')[0]) {
       var fixedplugin = document.querySelector('.navbar:not(.navbar-expand-lg) .navbar-collapse');
-      var ps2 = new PerfectScrollbar(fixedplugin);
+      if(fixedplugin) {
+        var ps2 = new PerfectScrollbar(fixedplugin);
+      }
     };
 
     if (document.getElementsByClassName('fixed-plugin')[0]) {
@@ -624,14 +626,18 @@ window.addEventListener("resize", navbarColorOnResize);
 
 function navbarColorOnResize() {
   if (window.innerWidth > 1200) {
-    if (referenceButtons.classList.contains('active') && referenceButtons.getAttribute('data-class') === 'bg-transparent') {
-      sidenav.classList.remove('bg-white');
-    } else {
-      sidenav.classList.add('bg-white');
+    if(referenceButtons) {
+      if (referenceButtons.classList?.contains('active') && referenceButtons.getAttribute('data-class') === 'bg-transparent') {
+        sidenav.classList.remove('bg-white');
+      } else {
+        sidenav.classList.add('bg-white');
+      }
     }
   } else {
-    sidenav.classList.add('bg-white');
-    sidenav.classList.remove('bg-transparent');
+    if(sidenav) {
+      sidenav.classList.add('bg-white');
+      sidenav.classList.remove('bg-transparent');
+    }
   }
 }
 
