@@ -1,7 +1,10 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, Inject, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+
 import { appState } from '../app.reducers';
+import { LoadScriptService } from '../core/services/load-script.service';
 import { unsetUser } from '../shared/ui.actions';
 
 @Component({
@@ -10,29 +13,33 @@ import { unsetUser } from '../shared/ui.actions';
   styleUrls: ['./backoffice.component.scss']
 })
 export class BackofficeComponent implements OnInit, OnDestroy {
+  subscription: Subscription = new Subscription();
 
   constructor(
-    private _renderer2: Renderer2,
-    @Inject(DOCUMENT) private _document: Document,
     private store: Store<appState>,
+    private loadScriptService: LoadScriptService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
-    let backofficeComponent = this._document.getElementById('backoffice-main');
-
-    let materialDashboardJs = this._renderer2.createElement('script');
-    materialDashboardJs.type = 'application/javascript';
-    materialDashboardJs.id = 'backoffice-main-scrip';
-    materialDashboardJs.src = '../../assets/js/material-dashboard.js';
-    this._renderer2.appendChild(backofficeComponent, materialDashboardJs);
+    this.loadScriptService.loadScript('perfectScrollbar', 'assets/js/plugins/perfect-scrollbar.min.js')
+      .then(() => console.log('load perfectScrollbar'))
+      .catch((error) => console.error(error));
+    this.loadScriptService.loadScript('materialDashboard', 'assets/js/material-dashboard.js')
+      .then(() => console.log('load materialDashboard'))
+      .catch((error) => console.error(error));
   }
 
   ngOnDestroy(): void {
-    document.getElementById('backoffice-main-scrip')?.remove();
-   }
-
-   logout() {
+    this.subscription.unsubscribe();
+  }
+  
+  logout() {
+    // this.loadScriptService.removeScript('perfectScrollbar');
+    // this.loadScriptService.removeScript('materialDashboard');
     this.store.dispatch(unsetUser());
-   }
+    localStorage.clear();
+    this.router.navigateByUrl('auth/login');
+  }
 
 }

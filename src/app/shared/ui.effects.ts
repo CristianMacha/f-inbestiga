@@ -1,24 +1,22 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { catchError, map, mergeMap, of } from "rxjs";
-import { Router } from "@angular/router";
 
 import { AuthService } from "@core/services";
-import { login, setUser, loginError } from "../../shared/ui.actions";
+import { loginError, refreshToken, setUser } from "./ui.actions";
+import { catchError, map, mergeMap, of } from "rxjs";
 
 @Injectable()
-export class AuthEffects {
+export class UiEffects {
 
-    login$ = createEffect(
+    refreshToken$ = createEffect(
         () => this.actions$.pipe(
-            ofType(login),
+            ofType(refreshToken),
             mergeMap(
-                (resp) => this.authService.login(resp.login)
+                () => this.authService.refreshToken()
                     .pipe(
                         map(resp => {
                             localStorage.setItem('token', resp.token);
-                            this.router.navigateByUrl('backoffice');
-                            return setUser({ user: resp.userDb});
+                            return setUser({ user: resp.userDb });
                         }),
                         catchError(err => of(loginError({ payload: err })))
                     )
@@ -29,6 +27,5 @@ export class AuthEffects {
     constructor(
         private actions$: Actions,
         private authService: AuthService,
-        private router: Router,
     ) { }
 }

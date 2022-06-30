@@ -20,4 +20,8 @@ export class AuthService {
   login(login: ILogin): Observable<ILoginResponse> {
     return this.http.post<ILoginResponse>(`${this.uri}/signin`, login);
   }
+
+  refreshToken(): Observable<ILoginResponse> {
+    return this.http.get<ILoginResponse>(`${this.uri}/refresh-token`);
+  }
 }

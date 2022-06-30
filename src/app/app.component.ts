@@ -1,4 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
+
+import { appState } from './app.reducers';
+import { refreshToken } from './shared/ui.actions';
+import { uiFeatureIsLoading } from './shared/ui.selectors';
 
 @Component({
   selector: 'vs-root',
@@ -8,7 +15,21 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   title = 'frontend-inbestiga';
 
-  constructor( ) { }
+  subscription: Subscription = new Subscription();
+  isLoading$: Observable<boolean> = new Observable();
 
-  ngOnInit() { }
+  constructor(
+    private store: Store<appState>,
+    private router: Router,
+  ) { }
+
+  ngOnInit() {
+    this.isLoading$ = this.store.select(uiFeatureIsLoading);
+    this.refreshToken();
+  }
+
+  refreshToken(): void {
+    this.store.dispatch(refreshToken());
+  }
+
 }

@@ -11,19 +11,21 @@ export class LoadScriptService {
     return new Promise((resolve, reject) => {
 
       if (id && document.getElementById(id)) {
+        console.log('+>');
+        
         resolve({ id, loaded: true, status: 'Already loaded.' });
       }
 
       let body = document.body;
       let script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.innerHTML = '';
-      script.src = url;
+      // script.type = 'text/javascript';
+      // script.innerHTML = '';
+      script.src = `./${url}`;
       script.id = id;
       script.onload = () => resolve({ id, loaded: true, status: `${url} Loaded.` });
       script.onerror = () => resolve({ id, loaded: false, status: `${url} Loaded.` });
-      script.async = true;
-      script.defer = true;
+      // script.async = true;
+      // script.defer = true;
       body.appendChild(script);
 
     });
@@ -31,6 +33,8 @@ export class LoadScriptService {
 
   public removeScript(id: string) {
     let scrip = document.getElementById(id);
+    console.log(scrip);
+    
     if (scrip) {
       scrip.remove();
     }
