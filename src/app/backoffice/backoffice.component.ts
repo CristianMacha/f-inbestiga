@@ -25,12 +25,12 @@ export class BackofficeComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.loadScriptService.loadScript('perfectScrollbar', 'assets/js/plugins/perfect-scrollbar.min.js')
-      .then(() => console.log('load perfectScrollbar'))
-      .catch((error) => console.error(error));
-    this.loadScriptService.loadScript('materialDashboard', 'assets/js/material-dashboard.js')
-      .then(() => console.log('load materialDashboard'))
-      .catch((error) => console.error(error));
+    // this.loadScriptService.loadScript('perfectScrollbar', 'assets/js/plugins/perfect-scrollbar.min.js')
+    //   .then(() => console.log('load perfectScrollbar'))
+    //   .catch((error) => console.error(error));
+    // this.loadScriptService.loadScript('materialDashboard', 'assets/js/material-dashboard.js')
+    //   .then(() => console.log('load materialDashboard'))
+    //   .catch((error) => console.error(error));
 
     this.user$ = this.store.select(uiFeatureUser);
   }

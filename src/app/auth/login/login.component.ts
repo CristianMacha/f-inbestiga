@@ -14,6 +14,8 @@ import { AppStateAuthFeature } from '../store/auth.reducer';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
+
+  year = new Date().getFullYear();
   loginForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.email, Validators.required]),
     password: new FormControl('', Validators.required)
@@ -30,18 +32,18 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isLoading$ = this.store.select(uiFeatureIsLoading);
 
-    this.loadScriptService.loadScript('perfectScrollbar', 'assets/js/plugins/perfect-scrollbar.min.js')
-      .then(() => console.log('load perfectScrollbar'))
-      .catch((error) => console.error(error));
-    this.loadScriptService.loadScript('materialDashboard', 'assets/js/material-dashboard.js')
-      .then(() => console.log('load materialDashboard'))
-      .catch((error) => console.error(error));
+    // this.loadScriptService.loadScript('perfectScrollbar', 'assets/js/plugins/perfect-scrollbar.min.js')
+    //   .then(() => console.log('load perfectScrollbar'))
+    //   .catch((error) => console.error(error));
+    // this.loadScriptService.loadScript('materialDashboard', 'assets/js/material-dashboard.js')
+    //   .then(() => console.log('load materialDashboard'))
+    //   .catch((error) => console.error(error));
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    this.loadScriptService.removeScript('perfectScrollbar');
-    this.loadScriptService.removeScript('materialDashboard');
+    // this.loadScriptService.removeScript('perfectScrollbar');
+    // this.loadScriptService.removeScript('materialDashboard');
   }
 
   login(): void {
