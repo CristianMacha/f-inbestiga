@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { AuthGuard } from './core/guards/auth.guard';
+
 const routes: Routes = [
   {
     path: 'auth', 
@@ -8,6 +10,7 @@ const routes: Routes = [
   },
   {
     path: 'backoffice',
+    canLoad: [AuthGuard],
     loadChildren: () => import('./backoffice/backoffice.module').then(backoffice => backoffice.BackofficeModule),
   },
   {

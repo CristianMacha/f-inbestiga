@@ -11,8 +11,6 @@ export class LoadScriptService {
     return new Promise((resolve, reject) => {
 
       if (id && document.getElementById(id)) {
-        console.log('+>');
-        
         resolve({ id, loaded: true, status: 'Already loaded.' });
       }
 

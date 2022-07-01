@@ -24221,6 +24221,7 @@ body:not(.dark-version) .sidenav.bg-transparent .collapse .nav-item .nav-link.ac
   }
 
   .g-sidenav-show:not(.rtl) .sidenav {
+    z-index: 2;
     transform: translateX(-17.125rem);
   }
 

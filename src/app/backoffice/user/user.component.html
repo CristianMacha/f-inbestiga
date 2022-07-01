@@ -1,2 +1,12 @@
-<p>user works!</p>
-<div class="main"></div>
+<div *ngIf="!(activeForm$ | async)">
+  <button 
+    class="btn btn-info"
+    (click)="handleBtnNewPerson()">Añadir usuario <i class="material-icons">add</i></button>
+</div>
+<div class="card" *ngIf="!(activeForm$ | async)">
+  <vs-user-table></vs-user-table>
+</div>
+
+<div *ngIf="(activeForm$ | async)" style="margin-top: 1rem;">
+    <vs-user-form></vs-user-form>
+</div>

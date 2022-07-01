@@ -4,8 +4,8 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { appState } from './app.reducers';
-import { refreshToken } from './shared/ui.actions';
-import { uiFeatureIsLoading } from './shared/ui.selectors';
+import { loading, refreshToken, stopLoading } from './shared/ui.actions';
+import { uiFeatureIsAuthenticate, uiFeatureIsLoading } from './shared/ui.selectors';
 
 @Component({
   selector: 'vs-root',
@@ -25,6 +25,10 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.isLoading$ = this.store.select(uiFeatureIsLoading);
+    // this.store.select(uiFeatureIsAuthenticate).subscribe(isAuth => {
+    //   isAuth && this.store.dispatch(stopLoading())
+    //   isAuth && this.router.navigateByUrl('/backoffice');
+    // })
     this.refreshToken();
   }
 

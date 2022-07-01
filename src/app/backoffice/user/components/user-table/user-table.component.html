@@ -1,0 +1,33 @@
+<div class="table-responsive">
+  <table class="table align-items-center mb-0">
+    <thead>
+      <tr>
+        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombres</th>
+        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Apellidos</th>
+        <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Codigo</th>
+        <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Celular</th>
+        <th class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
+        <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let person of persons$ | async">
+        <td class="align-middle">{{person.fullname}}</td>
+        <td class="align-middle">{{person.surnames}}</td>
+        <td class="align-middle text-end">{{person.code}}</td>
+        <td class="align-middle text-end">{{person.phone}}</td>
+        <td class="align-middle text-start">{{person.user.email}}</td>
+        <td class="align-middle">
+          <div style="display: flex; gap: 2px; justify-content: end;">
+            <div>
+              <button class="btn btn-icon btn-info"><i class="material-icons">edit</i></button>
+            </div>
+            <div>
+              <button class="btn btn-icon btn-secondary"><i class="material-icons">visibility</i></button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

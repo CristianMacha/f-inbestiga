@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { BackofficeComponent } from './backoffice.component';
 import { BackofficeRoutingModule } from './backoffice-routing.module';
 import { RouterModule } from '@angular/router';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     RouterModule,
     BackofficeRoutingModule,
+    SharedModule,
   ]
 })
 export class BackofficeModule { }

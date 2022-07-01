@@ -1,11 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { appState } from '../app.reducers';
+import { User } from '@core/models';
 import { LoadScriptService } from '../core/services/load-script.service';
-import { unsetUser } from '../shared/ui.actions';
+import { stopLoading, unsetUser } from '../shared/ui.actions';
+import { uiFeatureUser } from '../shared/ui.selectors';
 
 @Component({
   selector: 'vs-backoffice',
@@ -14,6 +16,7 @@ import { unsetUser } from '../shared/ui.actions';
 })
 export class BackofficeComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
+  user$: Observable<User> = new Observable();
 
   constructor(
     private store: Store<appState>,
@@ -28,6 +31,8 @@ export class BackofficeComponent implements OnInit, OnDestroy {
     this.loadScriptService.loadScript('materialDashboard', 'assets/js/material-dashboard.js')
       .then(() => console.log('load materialDashboard'))
       .catch((error) => console.error(error));
+
+    this.user$ = this.store.select(uiFeatureUser);
   }
 
   ngOnDestroy(): void {

@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isLoading$ = this.store.select(uiFeatureIsLoading);
-    
+
     this.loadScriptService.loadScript('perfectScrollbar', 'assets/js/plugins/perfect-scrollbar.min.js')
       .then(() => console.log('load perfectScrollbar'))
       .catch((error) => console.error(error));

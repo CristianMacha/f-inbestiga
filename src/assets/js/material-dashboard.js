@@ -623,23 +623,26 @@ if(document.getElementById('iconNavbarSidenav')) {
 
 // Resize navbar color depends on configurator active type of sidenav
 
-let referenceButtons = document.querySelector('[data-class]');
+if( document.querySelector('[data-class]') ){
 
-window.addEventListener("resize", navbarColorOnResize);
-
-function navbarColorOnResize() {
-  if (window.innerWidth > 1200) {
-    if(referenceButtons) {
-      if (referenceButtons.classList?.contains('active') && referenceButtons.getAttribute('data-class') === 'bg-transparent') {
-        sidenav.classList.remove('bg-white');
-      } else {
-        document.getElementById('sidenav-main').classList.add('bg-white');
+  let referenceButtons = document.querySelector('[data-class]');
+  
+  window.addEventListener("resize", navbarColorOnResize);
+  
+  function navbarColorOnResize() {
+    if (window.innerWidth > 1200) {
+      if(referenceButtons) {
+        if (referenceButtons.classList?.contains('active') && referenceButtons.getAttribute('data-class') === 'bg-transparent') {
+          sidenav.classList.remove('bg-white');
+        } else {
+          document.getElementById('sidenav-main').classList.add('bg-white');
+        }
       }
-    }
-  } else {
-    if(document.getElementById('sidenav-main')) {
-      document.getElementById('sidenav-main').classList.add('bg-white');
-      document.getElementById('sidenav-main').classList.remove('bg-transparent');
+    } else {
+      if(document.getElementById('sidenav-main')) {
+        document.getElementById('sidenav-main').classList.add('bg-white');
+        document.getElementById('sidenav-main').classList.remove('bg-transparent');
+      }
     }
   }
 }
