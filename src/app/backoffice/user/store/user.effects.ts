@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { catchError, map, mergeMap, of } from "rxjs";
 
 import { PersonService } from "@core/services";
-import { addPerson, createPerson, loadError, loadPersons, loadPersonsSuccess } from "./user.actions";
+import { addPerson, createPerson, loadError, loadPersons, loadPersonsSuccess, setPerson, updatePerson } from "./user.actions";
 
 @Injectable()
 export class UserEffects {
@@ -30,6 +30,19 @@ export class UserEffects {
             map((resp) => addPerson({ person: resp })),
             catchError(err => of(loadError({ payload: err })))
           )
+      )
+    )
+  )
+
+  updatePerson$ = createEffect(
+    () => this.actions$.pipe(
+      ofType(updatePerson),
+      mergeMap(
+        (resp) => this.personService.update(resp.person)
+        .pipe(
+          map((resp) => setPerson({ person: resp })),
+          catchError(err => of(loadError({ payload: err })))
+        )
       )
     )
   )

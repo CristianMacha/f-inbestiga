@@ -6,7 +6,7 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 declare function loadInputs(): any;
 
 import { AppStateUserFeature } from '../../store/user.reducer';
-import { activeForm, createPerson } from '../../store/user.actions';
+import { activeForm, createPerson, updatePerson } from '../../store/user.actions';
 import { userFeature, userFeatureLoading } from '../../store/user.selectors';
 
 
@@ -17,6 +17,7 @@ import { userFeature, userFeatureLoading } from '../../store/user.selectors';
 })
 export class UserFormComponent implements OnInit, OnDestroy {
   personForm: FormGroup = new FormGroup({
+    id: new FormControl(0, Validators.required),
     fullname: new FormControl('', Validators.required),
     surnames: new FormControl('', Validators.required),
     phone: new FormControl('', [Validators.required, Validators.minLength(7)]),
@@ -25,6 +26,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
     }),
     personRoles: new FormArray([
       new FormGroup({
+        id: new FormControl(0, Validators.required),
         role: new FormGroup({
           id: new FormControl(0, Validators.required)
         })
@@ -37,6 +39,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
   subcription: Subscription = new Subscription();
   loading$: Observable<boolean> = new Observable();
+
+  editMode: boolean = false;
 
   constructor(
     private store: Store<AppStateUserFeature>,
@@ -60,8 +64,12 @@ export class UserFormComponent implements OnInit, OnDestroy {
     this.store.dispatch(activeForm({ active: false }));
   }
 
-  handleBtnCreateUser() {
-    this.personForm.invalid ? this.personForm.markAllAsTouched() : this.store.dispatch(createPerson({ person: this.personForm.value }));
+  handleBtnActionUser() {
+    if(this.editMode) {
+      this.personForm.invalid ? this.personForm.markAllAsTouched() : this.store.dispatch(updatePerson({ person: this.personForm.value }));
+    } else {
+      this.personForm.invalid ? this.personForm.markAllAsTouched() : this.store.dispatch(createPerson({ person: this.personForm.value }));
+    }
   }
 
   checkFormStatus() {
@@ -69,6 +77,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
       this.store.select(userFeature).subscribe(
         (resp) => {
           if (resp.editMode) {
+            this.editMode = true;
             this.title = 'Actualizar usuario';
             this.btnActionText = 'Actualizar usuario';
             this.personForm.patchValue(resp.person);

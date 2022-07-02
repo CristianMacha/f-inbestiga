@@ -22,4 +22,8 @@ export class PersonService {
   public create(person: Person): Observable<Person> {
     return this.http.post<Person>(`${this.uri}`, person);
   }
+
+  public update(person: Person): Observable<Person> {
+    return this.http.put<Person>(`${this.uri}`, person);
+  }
 }
