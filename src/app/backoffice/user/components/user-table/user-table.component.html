@@ -20,7 +20,11 @@
         <td class="align-middle">
           <div style="display: flex; gap: 2px; justify-content: end;">
             <div>
-              <button class="btn btn-icon btn-info"><i class="material-icons">edit</i></button>
+              <button 
+                class="btn btn-icon btn-info"
+                (click)="handleBtnEdit(person)">
+                  <i class="material-icons">edit</i>
+              </button>
             </div>
             <div>
               <button class="btn btn-icon btn-secondary"><i class="material-icons">visibility</i></button>

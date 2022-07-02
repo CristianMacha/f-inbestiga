@@ -2,47 +2,73 @@
   <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
     <div class="bg-gradient-info shadow-white border-radius-lg py-3 pe-1">
       <div style="text-align: center;">
-        <h2 style="color: rgb(231, 230, 230);">Nuevo usuario</h2>
+        <h2 style="color: rgb(231, 230, 230);">{{title}}</h2>
       </div>
     </div>
   </div>
   <div class="card-body">
-    <div class="row g-2">
-      <div class="col-md-6">
-        <div class="input-group input-group-outline my-3">
-          <label class="form-label">Nombres</label>
-          <input type="email" class="form-control">
+    <form [formGroup]="personForm">
+      <div class="row g-2">
+        <div class="col-md-6">
+          <div class="input-group input-group-outline my-3">
+            <label class="form-label">Nombres</label>
+            <input type="email" class="form-control" formControlName="fullname">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="input-group input-group-outline my-3">
+            <label class="form-label">Apellidos</label>
+            <input type="email" class="form-control" formControlName="surnames">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div formGroupName="user">
+            <div class="input-group input-group-outline my-3">
+              <label class="form-label">Email</label>
+              <input 
+                type="email" 
+                class="form-control" 
+                formControlName="email"
+                autocomplete="off">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="input-group input-group-outline my-3">
+            <label class="form-label">Celular</label>
+            <input type="email" class="form-control" formControlName="phone">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div formArrayName="personRoles">
+            <div *ngFor="let roleF of rolesForm.controls; let i = index;">
+              <div [formGroupName]="i">
+                <div formGroupName="role">
+                  <div class="input-group input-group-outline">
+                    <select class="form-control" formControlName="id">
+                      <option selected [value]="0">Seleccione rol</option>
+                      <option [value]="1">ADMIN</option>
+                      <option [value]="2">EST</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col-md-6">
-        <div class="input-group input-group-outline my-3">
-          <label class="form-label">Apellidos</label>
-          <input type="email" class="form-control">
-        </div>
+    </form>
+  </div>
+  <div class="card-footer">
+    <div class="btn-group">
+      <div>
+        <button class="btn" (click)="handleBtnCancel()">Cancelar</button>
       </div>
-      <div class="col-md-6">
-        <div class="input-group input-group-outline my-3">
-          <label class="form-label">Email</label>
-          <input type="email" class="form-control">
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="input-group input-group-outline my-3">
-          <label class="form-label">Celular</label>
-          <input type="email" class="form-control">
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="input-group input-group-outline">
-          <label class="form-label" for="inputCategory"
-            >Categoría</label
-          >
-          <select id="inputCategory" class="form-control">
-            <option selected></option>
-            <option>.</option>
-            <option>.</option>
-          </select>
-        </div>
+      <div>
+        <button 
+          class="btn btn-info"
+          [disabled]="loading$ | async"
+          (click)="handleBtnCreateUser()">{{btnActionText}}</button>
       </div>
     </div>
   </div>

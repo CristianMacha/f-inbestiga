@@ -18,4 +18,8 @@ export class PersonService {
   public getPersons(): Observable<Person[]> {
     return this.http.get<Person[]>(`${this.uri}`);
   }
+
+  public create(person: Person): Observable<Person> {
+    return this.http.post<Person>(`${this.uri}`, person);
+  }
 }

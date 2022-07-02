@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { activateForm, loadPersons } from './store/user.actions';
+import { activeForm, loadPersons } from './store/user.actions';
 import { AppStateUserFeature } from './store/user.reducer';
 import { userFeatureActiveForm } from './store/user.selectors';
 
@@ -24,7 +24,7 @@ export class UserComponent implements OnInit {
   }
 
   handleBtnNewPerson(): void {
-    this.store.dispatch(activateForm());
+    this.store.dispatch(activeForm({ active: true }));
   }
 
 }

@@ -12,3 +12,8 @@ export const userFeatureActiveForm = createSelector(
   userFeature,
   (state: userState) => state.activeForm,
 );
+
+export const userFeatureLoading = createSelector(
+  userFeature,
+  (state: userState) => state.loading,
+);

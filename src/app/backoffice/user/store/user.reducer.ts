@@ -2,7 +2,7 @@ import { createReducer, on } from "@ngrx/store";
 import { Person, User } from "@core/models";
 
 import { appState } from "../../../app.reducers";
-import { activateForm, addPerson, createPerson, deactivateteForm, editPerson, loadError, loadPersons, loadPersonsSuccess, updatePerson } from "./user.actions";
+import { activeForm, activeFormUpdate, addPerson, loadError, loadPersons, loadPersonsSuccess, setPerson } from "./user.actions";
 
 export const userFeatureKey = 'userFeature';
 
@@ -32,13 +32,11 @@ export const initialState: userState = {
 
 export const _userReducer = createReducer(
   initialState,
-  on(createPerson, (state) => ({ ...state, loading: true })),
-  on(updatePerson, (state) => ({ ...state, loading: true })),
-  on(addPerson, (state, { person }) => ({ ...state, loading: false, loaded: true, persons: [person, ...state.persons] })),
+  on(addPerson, (state, { person }) => ({ ...state, loading: false, loaded: true, persons: [person, ...state.persons], activeForm: false })),
   on(loadPersons, (state) => ({ ...state, loaded: false, loading: true })),
   on(loadPersonsSuccess, (state, { persons }) => ({ ...state, loaded: true, loading: false, persons: [...persons] })),
-  on(activateForm, (state) => ({ ...state, activeForm: true })),
-  on(editPerson, (state) => ({ ...state, activeForm: true, editMode: true })),
-  on(deactivateteForm, (state) => ({ ...state, activeForm: false, editMode: false })),
-  on(loadError, (state, { payload }) => ({ ...state, loaded: true, loading: false, error: { ...payload } })),
+  on(activeForm, (state, { active }) => ({ ...state, activeForm: active, editMode: false })),
+  on(activeFormUpdate, (state, { person }) => ({ ...state, activeForm: true, editMode: true, person: { ...person } })),
+  on(setPerson, (state, { person }) => ({ ...state, activeForm: false, editMode: false, person: { ...person } })),
+  on(loadError, (state, { payload }) => ({ ...state, loaded: false, loading: false, error: { ...payload } })),
 );
