@@ -537,11 +537,10 @@ function getEventTarget(e) {
 
 // End tabs navigation
 
-window.onload = function() {
+function loadInputs() {
   // Material Design Input function
   console.log('hereee');
   var inputs = document.querySelectorAll('input');
-  console.log(inputs);
 
   for (var i = 0; i < inputs.length; i++) {
     inputs[i].addEventListener('focus', function(e) {

@@ -8,6 +8,7 @@ import { uiFeatureIsLoading } from '../../../app/shared/ui.selectors';
 import { login } from '../../shared/ui.actions';
 import { AppStateAuthFeature } from '../store/auth.reducer';
 
+declare function loadInputs(): any;
 @Component({
   selector: 'vs-login',
   templateUrl: './login.component.html',
@@ -31,19 +32,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isLoading$ = this.store.select(uiFeatureIsLoading);
-
-    // this.loadScriptService.loadScript('perfectScrollbar', 'assets/js/plugins/perfect-scrollbar.min.js')
-    //   .then(() => console.log('load perfectScrollbar'))
-    //   .catch((error) => console.error(error));
-    // this.loadScriptService.loadScript('materialDashboard', 'assets/js/material-dashboard.js')
-    //   .then(() => console.log('load materialDashboard'))
-    //   .catch((error) => console.error(error));
+    loadInputs();
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    // this.loadScriptService.removeScript('perfectScrollbar');
-    // this.loadScriptService.removeScript('materialDashboard');
   }
 
   login(): void {

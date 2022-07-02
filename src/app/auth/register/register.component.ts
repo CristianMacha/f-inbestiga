@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+declare function loadInputs(): any;
+
 @Component({
   selector: 'vs-register',
   templateUrl: './register.component.html',
@@ -10,6 +12,7 @@ export class RegisterComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    loadInputs();
   }
 
 }
