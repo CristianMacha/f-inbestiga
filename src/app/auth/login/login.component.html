@@ -34,14 +34,14 @@
                   <a
                     class="nav-link d-flex align-items-center me-2 active"
                     aria-current="page"
-                    href="../pages/dashboard.html"
+                    [routerLink]="['/auth/login']"
                   >
                     <i class="fa fa-home opacity-6 text-dark me-1"></i>
                     Inicio
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link me-2" href="../pages/sign-in.html">
+                  <a class="nav-link me-2" [routerLink]="['/auth/login']">
                     <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
                     Ingresar
                   </a>
@@ -50,7 +50,7 @@
               <ul class="navbar-nav d-lg-block d-none">
                 <li class="nav-item">
                   <a
-                    href="https://www.creative-tim.com/product/material-dashboard"
+                    [routerLink]="['/auth/register']"
                     class="btn btn-sm mb-0 me-1 bg-gradient-info"
                     >REGISTRARSE</a
                   >
@@ -156,7 +156,7 @@
                   <p class="mt-4 text-sm text-center">
                     ¿No tienes una cuenta?
                     <a
-                      href="../pages/sign-up.html"
+                      [routerLink]="['/auth/register']"
                       class="text-info text-gradient font-weight-bold"
                       >Registrarse</a
                     >
@@ -175,7 +175,7 @@
                 class="copyright text-center text-sm text-white text-lg-start"
               >
                 ©
-                <span> {{year}} </span>
+                <span> {{ year }} </span>
                 , Desarrollado por
                 <a
                   href="https://360virtualsol.com/"

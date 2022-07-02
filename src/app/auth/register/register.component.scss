@@ -5,3 +5,8 @@
 .shadow-info {
   box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(82, 19, 153, 0.4) !important;
 }
+
+.checkbox-register:checked{
+  background: #8219f3 !important;
+  border-color: #8219f3 !important;
+}
