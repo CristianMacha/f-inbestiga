@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { Person } from '@core/models';
 import { AppStateUserFeature } from '../../store/user.reducer';
 import { userFeaturePersons } from '../../store/user.selectors';
-import { activeFormUpdate } from '../../store/user.actions';
+import { activeFormUpdate, loadPersons } from '../../store/user.actions';
 
 @Component({
   selector: 'vs-user-table',
@@ -20,6 +20,7 @@ export class UserTableComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.store.dispatch(loadPersons());
     this.persons$ = this.store.select(userFeaturePersons);
   }
 

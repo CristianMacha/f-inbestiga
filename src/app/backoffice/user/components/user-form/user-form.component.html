@@ -10,21 +10,21 @@
     <form [formGroup]="personForm">
       <div class="row g-2">
         <div class="col-md-6">
-          <div class="input-group input-group-outline my-3">
-            <label class="form-label">Nombres</label>
-            <input type="email" class="form-control" formControlName="fullname">
+          <div class="input-group input-group-static my-3">
+            <label>Nombres</label>
+            <input class="form-control" formControlName="fullname">
           </div>
         </div>
         <div class="col-md-6">
-          <div class="input-group input-group-outline my-3">
-            <label class="form-label">Apellidos</label>
-            <input type="email" class="form-control" formControlName="surnames">
+          <div class="input-group input-group-static my-3">
+            <label>Apellidos</label>
+            <input class="form-control" formControlName="surnames">
           </div>
         </div>
         <div class="col-md-6">
           <div formGroupName="user">
-            <div class="input-group input-group-outline my-3">
-              <label class="form-label">Email</label>
+            <div class="input-group input-group-static my-3">
+              <label>Email</label>
               <input 
                 type="email" 
                 class="form-control" 
@@ -34,9 +34,9 @@
           </div>
         </div>
         <div class="col-md-6">
-          <div class="input-group input-group-outline my-3">
-            <label class="form-label">Celular</label>
-            <input type="email" class="form-control" formControlName="phone">
+          <div class="input-group input-group-static my-3">
+            <label>Celular</label>
+            <input class="form-control" formControlName="phone">
           </div>
         </div>
         <div class="col-md-6">
@@ -44,7 +44,8 @@
             <div *ngFor="let roleF of rolesForm.controls; let i = index;">
               <div [formGroupName]="i">
                 <div formGroupName="role">
-                  <div class="input-group input-group-outline">
+                  <div class="input-group input-group-static">
+                    <label>Rol</label>
                     <select class="form-control" formControlName="id">
                       <option selected [value]="0">Seleccione rol</option>
                       <option [value]="1">ESTUDIANTE</option>

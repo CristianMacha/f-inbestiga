@@ -77,6 +77,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
       this.store.select(userFeature).subscribe(
         (resp) => {
           if (resp.editMode) {
+            (this.personForm.controls['user'] as FormGroup).controls['email'].disable()
             this.editMode = true;
             this.title = 'Actualizar usuario';
             this.btnActionText = 'Actualizar usuario';
