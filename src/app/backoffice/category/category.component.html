@@ -1,1 +1,12 @@
-<p>category works!</p>
+<div *ngIf="!(activeForm$ | async)">
+  <button class="btn btn-info" (click)="handleBtnNewCategory()">
+    Añadir categoría <i class="material-icons">add</i>
+  </button>
+</div>
+<div class="card" *ngIf="!(activeForm$ | async)">
+  <vs-category-table></vs-category-table>
+</div>
+
+<div *ngIf="!(activeForm$ | async)" style="margin-top: 1rem">
+  <vs-category-form></vs-category-form>
+</div>
