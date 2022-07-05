@@ -1,12 +1,15 @@
-<div *ngIf="!(activeForm$ | async)">
-  <button 
-    class="btn btn-info"
-    (click)="handleBtnNewPerson()">Añadir usuario <i class="material-icons">add</i></button>
-</div>
-<div class="card" *ngIf="!(activeForm$ | async)">
-  <vs-user-table></vs-user-table>
+<div *ngIf="!activeForm && !personSelected">
+  <button class="btn bg-gradient-info" (click)="handleBtnNewPerson()">Añadir usuario <i
+      class="material-icons">add</i></button>
+  <div class="card" style="padding: .5rem;">
+    <vs-user-table></vs-user-table>
+  </div>
 </div>
 
-<div *ngIf="(activeForm$ | async)" style="margin-top: 1rem;">
-    <vs-user-form></vs-user-form>
+<div *ngIf="activeForm" style="margin-top: 1rem;">
+  <vs-user-form></vs-user-form>
+</div>
+
+<div *ngIf="showDetails && personSelected">
+  <vs-user-detail></vs-user-detail>
 </div>

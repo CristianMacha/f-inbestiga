@@ -21,7 +21,10 @@ export class UiEffects {
                             this.store.dispatch(stopLoading());
                             return setUser({ user: resp.userDb });
                         }),
-                        catchError(err => of(loginError({ payload: err })))
+                        catchError(err => {
+                            this.router.navigateByUrl('auth/login');
+                            return of(loginError({ payload: err }))
+                        })
                     )
             )
         )

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { Person } from '@core/models';
 import { AppStateUserFeature } from '../../store/user.reducer';
 import { userFeaturePersons } from '../../store/user.selectors';
-import { activeFormUpdate, loadPersons } from '../../store/user.actions';
+import { activeDetails, activeFormUpdate, loadPersons } from '../../store/user.actions';
 
 @Component({
   selector: 'vs-user-table',
@@ -26,6 +26,10 @@ export class UserTableComponent implements OnInit {
 
   handleBtnEdit(person: Person) {
     this.store.dispatch(activeFormUpdate({ person }));
+  }
+
+  handleBtnView(person: Person): void {
+    this.store.dispatch(activeDetails({ person }));
   }
 
 }

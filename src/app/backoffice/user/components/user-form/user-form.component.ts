@@ -6,8 +6,9 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 declare function loadInputs(): any;
 
 import { AppStateUserFeature } from '../../store/user.reducer';
-import { activeForm, createPerson, updatePerson } from '../../store/user.actions';
+import { activeDetails, activeForm, createPerson, updatePerson } from '../../store/user.actions';
 import { userFeature, userFeatureLoading } from '../../store/user.selectors';
+import { Person } from '@core/models';
 
 
 @Component({
@@ -41,6 +42,9 @@ export class UserFormComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean> = new Observable();
 
   editMode: boolean = false;
+  fromDetail: boolean = false;
+  personSelected: boolean = false;
+  person: Person = new Person();
 
   constructor(
     private store: Store<AppStateUserFeature>,
@@ -61,11 +65,11 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   handleBtnCancel() {
-    this.store.dispatch(activeForm({ active: false }));
+    this.personSelected ? this.store.dispatch(activeDetails({ person: this.person })) : this.store.dispatch(activeForm({ active: false }));
   }
 
   handleBtnActionUser() {
-    if(this.editMode) {
+    if (this.editMode) {
       this.personForm.invalid ? this.personForm.markAllAsTouched() : this.store.dispatch(updatePerson({ person: this.personForm.value }));
     } else {
       this.personForm.invalid ? this.personForm.markAllAsTouched() : this.store.dispatch(createPerson({ person: this.personForm.value }));
@@ -79,9 +83,12 @@ export class UserFormComponent implements OnInit, OnDestroy {
           if (resp.editMode) {
             (this.personForm.controls['user'] as FormGroup).controls['email'].disable()
             this.editMode = true;
+            this.fromDetail = resp.details;
+            this.personSelected = resp.personSelected;
             this.title = 'Actualizar usuario';
             this.btnActionText = 'Actualizar usuario';
-            this.personForm.patchValue(resp.person);
+            this.person= resp.person;
+            this.personForm.patchValue(this.person);
             this.personForm.markAllAsTouched();
           }
         })

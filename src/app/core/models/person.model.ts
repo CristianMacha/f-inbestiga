@@ -1,3 +1,4 @@
+import { PersonRoles } from "./personRoles.model";
 import { User } from "./user.model";
 
 export class Person {
@@ -10,6 +11,7 @@ export class Person {
   public updatedAt: Date;
   public user: User;
   public active: boolean;
+  public personRoles: PersonRoles[];
 
   constructor() {
     this.id = 0;
@@ -21,5 +23,6 @@ export class Person {
     this.updatedAt = new Date();
     this.user = new User();
     this.active = false;
+    this.personRoles = [];
   }
 }
