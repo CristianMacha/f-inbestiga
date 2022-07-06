@@ -12,4 +12,7 @@ export const loadPersonsSuccess = createAction('[User Component] Load User Succe
 export const loadError          = createAction('[User Component] Load Error', props<{ payload: any }>());
 
 export const activeForm       = createAction('[User Component] Activate Form', props<{ active: boolean }>());
-export const activeFormUpdate = createAction('[User Component] Active Form Update', props<{ person: Person }>())
+export const activeFormUpdate = createAction('[User Component] Active Form Update', props<{ person: Person }>());
+
+export const activeDetails  = createAction('[User Component] Active Details', props<{ person: Person }>());
+export const closeDetails   = createAction('[User Component] closeDetail');

@@ -31,6 +31,15 @@
         </a>
       </li>
 
+      <li class="nav-item">
+        <a class="nav-link text-white" [routerLink]="['project']" routerLinkActive="active bg-gradient-info">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">create_new_folder</i>
+          </div>
+          <span class="nav-link-text ms-1">Proyectos</span>
+        </a>
+      </li>
+
       <li class="nav-item mt-3">
         <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">
           Cuenta
@@ -38,7 +47,7 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link text-white" [routerLink]="['perfil']" routerLinkActive="active bg-gradient-info">
+        <a class="nav-link text-white" [routerLink]="['profile']" routerLinkActive="active bg-gradient-info">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">person</i>
           </div>
@@ -109,6 +118,7 @@
                   {{ (user$ | async)?.email }}
                 </a>
               </li>
+              <hr class="horizontal dark mt-0 mb-2">
               <li class="mb-2">
                 <a class="dropdown-item border-radius-md">
                   <i class="material-icons opacity-10">logout</i>

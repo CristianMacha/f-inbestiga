@@ -1,0 +1,12 @@
+<div *ngIf="!(activeForm$ | async)">
+  <button 
+    class="btn bg-gradient-info"
+    (click)="handleBtnNewProject()">Crear proyecto <i class="material-icons">create_new_folder</i></button>
+</div>
+<div class="card" *ngIf="!(activeForm$ | async)" style="padding: .5rem;">
+  <vs-project-table></vs-project-table>
+</div>
+
+<div *ngIf="(activeForm$ | async)" style="margin-top: 1rem;">
+    <vs-project-form></vs-project-form>
+</div>

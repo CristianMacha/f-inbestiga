@@ -27,7 +27,7 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
     name: new FormControl('', Validators.required),
     active: new FormControl('', Validators.required),
     createdAt: new FormControl('', Validators.required),
-    updatedAt: new FormControl('', Validators.requiredTrue),
+    updatedAt: new FormControl('', Validators.required),
   });
 
   title: string = 'Nueva Categoria';
@@ -56,17 +56,9 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
 
   handleBtnActionCategory() {
     if (this.editMode) {
-      this.categoryForm.invalid
-        ? this.categoryForm.markAllAsTouched()
-        : this.store.dispatch(
-            updateCategory({ category: this.categoryForm.value })
-          );
+      this.categoryForm.invalid ? this.categoryForm.markAllAsTouched() : this.store.dispatch(updateCategory({ category: this.categoryForm.value }));
     } else {
-      this.categoryForm.invalid
-        ? this.categoryForm.markAllAsTouched()
-        : this.store.dispatch(
-            createCategory({ category: this.categoryForm.value })
-          );
+      this.categoryForm.invalid ? this.categoryForm.markAllAsTouched() : this.store.dispatch(createCategory({ category: this.categoryForm.value }));
     }
   }
 
@@ -74,9 +66,6 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
     this.subcription.add(
       this.store.select(categoryFeature).subscribe((resp) => {
         if (resp.editMode) {
-          (this.categoryForm.controls['category'] as FormGroup).controls[
-            'id'
-          ].disable();
           this.editMode = true;
           this.title = 'Actualizar categoria';
           this.btnActionText = 'Actualizar categoria';

@@ -19,7 +19,11 @@ const routes: Routes = [
         loadChildren: () => import('./category/category.module').then(category => category.CategoryModule),
       },
       {
-        path: 'perfil',
+        path: 'project',
+        loadChildren: () => import('./project/project.module').then(project => project.ProjectModule),
+      },
+      {
+        path: 'profile',
         loadChildren: () => import('./profile/profile.module').then(profile => profile.ProfileModule),
       }
     ]

@@ -7,6 +7,6 @@
   <vs-category-table></vs-category-table>
 </div>
 
-<div *ngIf="!(activeForm$ | async)" style="margin-top: 1rem">
+<div *ngIf="(activeForm$ | async)" style="margin-top: 1rem">
   <vs-category-form></vs-category-form>
 </div>

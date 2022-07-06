@@ -7,7 +7,7 @@
     </div>
   </div>
   <div class="card-body">
-    <form>
+    <form [formGroup]="categoryForm">
       <div class="row g-2">
         <div class="col-md-6">
           <div class="input-group input-group-static my-3">
@@ -22,25 +22,20 @@
           </div>
         </div>
         <div class="col-md-6">
-          <div formGroupName="user">
-            <div class="input-group input-group-static my-3">
-              <label>Actualizado</label>
-              <input 
-                type="email" 
-                class="form-control" 
-                formControlName="email"
-                autocomplete="off">
-            </div>
+          <div class="input-group input-group-static my-3">
+            <label>Creado</label>
+            <input class="form-control" formControlName="createdAt">
           </div>
         </div>
         <div class="col-md-6">
           <div class="input-group input-group-static my-3">
-            <label>Celular</label>
-            <input class="form-control" formControlName="phone">
+            <label>Modificado</label>
+            <input class="form-control" formControlName="updatedAt">
           </div>
         </div>
       </div>
     </form>
+    <pre>{{categoryForm.invalid | json}}</pre>
   </div>
   <div class="card-footer">
     <div class="btn-group">

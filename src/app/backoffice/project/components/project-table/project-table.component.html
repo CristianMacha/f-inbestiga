@@ -1,0 +1,42 @@
+<div class="table-responsive">
+  <table class="table align-items-center mb-0">
+    <thead>
+      <tr>
+        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PROYECTO</th>
+        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">DESCRIPCIÓN</th>
+        <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">VENCIMIENTO</th>
+        <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ESTADO</th>
+        <th class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ACCIONES</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let project of projects$ | async">
+        <td class="align-middle">{{project.name}}</td>
+        <td class="align-middle">{{project.description}}</td>
+        <td class="align-middle text-end">{{project.expirationDate | date}}</td>
+        <td class="align-middle text-end">{{project.status}}</td>
+        <td class="align-middle">
+          <div style="display: flex; gap: 2px; justify-content: end;">
+            <div>
+              <button 
+                class="btn btn-icon btn-primary"
+                (click)="handleBtnEdit(project)">
+                  <i class="material-icons">edit</i>
+              </button>
+            </div>
+            <div>
+              <button 
+                class="btn btn-icon btn-danger"
+                (click)="handleBtnEdit(project)">
+                  <i class="material-icons">delete</i>
+              </button>
+            </div>
+            <div>
+              <button class="btn btn-icon btn-secondary"><i class="material-icons">visibility</i></button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
