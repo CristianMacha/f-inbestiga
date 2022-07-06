@@ -13,6 +13,9 @@
       ],
       "@core/interfaces": [
         "src/app/core/interfaces"
+      ],
+      "@core/enums": [
+        "src/app/core/enums"
       ]
     },
     "forceConsistentCasingInFileNames": true,

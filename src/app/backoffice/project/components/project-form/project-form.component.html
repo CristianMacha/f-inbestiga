@@ -1,9 +1,77 @@
 <div class="card">
   <div class="card-body">
     <h5 class="card-title">Nuevo proyeto</h5>
+    <form class="my-3" [formGroup]="projectForm">
+      <h6>Detalles del proyecto</h6>
+      <div class="row g-2">
+        <div class="col-md-8 my-2">
+          <div class="input-group input-group-static">
+            <label>Nombres</label>
+            <input class="form-control" formControlName="name">
+          </div>
+        </div>
+        <div class="col-md-4 my-2">
+          <div class="input-group input-group-static" formGroupName="category">
+            <label>Categoria</label>
+            <select class="form-control" formControlName="id">
+              <option selected [value]="0">Seleccione categoria</option>
+              <option [value]="1">ESTUDIANTE</option>
+              <option [value]="2">ADMINISTRADOR</option>
+              <option [value]="3">ASESOR</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-2 my-2">
+          <div formArrayName="invoices">
+            <div *ngFor="let invoiceControl of invoicesControls.controls; let i = index;">
+              <div [formGroupName]="i">
+                  <div class="input-group input-group-static">
+                    <label>Costo</label>
+                    <input class="form-control" type="number" formControlName="total">
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 my-2">
+          <div class="input-group input-group-static">
+            <label>Fecha fin</label>
+            <input class="form-control" type="date" formControlName="expirationDate">
+          </div>
+        </div>
+        <div class="col-md-8 my-2">
+          <div class="input-group input-group-static">
+            <label>Descripción</label>
+            <textarea class="form-control" rows="1" formControlName="description"></textarea>
+          </div>
+        </div>
+        <div class="col-md-12 my-2">
+          <h6>Integrantes y asesores</h6>
+          <div class="row g-2">
+            <div class="col-md-6">
+              <div>
+                <div class="input-group input-group-static">
+                  <label>Buscar estudiante</label>
+                  <input class="form-control" placeholder="Codigo del estudiante">
+                </div>
+              </div>
+
+              <div class="mt-2">
+                <div class="input-group input-group-static">
+                  <label>Buscar asesor</label>
+                  <input class="form-control" placeholder="Codigo del asesor">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">lista</div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <pre>{{projectForm.value | json}}</pre>
     <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
-      <button>Cancelar</button>
-      <button></button>
+      <button class="btn" (click)="handleCancel()">Cancelar</button>
+      <button class="btn bg-gradient-info">Crear Proyecto</button>
     </div>
   </div>
 </div>

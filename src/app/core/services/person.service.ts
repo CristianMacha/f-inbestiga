@@ -26,4 +26,8 @@ export class PersonService {
   public update(person: Person): Observable<Person> {
     return this.http.put<Person>(`${this.uri}`, person);
   }
+
+  public getByCodeAndRole(code: string, roleId: number): Observable<Person> {
+    return this.http.get<Person>(`${this.uri}/find/members?code=${code}&roleId=${roleId}`);
+  }
 }
