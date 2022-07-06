@@ -25,9 +25,7 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
   categoryForm: FormGroup = new FormGroup({
     id: new FormControl(0, Validators.required),
     name: new FormControl('', Validators.required),
-    active: new FormControl('', Validators.required),
-    createdAt: new FormControl('', Validators.required),
-    updatedAt: new FormControl('', Validators.required),
+    active: new FormControl(true, Validators.required),
   });
 
   title: string = 'Nueva Categoria';
@@ -41,7 +39,7 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
   constructor(private store: Store<AppStateCategoryFeature>) {}
 
   ngOnInit(): void {
-    loadInputs();
+    //loadInputs();
     this.loading$ = this.store.select(categoryFeatureLoading);
     this.checkFormStatus();
   }
