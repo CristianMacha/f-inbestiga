@@ -1,0 +1,51 @@
+<div class="card z-index-2">
+  <div
+    class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent"
+  >
+    <div class="bg-gradient-info shadow-white border-radius-lg py-3 pe-1">
+      <div style="text-align: center">
+        <h2 style="color: rgb(231, 230, 230)">{{ title }}</h2>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="categoryForm">
+      <div class="row g-2 px-5">
+        <div class="col-md-6 px-3">
+          <div class="input-group input-group-static my-3">
+            <label>Categoria</label>
+            <input class="form-control" formControlName="name" />
+          </div>
+        </div>
+        <div class="col-md-6 px-5">
+          <div class="input-group input-group-static my-3">
+            <label>Activo</label>
+          </div>
+          <div class="form-check p-0">
+            <input
+              type="checkbox"
+              class="p-0 form-check-input"
+              formControlName="active"
+            />
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="card-footer">
+    <div class="btn-group">
+      <div>
+        <button class="btn" (click)="handleBtnCancel()">Cancelar</button>
+      </div>
+      <div>
+        <button
+          class="btn btn-info"
+          [disabled]="loading$ | async"
+          (click)="handleBtnActionCategory()"
+        >
+          {{ btnActionText }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

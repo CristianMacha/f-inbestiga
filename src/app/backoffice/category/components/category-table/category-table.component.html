@@ -1,0 +1,54 @@
+<div class="table-responsive">
+  <table class="table align-items-center mb-0">
+    <thead>
+      <tr>
+        <th
+          class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+        >
+          Categoria
+        </th>
+        <th
+          class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
+        >
+          Activo
+        </th>
+        <th
+          class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+        >
+          Acciones
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let category of categories$ | async">
+        <td class="text-center align-middle">{{ category.name }}</td>
+        <td class="text-center align-middle">
+          <div *ngIf="category.active" class="form-check p-0">
+            <input class="form-check-input" type="checkbox" checked disabled />
+          </div>
+          <div class="form-check p-0"></div>
+          <div *ngIf="!category.active">
+            <input class="form-check-input" type="checkbox" disabled />
+          </div>
+        </td>
+        <td class="text-center align-middle">
+          <div style="display: flex; gap: 2px; justify-content: center">
+            <div>
+              <button
+                class="btn btn-icon btn-primary"
+                (click)="handleBtnEdit(category)"
+              >
+                <i class="material-icons">edit</i>
+              </button>
+            </div>
+            <div>
+              <button class="btn btn-icon btn-secondary">
+                <i class="material-icons">visibility</i>
+              </button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
