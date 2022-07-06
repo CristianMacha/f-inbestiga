@@ -1,18 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
 import { Person } from '@core/models';
-import { PersonService } from '@core/services';
-import { activeForm } from '../../store/project.actions';
+import { PersonService, ProjectService } from '@core/services';
+import { activeForm, createProject } from '../../store/project.actions';
 import { AppStateProjectFeature } from '../../store/project.reducers';
+import { ERole } from '@core/enums';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'vs-project-form',
   templateUrl: './project-form.component.html',
   styleUrls: ['./project-form.component.scss']
 })
-export class ProjectFormComponent implements OnInit {
+export class ProjectFormComponent implements OnInit, OnDestroy {
+  subscription: Subscription = new Subscription();
+
   codeControl = new FormControl();
 
   projectForm: FormGroup = new FormGroup({
@@ -20,7 +24,7 @@ export class ProjectFormComponent implements OnInit {
     name: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
     expirationDate: new FormControl('', Validators.required),
-    personProjects: new FormArray([]),
+    personProjects: new FormArray([], Validators.required),
     category: new FormGroup({
       id: new FormControl(0, Validators.required),
       name: new FormControl(''),
@@ -38,10 +42,15 @@ export class ProjectFormComponent implements OnInit {
   constructor(
     private store: Store<AppStateProjectFeature>,
     private formBuilder: FormBuilder,
-    private personService: PersonService
-    ) { }
+    private personService: PersonService,
+    private projectService: ProjectService
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    this.handleCancel();
   }
 
   get personProjectsControls() {
@@ -52,7 +61,11 @@ export class ProjectFormComponent implements OnInit {
     return this.projectForm.controls['invoices'] as FormArray;
   }
 
-  addPersonProjects(person: Person, isAdvisor: boolean) {
+  addPersonProjects(person: Person, roleId: number) {
+    let isAdvisor;
+    if (roleId === ERole.ADVISOR) { isAdvisor = true };
+    if (roleId === ERole.STUDENT) { isAdvisor = false };
+
     const personProject = this.formBuilder.group({
       id: new FormControl(0, Validators.required),
       isAdvisor: new FormControl(isAdvisor, Validators.required),
@@ -75,11 +88,18 @@ export class ProjectFormComponent implements OnInit {
   }
 
   handleSearchMember(roleId: number) {
-    roleId
     this.personService.getByCodeAndRole(this.codeControl.value, roleId)
-      .subscribe(
-        // (resp) => this.addPersonProjects(resp)
-      )
+      .subscribe({
+        next: (resp) => {
+          this.addPersonProjects(resp, roleId);
+          this.codeControl.reset();
+        },
+        error: (error) => { }
+      })
+  }
+
+  handleCreate(): void {
+    this.projectForm.invalid ? this.projectForm.markAllAsTouched() : this.store.dispatch(createProject({ project: this.projectForm.value }));
   }
 
 }

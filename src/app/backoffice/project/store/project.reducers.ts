@@ -37,6 +37,6 @@ export const _projectReducer = createReducer(
   on(loadProjectsSuccess, (state, { projects }) => ({ ...state, loaded: true, loading: false, projects: [...projects] })),
   on(activeForm, (state, { active }) => ({ ...state, activeForm: active, editMode: false })),
   on(activeFormUpdate, (state, { project }) => ({ ...state, activeForm: true, editMode: true, project: { ...project } })),
-  on(setProject, (state, { project }) => ({ ...state, activeForm: false, editMode: false, project: { ...project } })),
+  on(setProject, (state, { project }) => ({ ...state, project: { ...project } })),
   on(setError, (state, { payload }) => ({ ...state, loaded: false, loading: false, error: { ...payload } })),
 );

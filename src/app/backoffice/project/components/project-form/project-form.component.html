@@ -52,26 +52,52 @@
               <div>
                 <div class="input-group input-group-static">
                   <label>Buscar estudiante</label>
-                  <input class="form-control" placeholder="Codigo del estudiante">
+                  <input 
+                    class="form-control" 
+                    placeholder="Codigo del estudiante"
+                    [formControl]="codeControl"
+                    (keyup.enter)="handleSearchMember(1)">
                 </div>
               </div>
 
               <div class="mt-2">
                 <div class="input-group input-group-static">
                   <label>Buscar asesor</label>
-                  <input class="form-control" placeholder="Codigo del asesor">
+                  <input 
+                    class="form-control" 
+                    placeholder="Codigo del estudiante"
+                    [formControl]="codeControl"
+                    (keyup.enter)="handleSearchMember(3)">
                 </div>
               </div>
             </div>
-            <div class="col-md-6">lista</div>
+            <div class="col-md-6">
+              <div formArrayName="personProjects">
+                <div *ngFor="let personProject of personProjectsControls.controls; let i = index; ">
+                    <div [formGroupName]="i">
+                      <div>
+                        <p style="display: flex; align-items: center; gap: .5rem;">
+                          {{personProject.value.person.fullname}} {{personProject.value.person.surnames}}
+                          <span *ngIf="personProject.value.isAdvisor" class="text-success">Asesor</span>
+                          <i 
+                            class="material-icons text-danger cursor-pointer" 
+                            (click)="removePersonProject(i)">close</i>
+                        </p>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </form>
-    <pre>{{projectForm.value | json}}</pre>
     <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
       <button class="btn" (click)="handleCancel()">Cancelar</button>
-      <button class="btn bg-gradient-info">Crear Proyecto</button>
+      <button 
+        class="btn bg-gradient-info" 
+        [disabled]="projectForm.invalid"
+        (click)="handleCreate()">Crear Proyecto</button>
     </div>
   </div>
 </div>
