@@ -54,7 +54,6 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getEditModeState();
-    this.getProject();
   }
 
   ngOnDestroy(): void {
@@ -74,12 +73,13 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     this.projectService.getProject(this.projectTemp.id)
       .subscribe(
         (resp) => {
+          console.log(resp);
+
           resp.expirationDate = moment(resp.expirationDate).format('yyyy-MM-DD');
           this.projectForm.patchValue(resp);
           resp.personProjects.forEach(pp => {
             this.addPersonProjects(pp);
           });
-          console.log(resp)
         },
       )
   }
@@ -100,7 +100,11 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   }
 
   removePersonProject(personProjectIndex: number) {
-    this.personProjectsControls.removeAt(personProjectIndex);
+    if(this.editMode) {
+      (this.personProjectsControls.controls[personProjectIndex] as FormGroup).controls['active'].patchValue(false);
+    } else {
+      this.personProjectsControls.removeAt(personProjectIndex);
+    }
   }
 
   handleCancel() {
@@ -135,6 +139,9 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
             this.title = 'Actualizar projecto';
             this.btnActionText = 'Guardar cambios';
             this.projectTemp = resp.project;
+            this.getProject();
+            console.log('sd');
+
            }
         }
       )
