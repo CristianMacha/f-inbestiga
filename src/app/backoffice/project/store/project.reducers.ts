@@ -2,7 +2,7 @@ import { Project } from "@core/models";
 import { createReducer, on } from "@ngrx/store";
 
 import { appState } from "../../../app.reducers";
-import { activeForm, activeFormUpdate, loadProjects, loadProjectsSuccess, pushProject, setError, setProject } from "./project.actions";
+import { activeForm, activeFormUpdate, loadProject, loadProjects, loadProjectsSuccess, pushProject, setError, setProject } from "./project.actions";
 
 export const projectFeatureKey = 'projectFeature';
 
@@ -13,6 +13,7 @@ export interface projectState {
   loading: boolean,
   activeForm: boolean,
   editMode: boolean,
+  viewMode: boolean,
   error: any,
 }
 
@@ -27,6 +28,7 @@ export const initialState: projectState = {
   loaded: false,
   activeForm: false,
   editMode: false,
+  viewMode: false,
   error: null
 }
 
@@ -35,8 +37,9 @@ export const _projectReducer = createReducer(
   on(pushProject, (state, { project }) => ({ ...state, loading: false, loaded: true, projects: [project, ...state.projects], activeForm: false })),
   on(loadProjects, (state) => ({ ...state, loaded: false, loading: true })),
   on(loadProjectsSuccess, (state, { projects }) => ({ ...state, loaded: true, loading: false, projects: [...projects] })),
+  on(loadProject, (state) => ({ ...state, loading: true })),
   on(activeForm, (state, { active }) => ({ ...state, activeForm: active, editMode: false })),
   on(activeFormUpdate, (state, { project }) => ({ ...state, activeForm: true, editMode: true, project: { ...project } })),
-  on(setProject, (state, { project }) => ({ ...state, project: { ...project } })),
+  on(setProject, (state, { project }) => ({ ...state, project: { ...project }, loaded: true, loading: false, activeForm: false, editMode: false })),
   on(setError, (state, { payload }) => ({ ...state, loaded: false, loading: false, error: { ...payload } })),
 );

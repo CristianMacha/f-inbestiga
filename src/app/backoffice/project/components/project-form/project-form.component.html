@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-body">
-    <h5 class="card-title">Nuevo proyeto</h5>
+    <h5 class="card-title">{{title}}</h5>
     <form class="my-3" [formGroup]="projectForm">
       <h6>Detalles del proyecto</h6>
       <div class="row g-2">
@@ -49,25 +49,31 @@
           <h6>Integrantes y asesores</h6>
           <div class="row g-2">
             <div class="col-md-6">
-              <div>
+              <div style="display: flex; justify-content: space-between; gap: .5rem;">
                 <div class="input-group input-group-static">
                   <label>Buscar estudiante</label>
-                  <input 
-                    class="form-control" 
+                  <input
+                    class="form-control"
                     placeholder="Codigo del estudiante"
                     [formControl]="codeControl"
                     (keyup.enter)="handleSearchMember(1)">
                 </div>
+                <div style="display: flex; align-items: end;">
+                  <i class="material-icons text-success cursor-pointer" (click)="handleSearchMember(1)">search</i>
+                </div>
               </div>
 
-              <div class="mt-2">
+              <div class="mt-2" style="display: flex; justify-content: space-between; gap: .5rem;">
                 <div class="input-group input-group-static">
                   <label>Buscar asesor</label>
-                  <input 
-                    class="form-control" 
+                  <input
+                    class="form-control"
                     placeholder="Codigo del estudiante"
                     [formControl]="codeControl"
                     (keyup.enter)="handleSearchMember(3)">
+                </div>
+                <div style="display: flex; align-items: end;">
+                  <i class="material-icons text-success cursor-pointer" (click)="handleSearchMember(3)">search</i>
                 </div>
               </div>
             </div>
@@ -79,8 +85,8 @@
                         <p style="display: flex; align-items: center; gap: .5rem;">
                           {{personProject.value.person.fullname}} {{personProject.value.person.surnames}}
                           <span *ngIf="personProject.value.isAdvisor" class="text-success">Asesor</span>
-                          <i 
-                            class="material-icons text-danger cursor-pointer" 
+                          <i
+                            class="material-icons text-danger cursor-pointer"
                             (click)="removePersonProject(i)">close</i>
                         </p>
                       </div>
@@ -94,10 +100,10 @@
     </form>
     <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
       <button class="btn" (click)="handleCancel()">Cancelar</button>
-      <button 
-        class="btn bg-gradient-info" 
+      <button
+        class="btn bg-gradient-info"
         [disabled]="projectForm.invalid"
-        (click)="handleCreate()">Crear Proyecto</button>
+        (click)="handleCreate()">{{btnActionText}}</button>
     </div>
   </div>
 </div>

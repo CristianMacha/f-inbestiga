@@ -9,10 +9,14 @@ import { Project } from '../models/project.model';
   providedIn: 'root'
 })
 export class ProjectService {
-  uri: string;
+  private uri: string;
 
   constructor(private http: HttpClient) {
     this.uri = `${environment.url}/project`;
+  }
+
+  getProject(projectId: number): Observable<Project> {
+    return this.http.get<Project>(`${this.uri}/${projectId}`);
   }
 
   getProjects(): Observable<Project[]> {

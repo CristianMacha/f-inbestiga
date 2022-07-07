@@ -12,5 +12,7 @@ export const loadProjects         = createAction('[Project Component] Load Proje
 export const loadProjectsSuccess  = createAction('[Project Component] Load Projects Success', props<{ projects: Project[] }>());
 export const setError             = createAction('[Project Component] Set Error', props<{ payload: any }>());
 
+export const loadProject = createAction('[Project Component] Load Project', props<{ projectId: number }>());
+
 export const activeForm       = createAction('[Project Component] Active Form', props<{ active: boolean }>());
 export const activeFormUpdate = createAction('[Project Component] Active Form Update', props<{ project: Project }>());
