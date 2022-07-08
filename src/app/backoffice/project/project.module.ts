@@ -10,6 +10,9 @@ import { ProjectRoutingModule } from './project-routing.module';
 import { projectFeatureKey, _projectReducer } from './store/project.reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { ProjectEffects } from './store/project.effects';
+import { ProjectDetailComponent } from './pages/project-detail/project-detail.component';
+import { ProjectTimelineComponent } from './components/project-timeline/project-timeline.component';
+import { ProjectCommentsComponent } from './components/project-comments/project-comments.component';
 
 
 
@@ -17,7 +20,10 @@ import { ProjectEffects } from './store/project.effects';
   declarations: [
     ProjectComponent,
     ProjectTableComponent,
-    ProjectFormComponent
+    ProjectFormComponent,
+    ProjectDetailComponent,
+    ProjectTimelineComponent,
+    ProjectCommentsComponent
   ],
   imports: [
     CommonModule,

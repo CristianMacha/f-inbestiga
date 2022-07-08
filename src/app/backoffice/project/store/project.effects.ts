@@ -11,6 +11,7 @@ import {
   setError,
   setProject,
   updateProject,
+  updateProjectActive,
 } from './project.actions';
 
 @Injectable()
@@ -51,11 +52,23 @@ export class ProjectEffects {
     )
   );
 
-  updatePersonn$ = createEffect(() =>
+  updateProject$ = createEffect(() =>
     this.actions$.pipe(
       ofType(updateProject),
       mergeMap((resp) =>
         this.projectService.update(resp.project).pipe(
+          map((resp) => setProject({ project: resp })),
+          catchError((err) => of(setError({ payload: err })))
+        )
+      )
+    )
+  );
+
+  updateProjectActive$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(updateProjectActive),
+      mergeMap((resp) =>
+        this.projectService.updateActive(resp.projectId).pipe(
           map((resp) => setProject({ project: resp })),
           catchError((err) => of(setError({ payload: err })))
         )

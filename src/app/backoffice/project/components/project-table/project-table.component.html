@@ -18,21 +18,25 @@
         <td class="align-middle">
           <div style="display: flex; gap: 2px; justify-content: end;">
             <div>
-              <button 
+              <button
                 class="btn btn-icon btn-primary"
                 (click)="handleBtnEdit(project)">
                   <i class="material-icons">edit</i>
               </button>
             </div>
             <div>
-              <button 
+              <button
                 class="btn btn-icon btn-danger"
                 (click)="handleBtnEdit(project)">
                   <i class="material-icons">delete</i>
               </button>
             </div>
             <div>
-              <button class="btn btn-icon btn-secondary"><i class="material-icons">visibility</i></button>
+              <button
+                class="btn btn-icon btn-secondary"
+                (click)="handleViewProject(project.id)">
+                <i class="material-icons">visibility</i>
+              </button>
             </div>
           </div>
         </td>

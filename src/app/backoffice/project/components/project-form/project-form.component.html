@@ -15,9 +15,7 @@
             <label>Categoria</label>
             <select class="form-control" formControlName="id">
               <option selected [value]="0">Seleccione categoria</option>
-              <option [value]="1">ESTUDIANTE</option>
-              <option [value]="2">ADMINISTRADOR</option>
-              <option [value]="3">ASESOR</option>
+              <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
             </select>
           </div>
         </div>
@@ -68,7 +66,7 @@
                   <label>Buscar asesor</label>
                   <input
                     class="form-control"
-                    placeholder="Codigo del estudiante"
+                    placeholder="Codigo del asesor"
                     [formControl]="codeControl"
                     (keyup.enter)="handleSearchMember(3)">
                 </div>
@@ -81,14 +79,19 @@
               <div formArrayName="personProjects">
                 <div *ngFor="let personProject of personProjectsControls.controls; let i = index; ">
                     <div [formGroupName]="i">
-                      <div>
-                        <p style="display: flex; align-items: center; gap: .5rem;">
+                      <div style="display: flex; align-items: center; gap: .5rem;">
+                        <p style="margin: 0;" [ngStyle]="{'text-decoration': personProject.value.active ? 'none' : 'line-through'}">
                           {{personProject.value.person.fullname}} {{personProject.value.person.surnames}}
                           <span *ngIf="personProject.value.isAdvisor" class="text-success">Asesor</span>
-                          <i
-                            class="material-icons text-danger cursor-pointer"
-                            (click)="removePersonProject(i)">close</i>
                         </p>
+                        <i
+                          class="material-icons text-danger cursor-pointer"
+                          (click)="removePersonProject(i)"
+                          *ngIf="personProject.value.active">close</i>
+                        <i
+                          class="material-icons text-success cursor-pointer"
+                          (click)="restorePersonProject(i)"
+                          *ngIf="!personProject.value.active">replay</i>
                       </div>
                     </div>
                 </div>
@@ -102,7 +105,7 @@
       <button class="btn" (click)="handleCancel()">Cancelar</button>
       <button
         class="btn bg-gradient-info"
-        [disabled]="projectForm.invalid"
+        [disabled]="projectForm.invalid || loading"
         (click)="handleCreate()">{{btnActionText}}</button>
     </div>
   </div>

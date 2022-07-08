@@ -1,22 +1,23 @@
-import { Person } from "./person.model";
 import { Project } from "./project.model";
 
-export class PersonProject {
+export class Requirement {
   public id: number;
+  public name: string;
+  public filename: string;
+  public url: string;
   public active: boolean;
-  public isAdvisor: boolean;
   public createdAt: Date;
   public updatedAt: Date;
-  public person: Person;
   public project: Project;
 
   constructor() {
     this.id = 0;
-    this.active = true;
-    this.isAdvisor = false;
+    this.name = '';
+    this.filename = '';
+    this.url = '';
+    this.active = false;
     this.createdAt = new Date();
     this.updatedAt = new Date();
-    this.person = new Person();
     this.project = new Project();
   }
 }

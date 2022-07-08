@@ -16,3 +16,5 @@ export const loadProject = createAction('[Project Component] Load Project', prop
 
 export const activeForm       = createAction('[Project Component] Active Form', props<{ active: boolean }>());
 export const activeFormUpdate = createAction('[Project Component] Active Form Update', props<{ project: Project }>());
+
+export const updateProjectActive = createAction('[Project Component] Update Project Active', props<{ projectId: number }>());

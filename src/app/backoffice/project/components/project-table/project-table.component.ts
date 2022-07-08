@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 
 import { Project } from '@core/models';
-import { Store } from '@ngrx/store';
 import { AppStateProjectFeature } from '../../store/project.reducers';
 import { activeFormUpdate, loadProjects } from '../../store/project.actions';
 import { projectFeatureProjects } from '../../store/project.selectors';
@@ -17,6 +18,7 @@ export class ProjectTableComponent implements OnInit {
 
   constructor(
     private store: Store<AppStateProjectFeature>,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -26,5 +28,9 @@ export class ProjectTableComponent implements OnInit {
 
   handleBtnEdit(project: Project) {
     this.store.dispatch(activeFormUpdate({ project }));
+  }
+
+  handleViewProject(projectId: number): void {
+    this.router.navigateByUrl(`backoffice/project/${projectId}`);
   }
 }

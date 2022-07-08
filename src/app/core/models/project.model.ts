@@ -1,5 +1,6 @@
 import { Invoice } from "./invoice.models";
 import { PersonProject } from "./personProject.model";
+import { Requirement } from "./requirement.model";
 
 export class Project {
   public id: number;
@@ -15,6 +16,7 @@ export class Project {
   public updatedAt: Date;
   public invoices: Invoice[];
   public personProjects: PersonProject[];
+  public requirements: Requirement[];
 
   constructor() {
     this.id = 0;
@@ -30,5 +32,6 @@ export class Project {
     this.updatedAt = new Date();
     this.invoices = [];
     this.personProjects = [];
+    this.requirements = [];
   }
 }

@@ -6,7 +6,7 @@ import { environment } from '../../../environments/environment';
 import { Project } from '../models/project.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProjectService {
   private uri: string;
@@ -35,4 +35,7 @@ export class ProjectService {
     return this.http.get<Project[]>(`${this.uri}/person/${personId}`);
   }
 
+  updateActive(projectId: number): Observable<Project> {
+    return this.http.get<Project>(`${this.uri}/update/active/${projectId}`);
+  }
 }

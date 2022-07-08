@@ -1,20 +1,30 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Store } from '@ngrx/store';
 
-import { PersonProject, Project } from '@core/models';
-import { PersonService, ProjectService } from '@core/services';
-import { activeForm, createProject, loadProject, updateProject } from '../../store/project.actions';
+import { Category, PersonProject, Project } from '@core/models';
+import { CategoryService, PersonService, ProjectService } from '@core/services';
+import {
+  activeForm,
+  createProject,
+  updateProject,
+} from '../../store/project.actions';
 import { AppStateProjectFeature } from '../../store/project.reducers';
 import { ERole } from '@core/enums';
-import { Subscription } from 'rxjs';
-import { projectFeature, projectFeatureEditMode, projectFeatureProject } from '../../store/project.selectors';
+import { finalize, Subscription } from 'rxjs';
+import { projectFeature } from '../../store/project.selectors';
 import * as moment from 'moment';
 
 @Component({
   selector: 'vs-project-form',
   templateUrl: './project-form.component.html',
-  styleUrls: ['./project-form.component.scss']
+  styleUrls: ['./project-form.component.scss'],
 })
 export class ProjectFormComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
@@ -39,20 +49,28 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       new FormGroup({
         id: new FormControl(0, Validators.required),
         description: new FormControl('Total', Validators.required),
-        expirationDate: new FormControl('2021-10-20 11:19:11', Validators.required),
+        expirationDate: new FormControl(
+          '2021-10-20 11:19:11',
+          Validators.required
+        ),
         total: new FormControl(0, Validators.required),
-      })
-    ])
+      }),
+    ]),
   });
+
+  categories: Category[] = [];
+  loading: boolean = false;
 
   constructor(
     private store: Store<AppStateProjectFeature>,
     private formBuilder: FormBuilder,
     private personService: PersonService,
-    private projectService: ProjectService
-  ) { }
+    private projectService: ProjectService,
+    private categoryService: CategoryService
+  ) {}
 
   ngOnInit(): void {
+    this.getCategories();
     this.getEditModeState();
   }
 
@@ -70,29 +88,24 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   }
 
   getProject() {
-    this.projectService.getProject(this.projectTemp.id)
-      .subscribe(
-        (resp) => {
-          console.log(resp);
-
-          resp.expirationDate = moment(resp.expirationDate).format('yyyy-MM-DD');
-          this.projectForm.patchValue(resp);
-          resp.personProjects.forEach(pp => {
-            this.addPersonProjects(pp);
-          });
-        },
-      )
+    this.projectService.getProject(this.projectTemp.id).subscribe((resp) => {
+      resp.expirationDate = moment(resp.expirationDate).format('yyyy-MM-DD');
+      this.projectForm.patchValue(resp);
+      resp.personProjects.forEach((pp) => {
+        this.addPersonProjects(pp);
+      });
+    });
   }
 
   addPersonProjects(personProject: PersonProject) {
     const personProjectControl = this.formBuilder.group({
       id: new FormControl(personProject.id, Validators.required),
       isAdvisor: new FormControl(personProject.isAdvisor, Validators.required),
-      active: new FormControl(true, Validators.required),
+      active: new FormControl(personProject.active, Validators.required),
       person: new FormGroup({
         id: new FormControl(personProject.person.id, Validators.required),
         fullname: new FormControl(personProject.person.fullname),
-        surnames: new FormControl(personProject.person.surnames)
+        surnames: new FormControl(personProject.person.surnames),
       }),
     });
 
@@ -100,11 +113,19 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   }
 
   removePersonProject(personProjectIndex: number) {
-    if(this.editMode) {
-      (this.personProjectsControls.controls[personProjectIndex] as FormGroup).controls['active'].patchValue(false);
+    if (this.editMode) {
+      (
+        this.personProjectsControls.controls[personProjectIndex] as FormGroup
+      ).controls['active'].patchValue(false);
     } else {
       this.personProjectsControls.removeAt(personProjectIndex);
     }
+  }
+
+  restorePersonProject(personProjectIndex: number) {
+    (
+      this.personProjectsControls.controls[personProjectIndex] as FormGroup
+    ).controls['active'].patchValue(true);
   }
 
   handleCancel() {
@@ -113,10 +134,15 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
   handleSearchMember(roleId: number) {
     let isAdvisor: boolean;
-    if (roleId === ERole.ADVISOR) { isAdvisor = true };
-    if (roleId === ERole.STUDENT) { isAdvisor = false };
+    if (roleId === ERole.ADVISOR) {
+      isAdvisor = true;
+    }
+    if (roleId === ERole.STUDENT) {
+      isAdvisor = false;
+    }
 
-    this.personService.getByCodeAndRole(this.codeControl.value, roleId)
+    this.personService
+      .getByCodeAndRole(this.codeControl.value, roleId)
       .subscribe({
         next: (resp) => {
           const newPersonProject = new PersonProject();
@@ -126,34 +152,47 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
           this.addPersonProjects(newPersonProject);
           this.codeControl.reset();
         },
-        error: (error) => { }
-      })
+        error: (error) => {},
+      });
   }
 
   getEditModeState() {
     this.subscription.add(
-      this.store.select(projectFeature).subscribe(
-        (resp) => {
-          if (resp.editMode) {
-            this.editMode = true;
-            this.title = 'Actualizar projecto';
-            this.btnActionText = 'Guardar cambios';
-            this.projectTemp = resp.project;
-            this.getProject();
-            console.log('sd');
-
-           }
+      this.store.select(projectFeature).subscribe((resp) => {
+        this.loading = resp.loading;
+        if (resp.editMode) {
+          this.editMode = true;
+          this.title = 'Actualizar projecto';
+          this.btnActionText = 'Guardar cambios';
+          this.projectTemp = resp.project;
+          this.getProject();
         }
-      )
-    )
+      })
+    );
   }
 
   handleCreate(): void {
-    if(this.editMode) {
-      this.projectForm.invalid ? this.projectForm.markAllAsTouched() : this.store.dispatch(updateProject({ project: this.projectForm.value }));
+    this.loading = true;
+    if (this.editMode) {
+      this.projectForm.invalid
+        ? this.projectForm.markAllAsTouched()
+        : this.store.dispatch(
+            updateProject({ project: this.projectForm.value })
+          );
     } else {
-      this.projectForm.invalid ? this.projectForm.markAllAsTouched() : this.store.dispatch(createProject({ project: this.projectForm.value }));
+      this.projectForm.invalid
+        ? this.projectForm.markAllAsTouched()
+        : this.store.dispatch(
+            createProject({ project: this.projectForm.value })
+          );
     }
   }
 
+  getCategories(): void {
+    this.loading = true;
+    this.categoryService
+      .getCategories()
+      .pipe(finalize(() => (this.loading = false)))
+      .subscribe((resp) => (this.categories = resp));
+  }
 }
