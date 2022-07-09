@@ -6,3 +6,4 @@ export * from "./personRoles.model";
 export * from "./role.model";
 export * from "./personProject.model";
 export * from "./requirement.model";
+export * from "./commentary.model";

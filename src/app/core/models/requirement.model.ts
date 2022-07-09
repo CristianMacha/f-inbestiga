@@ -1,3 +1,4 @@
+import { Commentary } from "./commentary.model";
 import { Project } from "./project.model";
 
 export class Requirement {
@@ -9,6 +10,7 @@ export class Requirement {
   public createdAt: Date;
   public updatedAt: Date;
   public project: Project;
+  public commentaries: Commentary[];
 
   constructor() {
     this.id = 0;
@@ -19,5 +21,6 @@ export class Requirement {
     this.createdAt = new Date();
     this.updatedAt = new Date();
     this.project = new Project();
+    this.commentaries = [];
   }
 }

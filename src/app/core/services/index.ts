@@ -5,3 +5,4 @@ export { UserService } from './user.service';
 export { CategoryService } from './category.service';
 export { ProjectService } from "./project.service";
 export { RequirementService } from "./requirement.service";
+export { CommentaryService } from "./commentary.service";

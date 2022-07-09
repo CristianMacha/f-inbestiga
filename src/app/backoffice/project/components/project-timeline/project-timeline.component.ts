@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Requirement } from '@core/models';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
@@ -15,6 +15,8 @@ export class ProjectTimelineComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   requirements: Requirement[] = [];
 
+  requirementShowCommentariesId: number = 0;
+
   constructor(private store: Store<AppStateProjectFeature>) {}
 
   ngOnInit(): void {
@@ -29,5 +31,9 @@ export class ProjectTimelineComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.store.select(projectFeaturePRequirements).subscribe(resp => this.requirements = resp),
     );
+  }
+
+  handleViewCommentaries(requirementId: number) {
+    this.requirementShowCommentariesId = requirementId;
   }
 }
