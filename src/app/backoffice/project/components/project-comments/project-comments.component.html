@@ -2,7 +2,11 @@
   <div class="mb-2">
     <div style="display: flex; justify-content: space-between; gap: .5rem;">
       <div class="input-group input-group-static">
-        <input class="form-control" placeholder="Escribe un commentario...">
+        <input
+          class="form-control"
+          placeholder="Escribe un commentario..."
+          [formControl]="commentaryControl"
+          (keyup.enter)="handleCreate()">
       </div>
       <div style="display: flex; align-items: end;">
         <i class="material-icons text-success cursor-pointer" (click)="handleCreate()">send</i>
@@ -14,11 +18,17 @@
     <div
       style="line-height: 2.2px;"
       class="border-radius-lg bg-gray-100 border-0 p-4"
+      *ngIf="commentaries.length == 0">
+      <p class="m-0">No hay comentaios que mostrar.</p>
+    </div>
+    <div
+      style="line-height: 4px;"
+      class="border-radius-lg bg-gray-100 border-0 p-4"
       *ngFor="let commentary of commentaries">
       <h6 class="m-0 font-weight-bold text-sm">{{commentary.person.fullname}} {{commentary.person.surnames}}</h6>
       <small>{{commentary.content}}</small>
       <div class="text-end">
-        <small>fecha</small>
+        <small>{{commentary.createdAt | time}}</small>
       </div>
     </div>
   </div>

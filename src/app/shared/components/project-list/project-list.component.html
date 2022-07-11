@@ -3,7 +3,7 @@
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">{{project.name | titlecase}}</h5>
-  
+
         <div class="progress-wrapper">
           <div class="progress-info">
             <div class="progress-percentage">
@@ -15,14 +15,16 @@
               aria-valuemax="100" [style.width]="project.progress+'%'"></div>
           </div>
         </div>
-  
+
         <div class="mt-2">
           <div style="display: flex; flex-wrap: nowrap; align-content: center; gap: .5rem;">
-            <div style="display: flex; align-content: center; align-items: center;"><i class="material-icons">event</i></div>
+            <div style="display: flex; align-content: center; align-items: center;"><i class="material-icons">event</i>
+            </div>
             <span>{{project.createdAt | date}}</span>
           </div>
         </div>
-        <div>
+        <div class="text-end">
+          <button class="btn btn-link m-0" (click)="seeProject(project.id)">ver proyecto</button>
         </div>
       </div>
     </div>

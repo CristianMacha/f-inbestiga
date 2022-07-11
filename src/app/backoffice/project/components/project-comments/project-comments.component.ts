@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { CommentaryService } from '@core/services';
 import { Commentary, Project, Requirement } from '@core/models';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'vs-project-comments',
@@ -13,6 +14,7 @@ export class ProjectCommentsComponent implements OnInit {
   @Input() requirementId: number = 0;
 
   commentaries: Commentary[] = [];
+  commentaryControl: FormControl = new FormControl('', Validators.required);
 
   constructor(private commentaryService: CommentaryService) {}
 
@@ -23,7 +25,10 @@ export class ProjectCommentsComponent implements OnInit {
   createProject(commentary: any) {
     this.commentaryService
       .create(commentary)
-      .subscribe((resp) => this.getComentaryByType());
+      .subscribe((resp) => {
+        this.commentaryControl.reset('');
+        this.getComentaryByType();
+      });
   }
 
   getProjectCommentaries(projectId: number) {
@@ -40,31 +45,32 @@ export class ProjectCommentsComponent implements OnInit {
 
   getComentaryByType() {
     this.projectId && this.getProjectCommentaries(this.projectId);
-    this.requirementId && this.getProjectCommentaries(this.requirementId);
+    this.requirementId && this.getRequirementCommentaries(this.requirementId);
   }
 
   handleCreate() {
-    const newCommentary = new Commentary();
-    newCommentary.content = 'test';
+    if(!this.commentaryControl.invalid) {
+      const newCommentary = new Commentary();
+      newCommentary.active = true;
+      newCommentary.content = this.commentaryControl.value;
 
-    if (this.projectId) {
-      const newProject = new Project();
-      newProject.id = this.projectId;
-      newCommentary.project = newProject;
+      if (this.projectId) {
+        const newProject = new Project();
+        newProject.id = this.projectId;
+        newCommentary.project = newProject;
 
-      const { requirement, ...commentary } = newCommentary;
-      console.log(commentary);
+        const { requirement, ...commentary } = newCommentary;
+        this.createProject(commentary);
+      }
 
-      this.createProject(commentary);
-    }
+      if (this.requirementId) {
+        const newRequirement = new Requirement();
+        newRequirement.id = this.requirementId;
+        newCommentary.requirement = newRequirement;
 
-    if (this.requirementId) {
-      const newRequirement = new Requirement();
-      newRequirement.id = this.requirementId;
-      newCommentary.requirement = newRequirement;
-
-      const { project } = newCommentary;
-      // this.createProject(newCommentary);
+        const { project, ...commentary } = newCommentary;
+        this.createProject(commentary);
+      }
     }
   }
 }

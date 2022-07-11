@@ -1,7 +1,12 @@
 <div class="card-header pb-0">
-  <h5 class="card-title">Timeline light</h5>
+  <h5 class="card-title">Historial de documentos</h5>
 </div>
 <div class="card-body p-3">
+  <div class="border-radius-lg bg-gray-100 border-0 p-4" *ngIf="requirements.length == 0">
+    <p class="m-0">
+      No hay registros de documentos
+    </p>
+  </div>
   <div class="timeline timeline-one-side" data-timeline-axis-style="dotted">
     <div class="timeline-block mb-3" *ngFor="let requirement of requirements">
       <span class="timeline-step bg-dark p-3">
@@ -19,11 +24,11 @@
           class="btn btn-link btn-sm text-info m-0"
           type="button"
           (click)="handleViewCommentaries(requirement.id)">
-          6 comentarios
+          ver comentarios
         </button>
         <div class="content-commentary" *ngIf="requirement.id == requirementShowCommentariesId">
           <div>
-            <vs-project-comments></vs-project-comments>
+            <vs-project-comments [requirementId]="requirement.id"></vs-project-comments>
           </div>
         </div>
       </div>

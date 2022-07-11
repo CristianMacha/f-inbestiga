@@ -2,19 +2,19 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 import { ProjectComponent } from './project.component';
 import { ProjectTableComponent } from './components/project-table/project-table.component';
 import { ProjectFormComponent } from './components/project-form/project-form.component';
 import { ProjectRoutingModule } from './project-routing.module';
 import { projectFeatureKey, _projectReducer } from './store/project.reducers';
-import { EffectsModule } from '@ngrx/effects';
 import { ProjectEffects } from './store/project.effects';
 import { ProjectDetailComponent } from './pages/project-detail/project-detail.component';
 import { ProjectTimelineComponent } from './components/project-timeline/project-timeline.component';
 import { ProjectCommentsComponent } from './components/project-comments/project-comments.component';
-
-
+import { CoreModule } from '../../core/core.module';
+import { ProjectRequirementFormComponent } from './components/project-requirement-form/project-requirement-form.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +23,8 @@ import { ProjectCommentsComponent } from './components/project-comments/project-
     ProjectFormComponent,
     ProjectDetailComponent,
     ProjectTimelineComponent,
-    ProjectCommentsComponent
+    ProjectCommentsComponent,
+    ProjectRequirementFormComponent
   ],
   imports: [
     CommonModule,
@@ -31,6 +32,7 @@ import { ProjectCommentsComponent } from './components/project-comments/project-
     ProjectRoutingModule,
     StoreModule.forFeature(projectFeatureKey, _projectReducer),
     EffectsModule.forFeature([ProjectEffects]),
+    CoreModule,
   ]
 })
 export class ProjectModule { }

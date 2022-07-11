@@ -1,10 +1,10 @@
 <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
-  <h5 class="card-title">
+  <h2 class="card-title">
     <i
       class="material-icons cursor-pointer"
       (click)="handleBtnArrowBack()">arrow_back</i>
       {{project.name | titlecase}}
-  </h5>
+  </h2>
   <button class="btn bg-gradient-danger" *ngIf="project.active" (click)="handleBtnToggleActiveProject()">Deshabilitar Proyecto</button>
   <button class="btn bg-gradient-success" *ngIf="!project.active" (click)="handleBtnToggleActiveProject()">Habilitar Proyecto</button>
 </div>
@@ -13,7 +13,7 @@
     <div class="row g-2">
       <div class="col-md-12">
         <div class="card">
-          ...
+          <vs-project-requirement-form></vs-project-requirement-form>
         </div>
       </div>
       <div class="col-md-12">
