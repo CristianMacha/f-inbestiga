@@ -15,7 +15,17 @@ export class RequirementService {
     this.uri = `${environment.url}/requirement`;
   }
 
+  create(requirement: Requirement): Observable<Requirement> {
+    return this.http.post<Requirement>(`${this.uri}`, requirement);
+  }
+
+  update(requirement: Requirement): Observable<Requirement> {
+    return this.http.put<Requirement>(`${this.uri}`, requirement);
+  }
+
   getByProject(projectId: number): Observable<Requirement[]> {
+    console.log('sdsd');
+
     return this.http.get<Requirement[]>(`${this.uri}/project/${projectId}`);
   }
 }

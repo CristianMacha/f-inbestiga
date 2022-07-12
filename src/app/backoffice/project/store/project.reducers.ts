@@ -1,14 +1,19 @@
-import { Project } from '@core/models';
+import { state } from '@angular/animations';
+import { Project, Requirement } from '@core/models';
 import { createReducer, on } from '@ngrx/store';
 
 import { appState } from '../../../app.reducers';
 import {
   activeForm,
+  activeFormR,
+  activeFormRUpdate,
   activeFormUpdate,
   loadProject,
   loadProjects,
   loadProjectsSuccess,
+  loadRequirements,
   pushProject,
+  requirementLoadedSuccess,
   setError,
   setProject,
 } from './project.actions';
@@ -17,7 +22,11 @@ export const projectFeatureKey = 'projectFeature';
 
 export interface projectState {
   project: Project;
+  requirement: Requirement;
+  activeFormR: boolean;
+  editModeR: boolean;
   projects: Project[];
+  requirements: Requirement[];
   loaded: boolean;
   loading: boolean;
   activeForm: boolean;
@@ -32,7 +41,11 @@ export interface AppStateProjectFeature extends appState {
 
 export const initialState: projectState = {
   project: new Project(),
+  requirement: new Requirement(),
+  activeFormR: false,
+  editModeR: false,
   projects: [],
+  requirements: [],
   loading: false,
   loaded: false,
   activeForm: false,
@@ -77,6 +90,25 @@ export const _projectReducer = createReducer(
     activeForm: false,
     editMode: false,
   })),
+
+  on(loadRequirements, (state) => ({ ...state, loading: true })),
+  on(requirementLoadedSuccess, (state, { requirements }) => ({
+    ...state,
+    loading: false,
+    requirements: [ ...requirements]
+  })),
+  on(activeFormR, (state, { active }) => ({
+    ...state,
+    activeFormR: active,
+    editModeR: false,
+  })),
+  on(activeFormRUpdate, (state, { requirement }) => ({
+    ...state,
+    activeFormR: true,
+    editModeR: true,
+    requirement: { ...requirement },
+  })),
+
   on(setError, (state, { payload }) => ({
     ...state,
     loaded: false,

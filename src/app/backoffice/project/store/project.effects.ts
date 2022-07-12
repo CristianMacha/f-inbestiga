@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap, of } from 'rxjs';
 
-import { ProjectService } from '@core/services';
+import { ProjectService, RequirementService } from '@core/services';
 import {
   createProject,
   loadProject,
   loadProjects,
   loadProjectsSuccess,
+  loadRequirements,
+  requirementLoadedSuccess,
   setError,
   setProject,
   updateProject,
@@ -76,8 +78,21 @@ export class ProjectEffects {
     )
   );
 
+  getRequirements$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadRequirements),
+      mergeMap((resp) =>
+        this.requirementService.getByProject(resp.projectId).pipe(
+          map((resp) => requirementLoadedSuccess({ requirements: resp })),
+          catchError((err) => of(setError({ payload: err })))
+        )
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private requirementService: RequirementService
   ) {}
 }

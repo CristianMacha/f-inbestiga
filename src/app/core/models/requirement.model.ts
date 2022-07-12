@@ -4,6 +4,7 @@ import { Project } from "./project.model";
 export class Requirement {
   public id: number;
   public name: string;
+  public description: string;
   public filename: string;
   public url: string;
   public active: boolean;
@@ -15,6 +16,7 @@ export class Requirement {
   constructor() {
     this.id = 0;
     this.name = '';
+    this.description = '';
     this.filename = '';
     this.url = '';
     this.active = false;

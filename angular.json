@@ -103,6 +103,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "frontend-inbestiga:build:production",
+            "firebaseProject": "inbestiga-4e558",
+            "firebaseHostingSite": "inbestiga-4e558"
+          }
         }
       }
     }

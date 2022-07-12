@@ -5,8 +5,15 @@ import { Store } from '@ngrx/store';
 
 import { Project } from '@core/models';
 import { AppStateProjectFeature } from '../../store/project.reducers';
-import { loadProject, updateProjectActive } from '../../store/project.actions';
-import { projectFeatureProject } from '../../store/project.selectors';
+import {
+  activeFormR,
+  loadProject,
+  updateProjectActive,
+} from '../../store/project.actions';
+import {
+  projectFeatureActiveFormR,
+  projectFeatureProject,
+} from '../../store/project.selectors';
 
 @Component({
   selector: 'vs-project-detail',
@@ -17,6 +24,8 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   projectId: number = 0;
   project: Project = new Project();
+
+  activeFormR: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -31,6 +40,11 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         this.store.dispatch(loadProject({ projectId: this.projectId }));
       })
     );
+    this.subscription.add(
+      this.store
+        .select(projectFeatureActiveFormR)
+        .subscribe((resp) => (this.activeFormR = resp))
+    );
     this.getProject();
   }
 
@@ -44,6 +58,10 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         .select(projectFeatureProject)
         .subscribe((resp) => (this.project = resp))
     );
+  }
+
+  handleUploadUpdate() {
+    this.store.dispatch(activeFormR({ active: true }));
   }
 
   handleBtnToggleActiveProject() {

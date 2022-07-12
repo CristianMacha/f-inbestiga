@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "inbestiga-4e558"
+  },
+  "targets": {
+    "inbestiga-4e558": {
+      "hosting": {
+        "frontend-inbestiga": [
+          "inbestiga-4e558"
+        ]
+      }
+    }
   }
 }

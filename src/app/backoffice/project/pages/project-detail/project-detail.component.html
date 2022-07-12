@@ -5,20 +5,23 @@
       (click)="handleBtnArrowBack()">arrow_back</i>
       {{project.name | titlecase}}
   </h2>
-  <button class="btn bg-gradient-danger" *ngIf="project.active" (click)="handleBtnToggleActiveProject()">Deshabilitar Proyecto</button>
-  <button class="btn bg-gradient-success" *ngIf="!project.active" (click)="handleBtnToggleActiveProject()">Habilitar Proyecto</button>
+  <div style="display: flex; gap: .5rem; flex-wrap: wrap;">
+    <button class="btn bg-gradient-info" *ngIf="!activeFormR" (click)="handleUploadUpdate()">Subir Actualizacion</button>
+    <button class="btn bg-gradient-danger" *ngIf="project.active" (click)="handleBtnToggleActiveProject()">Deshabilitar Proyecto</button>
+    <button class="btn bg-gradient-success" *ngIf="!project.active" (click)="handleBtnToggleActiveProject()">Habilitar Proyecto</button>
+  </div>
 </div>
 <div class="row g-2">
   <div class="col-md-8">
     <div class="row g-2">
-      <div class="col-md-12">
+      <div class="col-md-12" *ngIf="activeFormR">
         <div class="card">
-          <vs-project-requirement-form></vs-project-requirement-form>
+          <vs-project-requirement-form [projectId]="projectId"></vs-project-requirement-form>
         </div>
       </div>
       <div class="col-md-12">
         <div class="card">
-          <vs-project-timeline></vs-project-timeline>
+          <vs-project-timeline [projectId]="projectId"></vs-project-timeline>
         </div>
       </div>
     </div>
