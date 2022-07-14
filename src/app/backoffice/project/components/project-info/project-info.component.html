@@ -1,0 +1,46 @@
+<div class="card-body">
+  <div>
+    <div>
+      <p><strong>Descripcion:</strong> {{project.description}}</p>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <h6 class="text-sm">Estudiantes</h6>
+        <div *ngFor="let pp of project.personProjects">
+          <p class="m-0" *ngIf="!pp.isAdvisor">{{pp.person.fullname}} {{pp.person.surnames}}</p>
+        </div>
+      </div>
+      <div>
+        <h6 class="text-sm">Asesores</h6>
+        <div *ngFor="let pp of project.personProjects">
+          <p class="m-0" *ngIf="pp.isAdvisor">{{pp.person.fullname}} {{pp.person.surnames}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="progress-wrapper">
+      <div class="progress-info">
+        <div class="mb-2" style="display: flex; gap: .5rem; align-items: center;">
+          <div class="input-group input-group-dynamic w-auto">
+            <span class="input-group-text" id="basic-addon1">%</span>
+            <input
+              class="form-control"
+              type="number"
+              max="100"
+              min="0"
+              [formControl]="progressControl"
+              (keyup.enter)="handleUpdateProgress()">
+          </div>
+          <div *ngIf="progressControl.dirty">
+            <button class="m-0 btn bg-gradient-info btn-sm" (click)="handleUpdateProgress()">Actualizar</button>
+          </div>
+        </div>
+      </div>
+      <div class="progress">
+        <div class="progress-bar bg-gradient-info" role="progressbar"
+          aria-valuemax="100" [style.width]="project.progress+'%'"></div>
+      </div>
+    </div>
+  </div>
+</div>

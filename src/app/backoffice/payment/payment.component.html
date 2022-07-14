@@ -1,0 +1,21 @@
+<div *ngIf="!showInvoiceDetail">
+  <h2>Pagos</h2>
+  <div class="card">
+    <vs-payment-table></vs-payment-table>
+  </div>
+</div>
+
+<div *ngIf="showInvoiceDetail">
+  <div style="display: flex; align-items: center;">
+    <i class="material-icons text-bold cursor-pointer" (click)="handleArrowBack()">arrow_back</i>
+    <h2>Detalles de pago</h2>
+  </div>
+  <div class="row g-2">
+    <div class="col-md-4">
+      <vs-invoice-detail [invoiceId]="invoice.id"></vs-invoice-detail>
+    </div>
+    <div class="col-md-8">
+      <vs-invoice-fee [invoiceId]="invoice.id"></vs-invoice-fee>
+    </div>
+  </div>
+</div>

@@ -25,6 +25,14 @@ const routes: Routes = [
       {
         path: 'profile',
         loadChildren: () => import('./profile/profile.module').then(profile => profile.ProfileModule),
+      },
+      {
+        path: 'pagos',
+        loadChildren: () => import('./payment/payment.module').then(payment => payment.PaymentModule),
+      },
+      {
+        path: 'dashboard',
+        loadChildren: () => import('./dashboard/dashboard.module').then(dashboard => dashboard.DashboardModule),
       }
     ]
   }

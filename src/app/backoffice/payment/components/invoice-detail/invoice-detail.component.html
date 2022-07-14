@@ -1,0 +1,21 @@
+<div class="card">
+  <div class="card-header mx-4 p-3 text-center">
+    <div class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
+      <i class="material-icons opacity-10">payments</i>
+    </div>
+  </div>
+  <div class="card-body pt-0 p-3 text-center">
+    <h6 class="text-center mb-0">{{invoice.project.name | titlecase}}</h6>
+    <span class="text-xs">{{invoice.project.description}}</span>
+    <hr class="horizontal dark my-3">
+    <h5 class="mb-0">{{invoice.total | currency}}</h5>
+    <hr class="horizontal dark my-3">
+    <h5
+      class="mb-0"
+      [class.text-danger]="invoice.status == 'PENDIENTE'"
+      [class.text-info]="invoice.status == 'PROCESANDO'"
+      [class.text-success]="invoice.status == 'PAGADO'">
+      {{invoice.status}}
+    </h5>
+  </div>
+</div>

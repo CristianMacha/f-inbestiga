@@ -7,3 +7,5 @@ export * from "./role.model";
 export * from "./personProject.model";
 export * from "./requirement.model";
 export * from "./commentary.model";
+export * from "./invoice.models";
+export * from "./fee.model";

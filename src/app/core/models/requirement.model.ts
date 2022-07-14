@@ -6,7 +6,7 @@ export class Requirement {
   public name: string;
   public description: string;
   public filename: string;
-  public url: string;
+  public code: string;
   public active: boolean;
   public createdAt: Date;
   public updatedAt: Date;
@@ -18,7 +18,7 @@ export class Requirement {
     this.name = '';
     this.description = '';
     this.filename = '';
-    this.url = '';
+    this.code = '';
     this.active = false;
     this.createdAt = new Date();
     this.updatedAt = new Date();

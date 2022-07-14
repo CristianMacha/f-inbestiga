@@ -1,7 +1,7 @@
 <div id="app-main">
     <router-outlet></router-outlet>
 </div>
-<div id="loader-container" class="fade-in" *ngIf="isLoading$ | async">
+<div id="loader-container" class="fade-in" *ngIf="isLoading">
     <img id="loader-img" src="assets/img/logo-ct-dark.png" alt="">
     <div id="loader" data-aos="zoom-in" style="transition: all ease-in-out .7s .12s;"></div>
 </div>

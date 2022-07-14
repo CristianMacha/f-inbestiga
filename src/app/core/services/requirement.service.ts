@@ -24,8 +24,6 @@ export class RequirementService {
   }
 
   getByProject(projectId: number): Observable<Requirement[]> {
-    console.log('sdsd');
-
     return this.http.get<Requirement[]>(`${this.uri}/project/${projectId}`);
   }
 }

@@ -28,7 +28,7 @@ export class ProjectRequirementFormComponent implements OnInit, OnDestroy {
   progressUploadFile: number = 0;
   filename: string = '';
 
-  editMode: boolean = true;
+  editMode: boolean = false;
   title: string = 'Subir actualizacion';
   btnActionText = 'Subir Actualizacion';
 
@@ -61,6 +61,8 @@ export class ProjectRequirementFormComponent implements OnInit, OnDestroy {
       'id'
     ].patchValue(this.projectId);
 
+    console.log(this.editMode);
+
     this.editMode ? this.update() : this.create();
   }
 
@@ -68,7 +70,7 @@ export class ProjectRequirementFormComponent implements OnInit, OnDestroy {
     this.requirementService
       .create(this.requirementForm.value)
       .subscribe((resp) => {
-        this.filename = resp.filename;
+        this.filename = resp.code;
         this.upploadImage();
         this.store.dispatch(loadRequirements({ projectId: resp.project.id }));
       });
@@ -78,7 +80,7 @@ export class ProjectRequirementFormComponent implements OnInit, OnDestroy {
     this.requirementService
       .update(this.requirementForm.value)
       .subscribe((resp) => {
-        this.filename = resp.filename;
+        this.filename = resp.code;
         this.file && this.upploadImage();
         this.store.dispatch(loadRequirements({ projectId: resp.project.id }));
         this.handleCancel();
@@ -139,10 +141,6 @@ export class ProjectRequirementFormComponent implements OnInit, OnDestroy {
   }
 
   handleCancel(): void {
-    // this.file = null;
-    // const requirement = new Requirement()
-    // this.requirementForm.reset(requirement);
-    // this.progressUploadFile = 0;
     this.store.dispatch(activeFormR({ active: false }));
   }
 }

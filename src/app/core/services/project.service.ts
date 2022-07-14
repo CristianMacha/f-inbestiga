@@ -38,4 +38,8 @@ export class ProjectService {
   updateActive(projectId: number): Observable<Project> {
     return this.http.get<Project>(`${this.uri}/update/active/${projectId}`);
   }
+
+  updateProgress(projectId: number, progress: number): Observable<Project> {
+    return this.http.patch<Project>(`${this.uri}/progress/${projectId}`, { progress });
+  }
 }

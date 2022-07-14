@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import {ReactiveFormsModule} from "@angular/forms";
 
 import { BackofficeComponent } from './backoffice.component';
 import { BackofficeRoutingModule } from './backoffice-routing.module';
-import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
@@ -13,6 +14,7 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     CommonModule,
     RouterModule,
+    ReactiveFormsModule,
     BackofficeRoutingModule,
     SharedModule,
   ]

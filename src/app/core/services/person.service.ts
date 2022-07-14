@@ -1,15 +1,15 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
 
-import { environment } from '../../../environments/environment';
-import { Person } from '@core/models';
+import {environment} from '../../../environments/environment';
+import {Person} from '@core/models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PersonService {
-  private uri: string;
+  private readonly uri: string;
 
   constructor(private http: HttpClient) {
     this.uri = `${environment.url}/person`;
@@ -29,5 +29,9 @@ export class PersonService {
 
   public getByCodeAndRole(code: string, roleId: number): Observable<Person> {
     return this.http.get<Person>(`${this.uri}/find/members?code=${code}&roleId=${roleId}`);
+  }
+
+  public getByUser(userId: number): Observable<Person> {
+    return this.http.get<Person>(`${this.uri}/user/${userId}`);
   }
 }

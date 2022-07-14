@@ -16,6 +16,7 @@ import { ProjectRequirementFormComponent } from './components/project-requiremen
 import { projectFeatureKey, _projectReducer } from './store/project.reducers';
 import { ProjectEffects } from './store/project.effects';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { ProjectInfoComponent } from './components/project-info/project-info.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
     ProjectDetailComponent,
     ProjectTimelineComponent,
     ProjectCommentsComponent,
-    ProjectRequirementFormComponent
+    ProjectRequirementFormComponent,
+    ProjectInfoComponent
   ],
   imports: [
     CommonModule,

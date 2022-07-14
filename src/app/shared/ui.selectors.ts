@@ -18,3 +18,8 @@ export const uiFeatureUser = createSelector(
     uiFeature,
     (state: uiState) => state.user,
 );
+
+export const uiPersonRoles = createSelector(uiFeature, (state) => state.personRoles);
+export const uiRoleSelected = createSelector(uiFeature, (state) => state.roleSelected);
+
+export const uiPerson = createSelector(uiFeature, (state) => state.person);
