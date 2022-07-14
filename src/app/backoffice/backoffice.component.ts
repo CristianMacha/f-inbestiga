@@ -37,7 +37,7 @@ export class BackofficeComponent implements OnInit, OnDestroy {
     this.store.dispatch(loadPersonRoles());
     this.getPersonRoles();
     this.roleControl.valueChanges.subscribe(resp => resp && this.store.dispatch(loadRoleSelected({roleId: resp})));
-    this.router.navigateByUrl('/backoffice/dashboard');
+    // this.router.navigateByUrl('/backoffice');
   }
 
   ngOnDestroy(): void {

@@ -17,7 +17,7 @@ export class AuthEffects {
                     .pipe(
                         map(resp => {
                             localStorage.setItem('token', resp.token);
-                            this.router.navigateByUrl('backoffice');
+                            this.router.navigateByUrl('backoffice/dashboard');
                             return setUser({ user: resp.userDb});
                         }),
                         catchError(err => of(loginError({ payload: err })))
