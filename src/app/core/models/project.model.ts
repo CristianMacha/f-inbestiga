@@ -1,6 +1,8 @@
-import { Invoice } from "./invoice.models";
-import { PersonProject } from "./personProject.model";
-import { Requirement } from "./requirement.model";
+import {Invoice} from "./invoice.models";
+import {PersonProject} from "./personProject.model";
+import {Requirement} from "./requirement.model";
+import {EInvoiceStatus} from "../enums/invoice.enum";
+import {EProjectStatus} from "../enums/project.enum";
 
 export class Project {
   public id: number;
@@ -8,7 +10,8 @@ export class Project {
   public description: string;
   public progress: number;
   public inProgress: boolean;
-  public status: string;
+  public statusPay: EInvoiceStatus;
+  public status: EProjectStatus;
   public expirationDate: Date | string;
   public active: boolean;
   public deleted: boolean;
@@ -24,7 +27,8 @@ export class Project {
     this.description = '';
     this.progress = 0;
     this.inProgress = false;
-    this.status = '';
+    this.statusPay = EInvoiceStatus.PENDING;
+    this.status = EProjectStatus.PENDING;
     this.expirationDate = new Date();
     this.active = false;
     this.deleted = false;

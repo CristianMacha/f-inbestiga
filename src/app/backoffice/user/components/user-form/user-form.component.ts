@@ -3,13 +3,12 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
-declare function loadInputs(): any;
-
 import { AppStateUserFeature } from '../../store/user.reducer';
 import { activeDetails, activeForm, createPerson, updatePerson } from '../../store/user.actions';
 import { userFeature, userFeatureLoading } from '../../store/user.selectors';
 import { Person } from '@core/models';
 
+declare function loadInputs(): any;
 
 @Component({
   selector: 'vs-user-form',
@@ -23,13 +22,14 @@ export class UserFormComponent implements OnInit, OnDestroy {
     surnames: new FormControl('', Validators.required),
     phone: new FormControl('', [Validators.required, Validators.minLength(7)]),
     user: new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email])
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, Validators.minLength(7)]),
     }),
     personRoles: new FormArray([
       new FormGroup({
         id: new FormControl(0, Validators.required),
         role: new FormGroup({
-          id: new FormControl(0, Validators.required)
+          id: new FormControl(0, [Validators.required, Validators.min(1)])
         })
       })
     ], Validators.required)
@@ -38,8 +38,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
   title: string = 'Nuevo usuario';
   btnActionText: string = 'Crear usuario';
 
-  subcription: Subscription = new Subscription();
-  loading$: Observable<boolean> = new Observable();
+  subscription: Subscription = new Subscription();
+  loading: boolean = false;
 
   editMode: boolean = false;
   fromDetail: boolean = false;
@@ -52,12 +52,11 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     loadInputs();
-    this.loading$ = this.store.select(userFeatureLoading);
     this.checkFormStatus();
   }
 
   ngOnDestroy(): void {
-    this.subcription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   get rolesForm() {
@@ -77,11 +76,13 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   checkFormStatus() {
-    this.subcription.add(
+    this.subscription.add(
       this.store.select(userFeature).subscribe(
         (resp) => {
+          this.loading = resp.loading;
           if (resp.editMode) {
-            (this.personForm.controls['user'] as FormGroup).controls['email'].disable()
+            (this.personForm.controls['user'] as FormGroup).controls['email'].disable();
+            (this.personForm.controls['user'] as FormGroup).controls['password'].disable();
             this.editMode = true;
             this.fromDetail = resp.details;
             this.personSelected = resp.personSelected;

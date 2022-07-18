@@ -21,15 +21,25 @@
             <input class="form-control" formControlName="surnames">
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-12">
           <div formGroupName="user">
-            <div class="input-group input-group-static">
-              <label>Email</label>
-              <input 
-                type="email" 
-                class="form-control" 
-                formControlName="email"
-                autocomplete="off">
+            <div class="row g-2">
+              <div class="col-md-6">
+                  <div class="input-group input-group-static">
+                    <label>Email</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      formControlName="email"
+                      autocomplete="off">
+                  </div>
+              </div>
+              <div class="col-md-6">
+                <div class="input-group input-group-static">
+                  <label>Contraseña</label>
+                  <input type="password" class="form-control" formControlName="password">
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -67,9 +77,9 @@
         <button class="btn" (click)="handleBtnCancel()">Cancelar</button>
       </div>
       <div>
-        <button 
+        <button
           class="btn bg-gradient-info"
-          [disabled]="loading$ | async"
+          [disabled]="personForm.invalid || loading"
           (click)="handleBtnActionUser()">{{btnActionText}}</button>
       </div>
     </div>
