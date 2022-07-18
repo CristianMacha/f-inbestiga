@@ -1,6 +1,6 @@
-import { createAction, props } from '@ngrx/store';
+import {createAction, props} from '@ngrx/store';
 
-import { Project, Requirement } from '@core/models';
+import {Project, Requirement} from '@core/models';
 
 export const createProject = createAction(
   '[Project Component] Create Project',
@@ -20,7 +20,7 @@ export const setProject = createAction(
   props<{ project: Project }>()
 );
 
-export const loadProjects = createAction('[Project Component] Load Projects');
+export const loadProjects = createAction('[Project Component] Load Projects', props<{ roleId: number }>());
 export const loadProjectsSuccess = createAction(
   '[Project Component] Load Projects Success',
   props<{ projects: Project[] }>()

@@ -6,6 +6,7 @@ import { Person } from '@core/models';
 import { AppStateUserFeature } from '../../store/user.reducer';
 import { userFeaturePersons } from '../../store/user.selectors';
 import { activeDetails, activeFormUpdate, loadPersons } from '../../store/user.actions';
+import { IdRole } from "@core/enums";
 
 @Component({
   selector: 'vs-user-table',
@@ -14,6 +15,7 @@ import { activeDetails, activeFormUpdate, loadPersons } from '../../store/user.a
 })
 export class UserTableComponent implements OnInit {
   persons$: Observable<Person[]> = new Observable();
+  idRole = IdRole;
 
   constructor(
     private store: Store<AppStateUserFeature>,

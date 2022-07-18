@@ -7,6 +7,7 @@
         <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Codigo</th>
         <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Celular</th>
         <th class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
+        <th class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Roles</th>
         <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Acciones</th>
       </tr>
     </thead>
@@ -17,17 +18,29 @@
         <td class="align-middle text-end">{{person.code}}</td>
         <td class="align-middle text-end">{{person.phone}}</td>
         <td class="align-middle text-start">{{person.user.email}}</td>
+        <td class="align-middle text-start">
+          <div style="display: flex;">
+            <span
+                *ngFor="let personRole of person.personRoles"
+                class="badge badge-pill"
+                [class.bg-gradient-primary]="personRole.role.id == idRole.ADMINISTRATOR"
+                [class.bg-gradient-dark]="personRole.role.id == idRole.STUDENT"
+                [class.bg-gradient-success]="personRole.role.id == idRole.ADVISOR">
+              {{personRole.role.name}}
+            </span>
+          </div>
+        </td>
         <td class="align-middle">
           <div style="display: flex; gap: 2px; justify-content: end;">
             <div>
-              <button 
+              <button
                 class="btn btn-icon btn-primary"
                 (click)="handleBtnEdit(person)">
                   <i class="material-icons">edit</i>
               </button>
             </div>
             <div>
-              <button 
+              <button
                 class="btn btn-icon btn-secondary"
                 (click)="handleBtnView(person)"><i class="material-icons">visibility</i></button>
             </div>

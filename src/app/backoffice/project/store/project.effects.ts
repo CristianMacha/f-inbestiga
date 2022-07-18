@@ -22,7 +22,7 @@ export class ProjectEffects {
     this.actions$.pipe(
       ofType(loadProjects),
       mergeMap((resp) =>
-        this.projectService.getProjects().pipe(
+        this.projectService.getProjects(resp.roleId).pipe(
           map((resp) => loadProjectsSuccess({ projects: resp })),
           catchError((err) => of(setError({ payload: err })))
         )

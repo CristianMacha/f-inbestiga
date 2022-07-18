@@ -1,9 +1,9 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
 
-import { environment } from '../../../environments/environment';
-import { Project } from '../models/project.model';
+import {environment} from '../../../environments/environment';
+import {Project} from '../models/project.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,8 +19,8 @@ export class ProjectService {
     return this.http.get<Project>(`${this.uri}/${projectId}`);
   }
 
-  getProjects(): Observable<Project[]> {
-    return this.http.get<Project[]>(`${this.uri}`);
+  getProjects(roleId: number): Observable<Project[]> {
+    return this.http.get<Project[]>(`${this.uri}/role/${roleId}`);
   }
 
   create(project: Project): Observable<Project> {
@@ -40,6 +40,6 @@ export class ProjectService {
   }
 
   updateProgress(projectId: number, progress: number): Observable<Project> {
-    return this.http.patch<Project>(`${this.uri}/progress/${projectId}`, { progress });
+    return this.http.patch<Project>(`${this.uri}/progress/${projectId}`, {progress});
   }
 }
