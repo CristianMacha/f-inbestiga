@@ -15,8 +15,8 @@ import { CoreModule } from '../../core/core.module';
 import { ProjectRequirementFormComponent } from './components/project-requirement-form/project-requirement-form.component';
 import { projectFeatureKey, _projectReducer } from './store/project.reducers';
 import { ProjectEffects } from './store/project.effects';
-import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { ProjectInfoComponent } from './components/project-info/project-info.component';
+import { ProjectFilterComponent } from './components/project-filter/project-filter.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +27,11 @@ import { ProjectInfoComponent } from './components/project-info/project-info.com
     ProjectTimelineComponent,
     ProjectCommentsComponent,
     ProjectRequirementFormComponent,
-    ProjectInfoComponent
+    ProjectInfoComponent,
+    ProjectFilterComponent
+  ],
+  exports: [
+    ProjectDetailComponent
   ],
   imports: [
     CommonModule,

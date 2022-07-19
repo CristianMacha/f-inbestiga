@@ -17,10 +17,35 @@
         </div>
 
         <div class="mt-2">
-          <div style="display: flex; flex-wrap: nowrap; align-content: center; gap: .5rem;">
-            <div style="display: flex; align-content: center; align-items: center;"><i class="material-icons">event</i>
+          <div>
+            <div style="display: flex; flex-wrap: nowrap; align-content: center; gap: .5rem;">
+              <div style="display: flex; align-content: center; align-items: center;"><i
+                class="material-icons">event</i>
+              </div>
+              <span>{{project.createdAt | date}}</span>
             </div>
-            <span>{{project.createdAt | date}}</span>
+
+            <div *ngFor="let personProject of project.personProjects">
+              <div
+                style="display: flex; flex-wrap: nowrap; align-content: center; gap: .5rem;"
+                *ngIf="personProject.isAdvisor">
+                <div style="display: flex; align-content: center; align-items: center;"><i
+                  class="material-icons">person</i>
+                </div>
+                <span>Asesor: {{personProject.person.fullname}}</span>
+              </div>
+            </div>
+
+            <div *ngFor="let personProject of project.personProjects">
+              <div
+                style="display: flex; flex-wrap: nowrap; align-content: center; gap: .5rem;"
+                *ngIf="!personProject.isAdvisor">
+                <div style="display: flex; align-content: center; align-items: center;"><i
+                  class="material-icons">person</i>
+                </div>
+                <span>Estudiante: {{personProject.person.fullname}}</span>
+              </div>
+            </div>
           </div>
         </div>
         <div class="text-end">
@@ -33,4 +58,6 @@
   <div class="border-radius-lg bg-gray-100 border-0 p-4" *ngIf="projects.length == 0">
     <p class="m-0"> No tiene proyectos .</p>
   </div>
+
 </div>
+

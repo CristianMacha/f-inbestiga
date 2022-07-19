@@ -1,6 +1,8 @@
 <div>
   <div class="card-body">
-    <h2 class="card-title"><i class="material-icons cursor-pointer" (click)="handleBtnBack()">arrow_back</i> {{person.fullname | titlecase}} {{person.surnames | titlecase}}</h2>
+    <h2 class="card-title"><i class="material-icons cursor-pointer"
+                              (click)="handleBtnBack()">arrow_back</i> {{person.fullname | titlecase}} {{person.surnames | titlecase}}
+    </h2>
     <div class="row g-3 mt-2">
       <div class="col-md-4">
         <div class="card">
@@ -8,18 +10,29 @@
             <h5>Informacion personal</h5>
             <div>
               <ul class="list-group">
-                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Email:</strong> {{person.user.email}}</li>
-                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Teléfono:</strong> {{person.phone}}</li>
-                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Rol:</strong> {{person.personRoles[0].role.name}}</li>
-                </ul>
+                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong
+                  class="text-dark">Email:</strong> {{person.user.email}}</li>
+                <li class="list-group-item border-0 ps-0 text-sm"><strong
+                  class="text-dark">Teléfono:</strong> {{person.phone}}</li>
+                <li class="list-group-item border-0 ps-0 text-sm"><strong
+                  class="text-dark">Rol:</strong> {{person.personRoles[0].role.name}}</li>
+              </ul>
             </div>
-            <button class="btn bg-gradient-info" (click)="handleBtnEditUser()">Editar usuario <i class="material-icons">edit</i></button>
+            <button class="btn bg-gradient-info" (click)="handleBtnEditUser()">Editar usuario <i class="material-icons">edit</i>
+            </button>
           </div>
         </div>
       </div>
       <div class="col-md-8">
         <h5>Proyectos</h5>
-        <vs-project-list [projects]="projects"></vs-project-list>
+        <div class="row g-2">
+          <div class="col-lg-4 col-md-6" *ngFor="let project of projects">
+            <vs-project-detail [project]="project"></vs-project-detail>
+          </div>
+          <div class="border-radius-lg bg-gray-100 border-0 p-4" *ngIf="projects.length == 0">
+            <p class="m-0">No tiene proyectos.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

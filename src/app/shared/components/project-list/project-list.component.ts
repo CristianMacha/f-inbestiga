@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Project } from '@core/models';
+
+import {PersonProject, Project} from '@core/models';
+import {PersonProjectService} from "@core/services";
 
 @Component({
   selector: 'vs-project-list',
@@ -9,14 +11,22 @@ import { Project } from '@core/models';
 })
 export class ProjectListComponent implements OnInit {
   @Input() projects: Project[] = [];
+  personsProject: PersonProject[] = [];
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private personProjectService: PersonProjectService,
+  ) { }
 
   ngOnInit(): void {
   }
 
   seeProject(projectId: number) {
     this.router.navigateByUrl(`backoffice/project/${projectId}`);
+  }
+
+  getPersonsProject(projectId: number): void {
+    console.log('f', projectId)
   }
 
 }

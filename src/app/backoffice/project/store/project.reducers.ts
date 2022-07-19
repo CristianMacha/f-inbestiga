@@ -9,7 +9,7 @@ import {
   activeFormRUpdate,
   activeFormUpdate,
   loadProject,
-  loadProjects,
+  loadProjects, loadProjectsFilter,
   loadProjectsSuccess,
   loadRequirements,
   pushProject,
@@ -64,6 +64,7 @@ export const _projectReducer = createReducer(
     activeForm: false,
   })),
   on(loadProjects, (state) => ({ ...state, loaded: false, loading: true })),
+  on(loadProjectsFilter, (state) => ({...state, loading: true})),
   on(loadProjectsSuccess, (state, { projects }) => ({
     ...state,
     loaded: true,

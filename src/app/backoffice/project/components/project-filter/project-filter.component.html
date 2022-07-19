@@ -1,0 +1,14 @@
+<div class="card-body">
+    <h5 class="card-title">Filtro de busqueda</h5>
+  <div style="display: flex; justify-content: right; gap: .5rem;">
+    <div class="group">
+      <div class="input-group input-group-static">
+        <label>Estado</label>
+        <select class="form-control" [formControl]="statusControl">
+          <option selected [value]="'ALL'">Todo</option>
+          <option *ngFor="let projectStatus of cProjectStatus" [value]="projectStatus">{{projectStatus}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>

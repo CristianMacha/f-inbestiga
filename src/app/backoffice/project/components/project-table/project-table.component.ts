@@ -8,6 +8,7 @@ import {AppStateProjectFeature} from '../../store/project.reducers';
 import {activeFormUpdate, loadProjects} from '../../store/project.actions';
 import {projectFeatureProjects} from '../../store/project.selectors';
 import {uiRoleSelected} from "../../../../shared/ui.selectors";
+import {CProjectStatus, EProjectStatus} from "@core/enums";
 
 @Component({
   selector: 'vs-project-table',
@@ -17,6 +18,8 @@ import {uiRoleSelected} from "../../../../shared/ui.selectors";
 export class ProjectTableComponent implements OnInit {
   subscription: Subscription = new Subscription();
   projects$: Observable<Project[]> = new Observable();
+
+  cProjectStatus = CProjectStatus;
 
   constructor(
     private store: Store<AppStateProjectFeature>,

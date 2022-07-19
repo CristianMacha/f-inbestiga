@@ -2,10 +2,12 @@
   <h2>Mis Proyectos</h2>
 </div>
 
-<vs-project-list [projects]="projects"></vs-project-list>
+<div class="row g-2">
+  <div class="col-lg-4 col-md-6" *ngFor="let project of projects">
+    <vs-project-detail [project]="project"></vs-project-detail>
+  </div>
 
-<!--<div class="mt-4">-->
-<!--  <h2>Mis pagos</h2>-->
-<!--</div>-->
-
-<!--<vs-invoice-list [invoices]="invoices"></vs-invoice-list>-->
+  <div class="border-radius-lg bg-gray-100 border-0 p-4" *ngIf="projects.length == 0">
+    <p class="m-0">No tiene proyectos.</p>
+  </div>
+</div>
