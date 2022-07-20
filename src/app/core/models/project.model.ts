@@ -7,6 +7,7 @@ import {EProjectStatus} from "../enums/project.enum";
 export class Project {
   public id: number;
   public name: string;
+  public code: string;
   public description: string;
   public progress: number;
   public inProgress: boolean;
@@ -24,6 +25,7 @@ export class Project {
   constructor() {
     this.id = 0;
     this.name = '';
+    this.code = '';
     this.description = '';
     this.progress = 0;
     this.inProgress = false;

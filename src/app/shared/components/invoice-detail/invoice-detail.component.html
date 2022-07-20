@@ -1,6 +1,10 @@
 <div class="card">
   <div class="card-header mx-4 p-3 text-center">
-    <div class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
+    <div
+      class="icon icon-shape icon-lg shadow text-center border-radius-lg"
+      [class.bg-gradient-danger]="invoice.status == cInvoiceStatus.PENDING"
+      [class.bg-gradient-info]="invoice.status == cInvoiceStatus.PROCESSING"
+      [class.bg-gradient-success]="invoice.status == cInvoiceStatus.PAID_OUT">
       <i class="material-icons opacity-10">payments</i>
     </div>
   </div>
@@ -12,9 +16,9 @@
     <hr class="horizontal dark my-3">
     <h5
       class="mb-0"
-      [class.text-danger]="invoice.status == 'PENDIENTE'"
-      [class.text-info]="invoice.status == 'PROCESANDO'"
-      [class.text-success]="invoice.status == 'PAGADO'">
+      [class.text-danger]="invoice.status == cInvoiceStatus.PENDING"
+      [class.text-info]="invoice.status == cInvoiceStatus.PROCESSING"
+      [class.text-success]="invoice.status == cInvoiceStatus.PAID_OUT">
       {{invoice.status}}
     </h5>
   </div>

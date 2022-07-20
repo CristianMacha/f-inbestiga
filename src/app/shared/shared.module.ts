@@ -3,15 +3,15 @@ import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
 
 import {BackofficeNavComponent} from './components/backoffice-nav/backoffice-nav.component';
-import {ProjectListComponent} from './components/project-list/project-list.component';
 import {InvoiceListComponent} from './components/invoice-list/invoice-list.component';
 import {ProjectDetailComponent} from './components/project-detail/project-detail.component';
+import { InvoiceDetailComponent } from './components/invoice-detail/invoice-detail.component';
 
 const COMPONENTS_SHARED = [
-  ProjectListComponent,
   BackofficeNavComponent,
   InvoiceListComponent,
-  ProjectDetailComponent
+  ProjectDetailComponent,
+  InvoiceDetailComponent
 ]
 
 @NgModule({

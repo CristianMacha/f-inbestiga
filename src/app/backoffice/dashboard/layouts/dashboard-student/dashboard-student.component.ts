@@ -45,7 +45,7 @@ export class DashboardStudentComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.store.select(uiPerson).subscribe((resp) => {
         this.getProjects(resp.id);
-        // this.getInvoices(resp.id)
+        this.getInvoices(resp.id)
 ;      })
     )
   }

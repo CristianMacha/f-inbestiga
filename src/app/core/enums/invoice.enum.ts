@@ -1,7 +1,7 @@
 export enum EInvoiceStatus {
-  PENDING   = 'PENDIENTE',
+  PENDING = 'PENDIENTE',
   PROCESSING = 'PROCESANDO',
-  PAID_OUT  = 'PAGADO',
+  PAID_OUT = 'PAGADO',
 }
 
 export enum EInvoicePaymentMethod {
@@ -14,3 +14,8 @@ export enum EInvoicePaymentMethod {
   CASH_PAYMENT = 'EFECTIVO',
 }
 
+export const CInvoiceStatus = {
+  PENDING: 'PENDIENTE',
+  PROCESSING: 'PROCESANDO',
+  PAID_OUT: 'PAGADO'
+}

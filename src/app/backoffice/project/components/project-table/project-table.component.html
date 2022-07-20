@@ -2,10 +2,9 @@
   <table class="table align-items-center mb-0">
     <thead>
       <tr>
-        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PROYECTO</th>
+        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"># CODIGO</th>
+        <th class="text-uppercase text-start text-secondary text-xxs font-weight-bolder opacity-7">PROYECTO</th>
         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">DESCRIPCIÓN</th>
-        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">ASESOR</th>
-        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">ESTUDIANTE</th>
         <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">VENCIMIENTO</th>
         <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ESTADO</th>
         <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ACCIONES</th>
@@ -13,18 +12,9 @@
     </thead>
     <tbody>
       <tr *ngFor="let project of projects$ | async">
-        <td class="align-middle">{{project.name}}</td>
+        <td class="align-middle">{{project.code}}</td>
+        <td class="align-middle text-start">{{project.name}}</td>
         <td class="align-middle">{{project.description}}</td>
-        <td class="align-middle">
-          <div *ngFor="let personProject of project.personProjects">
-            <span *ngIf="personProject.isAdvisor">{{personProject.person.fullname}}</span>
-          </div>
-        </td>
-        <td class="align-middle">
-          <div *ngFor="let personProject of project.personProjects">
-            <span *ngIf="!personProject.isAdvisor">{{personProject.person.fullname}}</span>
-          </div>
-        </td>
         <td class="align-middle text-end">{{project.expirationDate | date}}</td>
         <td class="align-middle text-end">
           <span

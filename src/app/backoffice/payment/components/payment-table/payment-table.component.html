@@ -4,31 +4,53 @@
       <thead>
       <tr>
         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Projecto</th>
+        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Asesor</th>
+        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Estudiante</th>
         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Monto</th>
         <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Estado</th>
         <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cuotas</th>
-        <th class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha vencimineto</th>
+        <th class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha vencimineto
+        </th>
         <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Acciones</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let invoice of invoices$ | async">
         <td class="align-middle">{{invoice.project.name | titlecase}}</td>
+        <td class="align-middle">
+          <div *ngFor="let pp of invoice.project.personProjects">
+            <span *ngIf="pp.isAdvisor">{{pp.person.fullname}}</span>
+          </div>
+        </td>
+        <td class="align-middle">
+          <div *ngFor="let pp of invoice.project.personProjects">
+            <span *ngIf="!pp.isAdvisor">{{pp.person.fullname}}</span>
+          </div>
+        </td>
         <td class="align-middle">{{invoice.total | currency}}</td>
-        <td class="align-middle text-end">{{invoice.status}}</td>
+        <td class="align-middle text-end">
+          <span
+            class="badge"
+            [class.bg-gradient-danger]="invoice.status == cInvoiceStatus.PENDING"
+            [class.bg-gradient-info]="invoice.status == cInvoiceStatus.PROCESSING"
+            [class.bg-gradient-success]="invoice.status == cInvoiceStatus.PAID_OUT">
+              {{invoice.status}}
+          </span>
+        </td>
         <td class="align-middle text-end">{{invoice.feesNumber}}</td>
         <td class="align-middle text-start">{{invoice.expirationDate | date}}</td>
         <td class="align-middle">
           <div style="display: flex; gap: 2px; justify-content: end;">
-<!--            <div>-->
-<!--              <button-->
-<!--                class="btn btn-icon btn-primary">-->
-<!--                <i class="material-icons">edit</i>-->
-<!--              </button>-->
-<!--            </div>-->
+            <!--            <div>-->
+            <!--              <button-->
+            <!--                class="btn btn-icon btn-primary">-->
+            <!--                <i class="material-icons">edit</i>-->
+            <!--              </button>-->
+            <!--            </div>-->
             <div>
               <button
-                class="btn btn-icon btn-secondary" (click)="handleViewPayment(invoice)"><i class="material-icons">visibility</i></button>
+                class="btn btn-icon btn-secondary" (click)="handleViewPayment(invoice)"><i class="material-icons">visibility</i>
+              </button>
             </div>
           </div>
         </td>

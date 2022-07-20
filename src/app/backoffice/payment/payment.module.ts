@@ -7,15 +7,14 @@ import {PaymentComponent} from './payment.component';
 import {PaymentRoutingModule} from "./payment-routing.module";
 import {_paymentReducer, paymentFeatureKey} from "./store/payment.reducers";
 import {PaymentEffects} from "./store/payment.effects";
-import { PaymentTableComponent } from './components/payment-table/payment-table.component';
-import { InvoiceDetailComponent } from './components/invoice-detail/invoice-detail.component';
-import { InvoiceFeeComponent } from './components/invoice-fee/invoice-fee.component';
+import {PaymentTableComponent} from './components/payment-table/payment-table.component';
+import {InvoiceFeeComponent} from './components/invoice-fee/invoice-fee.component';
+import {SharedModule} from "../../shared/shared.module";
 
 @NgModule({
   declarations: [
     PaymentComponent,
     PaymentTableComponent,
-    InvoiceDetailComponent,
     InvoiceFeeComponent
   ],
   imports: [
@@ -23,6 +22,7 @@ import { InvoiceFeeComponent } from './components/invoice-fee/invoice-fee.compon
     PaymentRoutingModule,
     StoreModule.forFeature(paymentFeatureKey, _paymentReducer),
     EffectsModule.forFeature([PaymentEffects]),
+    SharedModule
   ]
 })
 export class PaymentModule {

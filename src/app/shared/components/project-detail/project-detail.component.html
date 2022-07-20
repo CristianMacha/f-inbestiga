@@ -1,6 +1,9 @@
 <div class="card">
+  <div class="card-header">
+    <h5 class="card-title m-0">{{project.name | titlecase}}</h5>
+    <small class="mb-2"># {{project.code}}</small>
+  </div>
   <div class="card-body">
-    <h5 class="card-title">{{project.name | titlecase}}</h5>
 
     <div class="progress-wrapper">
       <div class="progress-info">
@@ -46,6 +49,8 @@
         </div>
       </div>
     </div>
+  </div>
+  <div class="card-footer">
     <div class="text-end">
       <button class="btn btn-link m-0" (click)="seeProject()">ver proyecto</button>
     </div>

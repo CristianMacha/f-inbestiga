@@ -11,3 +11,13 @@
     <p class="m-0">No tiene proyectos.</p>
   </div>
 </div>
+
+<div class="mt-4">
+  <h2>Pagos</h2>
+
+  <div class="row g-2">
+    <div class="col-lg-4 col-md-6" *ngFor="let invoice of invoices">
+      <vs-invoice-detail [invoice]="invoice"></vs-invoice-detail>
+    </div>
+  </div>
+</div>

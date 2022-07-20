@@ -38,9 +38,9 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   projectForm: FormGroup = new FormGroup({
     id: new FormControl(0, Validators.required),
     name: new FormControl('', Validators.required),
-    description: new FormControl('', Validators.required),
+    description: new FormControl(''),
     expirationDate: new FormControl('', Validators.required),
-    personProjects: new FormArray([], Validators.required),
+    personProjects: new FormArray([]),
     category: new FormGroup({
       id: new FormControl(0, Validators.required),
       name: new FormControl(''),
@@ -99,11 +99,11 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
   addPersonProjects(personProject: PersonProject) {
     const personProjectControl = this.formBuilder.group({
-      id: new FormControl(personProject.id, Validators.required),
-      isAdvisor: new FormControl(personProject.isAdvisor, Validators.required),
-      active: new FormControl(personProject.active, Validators.required),
+      id: new FormControl(personProject.id),
+      isAdvisor: new FormControl(personProject.isAdvisor),
+      active: new FormControl(personProject.active),
       person: new FormGroup({
-        id: new FormControl(personProject.person.id, Validators.required),
+        id: new FormControl(personProject.person.id),
         fullname: new FormControl(personProject.person.fullname),
         surnames: new FormControl(personProject.person.surnames),
       }),

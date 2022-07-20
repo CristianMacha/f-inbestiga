@@ -6,6 +6,7 @@ import {Invoice} from "@core/models";
 import {AppStatePaymentFeature} from "../../store/payment.reducers";
 import {loadPayments, selectPayment} from "../../store/payment.actions";
 import {paymentFeatureInvoices} from "../../store/payment.selectors";
+import {CInvoiceStatus} from "../../../../core/enums/invoice.enum";
 
 @Component({
   selector: 'vs-payment-table',
@@ -14,6 +15,8 @@ import {paymentFeatureInvoices} from "../../store/payment.selectors";
 })
 export class PaymentTableComponent implements OnInit {
   invoices$: Observable<Invoice[]> = new Observable();
+
+  cInvoiceStatus = CInvoiceStatus;
 
   constructor(private store: Store<AppStatePaymentFeature>) {
   }
