@@ -23,10 +23,10 @@
           <div formArrayName="invoices">
             <div *ngFor="let invoiceControl of invoicesControls.controls; let i = index;">
               <div [formGroupName]="i">
-                  <div class="input-group input-group-static">
-                    <label>Costo</label>
-                    <input class="form-control" type="number" formControlName="total">
-                  </div>
+                <div class="input-group input-group-static">
+                  <label>Costo</label>
+                  <input class="form-control" type="number" formControlName="total">
+                </div>
               </div>
             </div>
           </div>
@@ -47,7 +47,8 @@
           <h6>Integrantes y asesores</h6>
           <div class="row g-2">
             <div class="col-md-6">
-              <div style="display: flex; justify-content: space-between; gap: .5rem;">
+              <div style="display: flex; justify-content: space-between; gap: .5rem;"
+                   *ngIf="roleSelected.id === cRole.ADMINISTRATOR || roleSelected.id === cRole.ADVISOR">
                 <div class="input-group input-group-static">
                   <label>Buscar estudiante</label>
                   <input
@@ -61,7 +62,8 @@
                 </div>
               </div>
 
-              <div class="mt-2" style="display: flex; justify-content: space-between; gap: .5rem;">
+              <div class="mt-2" style="display: flex; justify-content: space-between; gap: .5rem;"
+                   *ngIf="roleSelected.id === cRole.ADMINISTRATOR">
                 <div class="input-group input-group-static">
                   <label>Buscar asesor</label>
                   <input
@@ -78,22 +80,23 @@
             <div class="col-md-6">
               <div formArrayName="personProjects">
                 <div *ngFor="let personProject of personProjectsControls.controls; let i = index; ">
-                    <div [formGroupName]="i">
-                      <div style="display: flex; align-items: center; gap: .5rem;">
-                        <p style="margin: 0;" [ngStyle]="{'text-decoration': personProject.value.active ? 'none' : 'line-through'}">
-                          {{personProject.value.person.fullname}} {{personProject.value.person.surnames}}
-                          <span *ngIf="personProject.value.isAdvisor" class="text-success">Asesor</span>
-                        </p>
-                        <i
-                          class="material-icons text-danger cursor-pointer"
-                          (click)="removePersonProject(i)"
-                          *ngIf="personProject.value.active">close</i>
-                        <i
-                          class="material-icons text-success cursor-pointer"
-                          (click)="restorePersonProject(i)"
-                          *ngIf="!personProject.value.active">replay</i>
-                      </div>
+                  <div [formGroupName]="i">
+                    <div style="display: flex; align-items: center; gap: .5rem;">
+                      <p style="margin: 0;"
+                         [ngStyle]="{'text-decoration': personProject.value.active ? 'none' : 'line-through'}">
+                        {{personProject.value.person.fullname}} {{personProject.value.person.surnames}}
+                        <span *ngIf="personProject.value.isAdvisor" class="text-success">Asesor</span>
+                      </p>
+                      <i
+                        class="material-icons text-danger cursor-pointer"
+                        (click)="removePersonProject(i)"
+                        *ngIf="personProject.value.active">close</i>
+                      <i
+                        class="material-icons text-success cursor-pointer"
+                        (click)="restorePersonProject(i)"
+                        *ngIf="!personProject.value.active">replay</i>
                     </div>
+                  </div>
                 </div>
               </div>
             </div>

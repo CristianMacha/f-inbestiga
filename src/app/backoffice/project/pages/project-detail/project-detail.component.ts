@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { Store } from '@ngrx/store';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Subscription} from 'rxjs';
+import {Store} from '@ngrx/store';
 
-import { Project } from '@core/models';
-import { AppStateProjectFeature } from '../../store/project.reducers';
+import {Project, Role} from '@core/models';
+import {AppStateProjectFeature} from '../../store/project.reducers';
 import {
   activeFormR,
   loadProject,
@@ -14,6 +14,8 @@ import {
   projectFeatureActiveFormR,
   projectFeatureProject,
 } from '../../store/project.selectors';
+import {CRole} from "@core/enums";
+import {uiRoleSelected} from "../../../../shared/ui.selectors";
 
 @Component({
   selector: 'vs-project-detail',
@@ -26,26 +28,21 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   project: Project = new Project();
 
   activeFormR: boolean = false;
+  roleSelected: Role = new Role();
+  cRole = CRole;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private store: Store<AppStateProjectFeature>,
     private router: Router
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
-    this.subscription.add(
-      this.activatedRoute.params.subscribe((resp) => {
-        this.projectId = parseInt(resp['id']);
-        this.store.dispatch(loadProject({ projectId: this.projectId }));
-      })
-    );
-    this.subscription.add(
-      this.store
-        .select(projectFeatureActiveFormR)
-        .subscribe((resp) => (this.activeFormR = resp))
-    );
+    this.dispatchProjects();
+    this.getActiveFormState();
     this.getProject();
+    this.getRoleSelectedState();
   }
 
   ngOnDestroy(): void {
@@ -61,14 +58,37 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   }
 
   handleUploadUpdate() {
-    this.store.dispatch(activeFormR({ active: true }));
+    this.store.dispatch(activeFormR({active: true}));
   }
 
   handleBtnToggleActiveProject() {
-    this.store.dispatch(updateProjectActive({ projectId: this.projectId }));
+    this.store.dispatch(updateProjectActive({projectId: this.projectId}));
   }
 
   handleBtnArrowBack() {
     this.router.navigateByUrl('backoffice/project');
+  }
+
+  dispatchProjects(): void {
+    this.subscription.add(
+      this.activatedRoute.params.subscribe((resp) => {
+        this.projectId = parseInt(resp['id']);
+        this.store.dispatch(loadProject({projectId: this.projectId}));
+      })
+    );
+  }
+
+  getRoleSelectedState(): void {
+    this.subscription.add(
+      this.store.select(uiRoleSelected).subscribe((resp) => this.roleSelected = resp),
+    )
+  }
+
+  getActiveFormState(): void {
+    this.subscription.add(
+      this.store
+        .select(projectFeatureActiveFormR)
+        .subscribe((resp) => (this.activeFormR = resp))
+    );
   }
 }

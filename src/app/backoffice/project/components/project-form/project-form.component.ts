@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
-import { Category, PersonProject, Project } from '@core/models';
+import {Category, PersonProject, Project, Role} from '@core/models';
 import { CategoryService, PersonService, ProjectService } from '@core/services';
 import {
   activeForm,
@@ -16,10 +16,11 @@ import {
   updateProject,
 } from '../../store/project.actions';
 import { AppStateProjectFeature } from '../../store/project.reducers';
-import { ERole } from '@core/enums';
+import {CRole, ERole} from '@core/enums';
 import { finalize, Subscription } from 'rxjs';
 import { projectFeature } from '../../store/project.selectors';
 import * as moment from 'moment';
+import {uiFeature, uiPerson, uiRoleSelected} from "../../../../shared/ui.selectors";
 
 @Component({
   selector: 'vs-project-form',
@@ -60,6 +61,8 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
   categories: Category[] = [];
   loading: boolean = false;
+  roleSelected: Role = new Role();
+  cRole = CRole;
 
   constructor(
     private store: Store<AppStateProjectFeature>,
@@ -72,6 +75,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getCategories();
     this.getEditModeState();
+    this.getUiState();
   }
 
   ngOnDestroy(): void {
@@ -151,8 +155,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
           this.addPersonProjects(newPersonProject);
           this.codeControl.reset();
-        },
-        error: (error) => {},
+        }
       });
   }
 
@@ -194,5 +197,28 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       .getCategories()
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((resp) => (this.categories = resp));
+  }
+
+  getUiState(): void {
+    this.subscription.add(
+      this.store.select(uiFeature).subscribe((resp) => {
+        this.roleSelected = resp.roleSelected;
+        if (this.roleSelected.id == this.cRole.ADVISOR) {
+          const newAdvisorProject = new PersonProject();
+          newAdvisorProject.isAdvisor = true;
+          newAdvisorProject.active = true;
+          newAdvisorProject.person = resp.person;
+          this.addPersonProjects(newAdvisorProject);
+        }
+
+        if(this.roleSelected.id == this.cRole.STUDENT) {
+          const newStudentProject = new PersonProject();
+          newStudentProject.isAdvisor = false;
+          newStudentProject.active = true;
+          newStudentProject.person = resp.person;
+          this.addPersonProjects(newStudentProject);
+        }
+      }),
+    )
   }
 }

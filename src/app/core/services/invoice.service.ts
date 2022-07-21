@@ -15,8 +15,8 @@ export class InvoiceService {
     this.uri = `${environment.url}/invoice`;
   }
 
-  getInvoices(): Observable<Invoice[]> {
-    return this.http.get<Invoice[]>(`${this.uri}`);
+  getInvoices(roleId: number): Observable<Invoice[]> {
+    return this.http.get<Invoice[]>(`${this.uri}/role/${roleId}`);
   }
 
   getInvoice(invoiceId: number): Observable<Invoice> {

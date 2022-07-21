@@ -26,7 +26,7 @@
         </td>
         <td class="align-middle">
           <div style="display: flex; gap: 2px; justify-content: end;">
-            <div>
+            <div *ngIf="roleSelected.id !== cRole.STUDENT">
               <button
                 class="btn btn-icon btn-primary"
                 (click)="handleBtnEdit(project)">

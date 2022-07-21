@@ -1,10 +1,10 @@
-<div *ngIf="!(activeForm$ | async)">
+<div *ngIf="!activeForm && (roleSelected.id !== cRole.STUDENT)">
   <button
     class="btn bg-gradient-info"
     (click)="handleBtnNewProject()">Crear proyecto <i class="material-icons">create_new_folder</i></button>
 </div>
 
-<div class="row g-2" *ngIf="!(activeForm$ | async)">
+<div class="row g-2" *ngIf="!activeForm">
   <div class="col-md-12">
     <div class="card">
       <vs-project-filter></vs-project-filter>
@@ -17,6 +17,6 @@
   </div>
 </div>
 
-<div *ngIf="(activeForm$ | async)" style="margin-top: 1rem;">
+<div *ngIf="activeForm" style="margin-top: 1rem;">
     <vs-project-form></vs-project-form>
 </div>

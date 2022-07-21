@@ -2,14 +2,16 @@ import {createReducer, on} from "@ngrx/store";
 
 import {Person, PersonRoles, Role, User} from "@core/models";
 import {
-  loading, loadPerson,
-  loadPersonRoles, loadRoleSelected,
+  loadPerson,
+  loadPersonRoles,
+  loadRoleSelected,
   login,
-  loginError, personLoadedSuccess,
+  loginError,
+  personLoadedSuccess,
   personRolesLoadedSuccess,
-  refreshToken, roleSelectedLoadedSuccess,
+  refreshToken,
+  roleSelectedLoadedSuccess,
   setUser,
-  stopLoading,
   unsetUser
 } from "./ui.actions";
 

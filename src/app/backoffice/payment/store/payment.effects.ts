@@ -17,15 +17,15 @@ import {
 export class PaymentEffects {
 
   getInvoices$ = createEffect(() => this.actions$.pipe(
-      ofType(loadPayments),
-      mergeMap(
-        (resp) => this.invoiceService.getInvoices()
-          .pipe(
-            map((resp) => paymentsLoadedSuccess({invoices: resp})),
-            catchError((err) => of(loadError({payload: err})))
-          )
-      )
-    ));
+    ofType(loadPayments),
+    mergeMap(
+      (resp) => this.invoiceService.getInvoices(resp.roleId)
+        .pipe(
+          map((resp) => paymentsLoadedSuccess({invoices: resp})),
+          catchError((err) => of(loadError({payload: err})))
+        )
+    )
+  ));
 
   getInvoice$ = createEffect(() => this.actions$.pipe(
     ofType(loadPayment),
@@ -49,5 +49,6 @@ export class PaymentEffects {
     private actions$: Actions,
     private invoiceService: InvoiceService,
     private feeService: FeeService,
-  ) {}
+  ) {
+  }
 }

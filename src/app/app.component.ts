@@ -21,16 +21,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<appState>,
-    private router: Router,
   ) {
   }
 
   ngOnInit() {
     this.subscription.add(
-      this.store.select(uiFeatureIsLoading).subscribe(resp => {
-        console.log(resp)
-        this.isLoading = resp
-      })
+      this.store.select(uiFeatureIsLoading).subscribe(resp => this.isLoading = resp)
     );
     this.refreshToken();
   }

@@ -1,7 +1,7 @@
 import {createAction, props} from "@ngrx/store";
 import {Fee, Invoice} from "@core/models";
 
-export const loadPayments = createAction('[Payment Component] Load Payment');
+export const loadPayments = createAction('[Payment Component] Load Payments', props<{ roleId: number }>());
 export const paymentsLoadedSuccess = createAction('[Payment Component] Payments Loaded Success', props<{ invoices: Invoice[] }>());
 export const loadError = createAction('[Payment Component] Set Error', props<{ payload: any }>());
 

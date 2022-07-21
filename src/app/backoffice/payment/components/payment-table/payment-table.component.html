@@ -3,9 +3,8 @@
     <table class="table align-items-center mb-0">
       <thead>
       <tr>
+        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Codigo</th>
         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Projecto</th>
-        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Asesor</th>
-        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Estudiante</th>
         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Monto</th>
         <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Estado</th>
         <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cuotas</th>
@@ -16,17 +15,8 @@
       </thead>
       <tbody>
       <tr *ngFor="let invoice of invoices$ | async">
+        <td class="align-middle">{{invoice.code}}</td>
         <td class="align-middle">{{invoice.project.name | titlecase}}</td>
-        <td class="align-middle">
-          <div *ngFor="let pp of invoice.project.personProjects">
-            <span *ngIf="pp.isAdvisor">{{pp.person.fullname}}</span>
-          </div>
-        </td>
-        <td class="align-middle">
-          <div *ngFor="let pp of invoice.project.personProjects">
-            <span *ngIf="!pp.isAdvisor">{{pp.person.fullname}}</span>
-          </div>
-        </td>
         <td class="align-middle">{{invoice.total | currency}}</td>
         <td class="align-middle text-end">
           <span

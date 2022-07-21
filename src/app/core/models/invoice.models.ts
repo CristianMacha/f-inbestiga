@@ -5,6 +5,7 @@ export class Invoice {
   public id: number;
   public total: number;
   public feesNumber: number;
+  public code: string;
   public status: EInvoiceStatus;
   public description: string;
   public active: boolean;
@@ -17,6 +18,7 @@ export class Invoice {
     this.id = 0;
     this.total = 0;
     this.feesNumber = 0;
+    this.code = '';
     this.status = EInvoiceStatus.PENDING;
     this.description = '';
     this.active = false;

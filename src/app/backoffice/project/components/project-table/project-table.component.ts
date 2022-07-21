@@ -3,12 +3,12 @@ import {Observable, Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 
-import {Project} from '@core/models';
+import {Project, Role} from '@core/models';
 import {AppStateProjectFeature} from '../../store/project.reducers';
 import {activeFormUpdate, loadProjects} from '../../store/project.actions';
 import {projectFeatureProjects} from '../../store/project.selectors';
 import {uiRoleSelected} from "../../../../shared/ui.selectors";
-import {CProjectStatus, EProjectStatus} from "@core/enums";
+import {CProjectStatus, CRole} from "@core/enums";
 
 @Component({
   selector: 'vs-project-table',
@@ -20,6 +20,8 @@ export class ProjectTableComponent implements OnInit {
   projects$: Observable<Project[]> = new Observable();
 
   cProjectStatus = CProjectStatus;
+  roleSelected: Role = new Role();
+  cRole = CRole;
 
   constructor(
     private store: Store<AppStateProjectFeature>,
@@ -30,6 +32,7 @@ export class ProjectTableComponent implements OnInit {
   ngOnInit(): void {
     this.projects$ = this.store.select(projectFeatureProjects);
     this.getUiRoleSelectedState();
+    this.getRoleSelectedState();
   }
 
   handleBtnEdit(project: Project) {
@@ -44,5 +47,11 @@ export class ProjectTableComponent implements OnInit {
     this.subscription.add(
       this.store.select(uiRoleSelected).subscribe((resp) => resp.id && this.store.dispatch(loadProjects({roleId: resp.id})))
     )
+  }
+
+  getRoleSelectedState(): void {
+    this.subscription.add(
+      this.store.select(uiRoleSelected).subscribe((resp) => this.roleSelected = resp)
+    );
   }
 }
