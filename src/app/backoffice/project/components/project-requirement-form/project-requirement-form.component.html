@@ -48,12 +48,13 @@
         class="btn btn-info m-0"
         *ngIf="retryUploadFile"
         [disabled]="loading"
-        (click)="upploadImage()">Reintentar subir archivo</button>
+        (click)="uploadImage()">Reintentar subir archivo</button>
       <button
         class="btn bg-gradient-info m-o"
         [disabled]="requirementForm.invalid || !fileSelected || loading"
         *ngIf="!retryUploadFile"
         (click)="handleCreate()">{{btnActionText}}</button>
     </div>
+    <pre>{{requirementForm.invalid || !fileSelected || loading | json}}</pre>
   </div>
 </div>

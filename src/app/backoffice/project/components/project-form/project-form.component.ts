@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
-import {Category, PersonProject, Project, Role} from '@core/models';
+import {Category, Person, PersonProject, Project, Role} from '@core/models';
 import { CategoryService, PersonService, ProjectService } from '@core/services';
 import {
   activeForm,
@@ -62,6 +62,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   categories: Category[] = [];
   loading: boolean = false;
   roleSelected: Role = new Role();
+  personAuth: Person = new Person();
   cRole = CRole;
 
   constructor(
@@ -203,12 +204,13 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.store.select(uiFeature).subscribe((resp) => {
         this.roleSelected = resp.roleSelected;
+        this.personAuth = resp.person;
         if (this.roleSelected.id == this.cRole.ADVISOR) {
           const newAdvisorProject = new PersonProject();
           newAdvisorProject.isAdvisor = true;
           newAdvisorProject.active = true;
           newAdvisorProject.person = resp.person;
-          this.addPersonProjects(newAdvisorProject);
+          !this.editMode && this.addPersonProjects(newAdvisorProject);
         }
 
         if(this.roleSelected.id == this.cRole.STUDENT) {

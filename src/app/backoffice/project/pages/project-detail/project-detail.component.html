@@ -3,12 +3,17 @@
     <i
       class="material-icons cursor-pointer"
       (click)="handleBtnArrowBack()">arrow_back</i>
-      {{project.name | titlecase}}
+    {{project.name | titlecase}}
   </h2>
   <div style="display: flex; gap: .5rem; flex-wrap: wrap;">
-    <button class="btn bg-gradient-info" *ngIf="!activeFormR" (click)="handleUploadUpdate()">Subir Actualizacion</button>
-    <button class="btn bg-gradient-danger" *ngIf="project.active && (roleSelected.id !== cRole.STUDENT)" (click)="handleBtnToggleActiveProject()">Deshabilitar Proyecto</button>
-    <button class="btn bg-gradient-success" *ngIf="!project.active && (roleSelected.id !== cRole.STUDENT)" (click)="handleBtnToggleActiveProject()">Habilitar Proyecto</button>
+    <button class="btn bg-gradient-info" *ngIf="!activeFormR" (click)="handleUploadUpdate()">Subir Actualizacion
+    </button>
+    <button class="btn bg-gradient-danger" *ngIf="project.active && (roleSelected.id !== cRole.STUDENT)"
+            (click)="handleBtnToggleActiveProject()">Deshabilitar Proyecto
+    </button>
+    <button class="btn bg-gradient-success" *ngIf="!project.active && (roleSelected.id !== cRole.STUDENT)"
+            (click)="handleBtnToggleActiveProject()">Habilitar Proyecto
+    </button>
   </div>
 </div>
 <div class="row g-2">
@@ -32,10 +37,21 @@
     </div>
   </div>
   <div class="col-md-4">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Comentarios</h5>
-        <vs-project-comments [projectId]="projectId"></vs-project-comments>
+    <div class="row g-2">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Comentarios</h5>
+            <vs-project-comments [projectId]="projectId"></vs-project-comments>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div>
+          <div *ngFor="let invoice of invoices">
+            <vs-invoice-detail [invoice]="invoice"></vs-invoice-detail>
+          </div>
+        </div>
       </div>
     </div>
   </div>

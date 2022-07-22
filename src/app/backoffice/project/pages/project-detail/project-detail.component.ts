@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {Store} from '@ngrx/store';
 
-import {Project, Role} from '@core/models';
+import {Invoice, Project, Role} from '@core/models';
 import {AppStateProjectFeature} from '../../store/project.reducers';
 import {
   activeFormR,
@@ -16,6 +16,7 @@ import {
 } from '../../store/project.selectors';
 import {CRole} from "@core/enums";
 import {uiRoleSelected} from "../../../../shared/ui.selectors";
+import {InvoiceService} from "@core/services";
 
 @Component({
   selector: 'vs-project-detail',
@@ -27,6 +28,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   projectId: number = 0;
   project: Project = new Project();
 
+  invoices: Invoice[] = [];
   activeFormR: boolean = false;
   roleSelected: Role = new Role();
   cRole = CRole;
@@ -34,7 +36,8 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   constructor(
     private activatedRoute: ActivatedRoute,
     private store: Store<AppStateProjectFeature>,
-    private router: Router
+    private router: Router,
+    private invoiceService: InvoiceService
   ) {
   }
 
@@ -73,6 +76,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.activatedRoute.params.subscribe((resp) => {
         this.projectId = parseInt(resp['id']);
+        this.getInvoices(this.projectId);
         this.store.dispatch(loadProject({projectId: this.projectId}));
       })
     );
@@ -90,5 +94,10 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         .select(projectFeatureActiveFormR)
         .subscribe((resp) => (this.activeFormR = resp))
     );
+  }
+
+  getInvoices(projectId: number): void {
+    this.invoiceService.getByProject(projectId)
+      .subscribe((resp) => this.invoices = resp);
   }
 }

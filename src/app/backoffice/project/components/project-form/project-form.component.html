@@ -44,24 +44,10 @@
           </div>
         </div>
         <div class="col-md-12 my-2">
-          <h6>Integrantes y asesores</h6>
+          <h5>Integrantes</h5>
           <div class="row g-2">
             <div class="col-md-6">
-              <div style="display: flex; justify-content: space-between; gap: .5rem;"
-                   *ngIf="roleSelected.id === cRole.ADMINISTRATOR || roleSelected.id === cRole.ADVISOR">
-                <div class="input-group input-group-static">
-                  <label>Buscar estudiante</label>
-                  <input
-                    class="form-control"
-                    placeholder="Codigo del estudiante"
-                    [formControl]="codeControl"
-                    (keyup.enter)="handleSearchMember(1)">
-                </div>
-                <div style="display: flex; align-items: end;">
-                  <i class="material-icons text-success cursor-pointer" (click)="handleSearchMember(1)">search</i>
-                </div>
-              </div>
-
+              <h6>Asesor</h6>
               <div class="mt-2" style="display: flex; justify-content: space-between; gap: .5rem;"
                    *ngIf="roleSelected.id === cRole.ADMINISTRATOR">
                 <div class="input-group input-group-static">
@@ -76,12 +62,11 @@
                   <i class="material-icons text-success cursor-pointer" (click)="handleSearchMember(3)">search</i>
                 </div>
               </div>
-            </div>
-            <div class="col-md-6">
+
               <div formArrayName="personProjects">
                 <div *ngFor="let personProject of personProjectsControls.controls; let i = index; ">
                   <div [formGroupName]="i">
-                    <div style="display: flex; align-items: center; gap: .5rem;">
+                    <div style="display: flex; align-items: center; gap: .5rem;" *ngIf="personProject.value.isAdvisor">
                       <p style="margin: 0;"
                          [ngStyle]="{'text-decoration': personProject.value.active ? 'none' : 'line-through'}">
                         {{personProject.value.person.fullname}} {{personProject.value.person.surnames}}
@@ -90,7 +75,46 @@
                       <i
                         class="material-icons text-danger cursor-pointer"
                         (click)="removePersonProject(i)"
-                        *ngIf="personProject.value.active">close</i>
+                        *ngIf="personProject.value.active && (personProject.value.person.id !== personAuth.id)">close</i>
+                      <i
+                        class="material-icons text-success cursor-pointer"
+                        (click)="restorePersonProject(i)"
+                        *ngIf="!personProject.value.active">replay</i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <h6>Estudiantes</h6>
+              <div style="display: flex; justify-content: space-between; gap: .5rem;"
+                   *ngIf="(roleSelected.id === cRole.ADMINISTRATOR || roleSelected.id === cRole.ADVISOR)">
+                <div class="input-group input-group-static">
+                  <label>Buscar estudiante</label>
+                  <input
+                    class="form-control"
+                    placeholder="Codigo del estudiante"
+                    [formControl]="codeControl"
+                    (keyup.enter)="handleSearchMember(1)">
+                </div>
+                <div style="display: flex; align-items: end;">
+                  <i class="material-icons text-success cursor-pointer" (click)="handleSearchMember(1)">search</i>
+                </div>
+              </div>
+
+              <div formArrayName="personProjects">
+                <div *ngFor="let personProject of personProjectsControls.controls; let i = index; ">
+                  <div [formGroupName]="i">
+                    <div style="display: flex; align-items: center; gap: .5rem;" *ngIf="!personProject.value.isAdvisor">
+                      <p style="margin: 0;"
+                         [ngStyle]="{'text-decoration': personProject.value.active ? 'none' : 'line-through'}">
+                        {{personProject.value.person.fullname}} {{personProject.value.person.surnames}}
+                        <span *ngIf="personProject.value.isAdvisor" class="text-success">Asesor</span>
+                      </p>
+                      <i
+                        class="material-icons text-danger cursor-pointer"
+                        (click)="removePersonProject(i)"
+                        *ngIf="personProject.value.active && (personProject.value.person.id !== personAuth.id)">close</i>
                       <i
                         class="material-icons text-success cursor-pointer"
                         (click)="restorePersonProject(i)"

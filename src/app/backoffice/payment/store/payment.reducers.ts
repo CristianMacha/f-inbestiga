@@ -6,7 +6,7 @@ import {
   activeShowInvoiceDetail, feesLoadedSuccess,
   loadError, loadFees,
   loadPayment,
-  loadPayments,
+  loadPayments, loadPaymentsByProject,
   paymentLoadSuccess,
   paymentsLoadedSuccess,
   selectPayment
@@ -41,6 +41,7 @@ export const initialState: paymentState = {
 export const _paymentReducer = createReducer(
   initialState,
   on(loadPayments, (state) => ({...state, loading: true})),
+  on(loadPaymentsByProject, (state) => ({...state, loading: true})),
   on(paymentsLoadedSuccess, (state, {invoices}) => ({...state, loaded: true, loading: false, invoices: [...invoices]})),
   on(loadError, (state, {payload}) => ({...state, loaded: true, loading: false, error: {...payload}})),
   on(selectPayment, (state, {invoice}) => ({...state, invoice: {...invoice}, showInvoiceDetail: true})),

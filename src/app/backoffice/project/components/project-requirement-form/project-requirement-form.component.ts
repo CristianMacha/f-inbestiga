@@ -24,7 +24,6 @@ export class ProjectRequirementFormComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   fileSelected: boolean = false;
   retryUploadFile: boolean = false;
-  fileUploaded: boolean = false;
   progressUploadFile: number = 0;
   filename: string = '';
 
@@ -57,6 +56,7 @@ export class ProjectRequirementFormComponent implements OnInit, OnDestroy {
   }
 
   handleCreate() {
+    this.loading = true;
     (this.requirementForm.controls['project'] as FormGroup).controls[
       'id'
     ].patchValue(this.projectId);
@@ -71,7 +71,7 @@ export class ProjectRequirementFormComponent implements OnInit, OnDestroy {
       .create(this.requirementForm.value)
       .subscribe((resp) => {
         this.filename = resp.code;
-        this.upploadImage();
+        this.uploadImage();
         this.store.dispatch(loadRequirements({ projectId: resp.project.id }));
       });
   }
@@ -81,7 +81,7 @@ export class ProjectRequirementFormComponent implements OnInit, OnDestroy {
       .update(this.requirementForm.value)
       .subscribe((resp) => {
         this.filename = resp.code;
-        this.file && this.upploadImage();
+        this.file && this.uploadImage();
         this.store.dispatch(loadRequirements({ projectId: resp.project.id }));
         this.handleCancel();
       });
@@ -98,7 +98,7 @@ export class ProjectRequirementFormComponent implements OnInit, OnDestroy {
     this.requirementForm.controls['filename'].patchValue(this.file.name);
   }
 
-  upploadImage() {
+  uploadImage() {
     this.progressUploadFile = 0;
     this.loading = true;
     this.retryUploadFile = false;

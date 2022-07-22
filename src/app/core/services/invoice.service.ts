@@ -15,6 +15,10 @@ export class InvoiceService {
     this.uri = `${environment.url}/invoice`;
   }
 
+  getByProject(projectId: number): Observable<Invoice[]> {
+    return this.http.get<Invoice[]>(`${this.uri}/project/${projectId}`);
+  }
+
   getInvoices(roleId: number): Observable<Invoice[]> {
     return this.http.get<Invoice[]>(`${this.uri}/role/${roleId}`);
   }
