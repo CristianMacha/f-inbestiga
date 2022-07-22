@@ -6,17 +6,13 @@
 
 <div class="row g-2" *ngIf="!activeForm">
   <div class="col-md-12">
-    <div class="card">
-      <vs-project-filter></vs-project-filter>
-    </div>
+    <vs-project-filter></vs-project-filter>
   </div>
   <div class="col-md-12">
-    <div class="card">
-      <vs-project-table></vs-project-table>
-    </div>
+    <vs-project-table></vs-project-table>
   </div>
 </div>
 
 <div *ngIf="activeForm" style="margin-top: 1rem;">
-    <vs-project-form></vs-project-form>
+  <vs-project-form></vs-project-form>
 </div>

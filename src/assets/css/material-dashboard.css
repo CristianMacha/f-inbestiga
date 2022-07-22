@@ -19465,7 +19465,7 @@ hr.horizontal.gray-light {
 }
 
 .z-index-sticky {
-  z-index: 1020;
+  z-index: 1;
 }
 
 .waves {
@@ -20473,7 +20473,7 @@ hr.horizontal.gray-light {
 }
 
 .sidenav {
-  z-index: 9999;
+  z-index: 2;
 }
 .sidenav .navbar-brand,
 .sidenav .navbar-heading {

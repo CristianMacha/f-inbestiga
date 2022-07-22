@@ -1,14 +1,14 @@
-<div class="card-body">
-    <h5 class="card-title">Filtro de busqueda</h5>
-  <div style="display: flex; justify-content: right; gap: .5rem;">
-    <div class="group">
-      <div class="input-group input-group-static">
-        <label>Estado</label>
-        <select class="form-control" [formControl]="statusControl">
-          <option selected [value]="'ALL'">Todo</option>
-          <option *ngFor="let projectStatus of cProjectStatus" [value]="projectStatus">{{projectStatus}}</option>
-        </select>
-      </div>
+<mat-card>
+  <mat-card-content>
+    <div style="text-align: end">
+      <mat-form-field appearance="outline">
+        <mat-label>Estado</mat-label>
+        <mat-select [formControl]="statusControl">
+          <mat-option [value]="'ALL'">Todo</mat-option>
+          <mat-option *ngFor="let projectStatus of cProjectStatus"
+                      [value]="projectStatus">{{projectStatus}}</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
-  </div>
-</div>
+  </mat-card-content>
+</mat-card>

@@ -20,6 +20,7 @@ import {ProjectEffects} from './store/project.effects';
 import {ProjectInfoComponent} from './components/project-info/project-info.component';
 import {ProjectFilterComponent} from './components/project-filter/project-filter.component';
 import {SharedModule} from "../../shared/shared.module";
+import {MaterialModule} from "../../material/material.module";
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import {SharedModule} from "../../shared/shared.module";
     EffectsModule.forFeature([ProjectEffects]),
     CoreModule,
     SharedModule,
+    MaterialModule,
   ]
 })
 export class ProjectModule {

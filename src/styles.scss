@@ -1,7 +1,27 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@include mat.core();
+
+$frontend-inbestiga-primary: mat.define-palette(mat.$indigo-palette);
+$frontend-inbestiga-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+$frontend-inbestiga-warn: mat.define-palette(mat.$red-palette);
+
+$frontend-inbestiga-theme: mat.define-light-theme((
+  color: (
+    primary: $frontend-inbestiga-primary,
+    accent: $frontend-inbestiga-accent,
+    warn: $frontend-inbestiga-warn,
+  )
+));
+
+@include mat.all-component-themes($frontend-inbestiga-theme);
+
 .bg-gradient-info {
   background-image: linear-gradient(195deg, #0BD4C1, #8219f3);
 }
 body, html {
   height: 100%;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

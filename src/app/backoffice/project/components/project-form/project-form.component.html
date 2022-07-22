@@ -1,66 +1,71 @@
-<div class="card">
-  <div class="card-body">
-    <h5 class="card-title">{{title}}</h5>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{title}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
     <form class="my-3" [formGroup]="projectForm">
       <h6>Detalles del proyecto</h6>
       <div class="row g-2">
         <div class="col-md-8 my-2">
-          <div class="input-group input-group-static">
-            <label>Nombres</label>
-            <input class="form-control" formControlName="name">
-          </div>
+          <mat-form-field appearance="outline">
+            <mat-label>Nombres</mat-label>
+            <input matInput formControlName="name">
+          </mat-form-field>
         </div>
         <div class="col-md-4 my-2">
-          <div class="input-group input-group-static" formGroupName="category">
-            <label>Categoria</label>
-            <select class="form-control" formControlName="id">
-              <option selected [value]="0">Seleccione categoria</option>
-              <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
-            </select>
+          <div formGroupName="category">
+            <mat-form-field appearance="outline">
+              <mat-label>Categoria</mat-label>
+              <mat-select formControlName="id">
+                <mat-option [value]="0">Seleccione categoria</mat-option>
+                <mat-option *ngFor="let category of categories" [value]="category.id">{{category.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
         </div>
         <div class="col-md-2 my-2">
           <div formArrayName="invoices">
             <div *ngFor="let invoiceControl of invoicesControls.controls; let i = index;">
               <div [formGroupName]="i">
-                <div class="input-group input-group-static">
-                  <label>Costo</label>
-                  <input class="form-control" type="number" formControlName="total">
-                </div>
+                <mat-form-field appearance="outline">
+                  <mat-label>Costo</mat-label>
+                  <input matInput type="number" formControlName="total">
+                </mat-form-field>
               </div>
             </div>
           </div>
         </div>
         <div class="col-md-2 my-2">
-          <div class="input-group input-group-static">
-            <label>Fecha fin</label>
-            <input class="form-control" type="date" formControlName="expirationDate">
-          </div>
+          <mat-form-field appearance="outline">
+            <mat-label>Fecha de finalización</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="expirationDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
         </div>
         <div class="col-md-8 my-2">
-          <div class="input-group input-group-static">
-            <label>Descripción</label>
-            <textarea class="form-control" rows="1" formControlName="description"></textarea>
-          </div>
+          <mat-form-field appearance="outline">
+            <mat-label>Descripcion</mat-label>
+            <textarea matInput formControlName="description" rows="1"></textarea>
+          </mat-form-field>
         </div>
         <div class="col-md-12 my-2">
           <h5>Integrantes</h5>
           <div class="row g-2">
             <div class="col-md-6">
               <h6>Asesor</h6>
-              <div class="mt-2" style="display: flex; justify-content: space-between; gap: .5rem;"
-                   *ngIf="roleSelected.id === cRole.ADMINISTRATOR">
-                <div class="input-group input-group-static">
-                  <label>Buscar asesor</label>
+              <div *ngIf="roleSelected.id === cRole.ADMINISTRATOR">
+                <mat-form-field appearance="outline">
+                  <mat-label>Buscar Asesor</mat-label>
                   <input
-                    class="form-control"
-                    placeholder="Codigo del asesor"
+                    matInput
+                    placeholder="Codigo asesor"
                     [formControl]="codeControl"
                     (keyup.enter)="handleSearchMember(3)">
-                </div>
-                <div style="display: flex; align-items: end;">
-                  <i class="material-icons text-success cursor-pointer" (click)="handleSearchMember(3)">search</i>
-                </div>
+                  <button matSuffix mat-icon-button (click)="handleSearchMember(1)">
+                    <mat-icon>search</mat-icon>
+                  </button>
+                </mat-form-field>
               </div>
 
               <div formArrayName="personProjects">
@@ -87,19 +92,18 @@
             </div>
             <div class="col-md-6">
               <h6>Estudiantes</h6>
-              <div style="display: flex; justify-content: space-between; gap: .5rem;"
-                   *ngIf="(roleSelected.id === cRole.ADMINISTRATOR || roleSelected.id === cRole.ADVISOR)">
-                <div class="input-group input-group-static">
-                  <label>Buscar estudiante</label>
+              <div *ngIf="(roleSelected.id === cRole.ADMINISTRATOR || roleSelected.id === cRole.ADVISOR)">
+                <mat-form-field appearance="outline">
+                  <mat-label>Buscar Estudiante</mat-label>
                   <input
-                    class="form-control"
-                    placeholder="Codigo del estudiante"
+                    matInput
+                    placeholder="Codigo estudiante"
                     [formControl]="codeControl"
                     (keyup.enter)="handleSearchMember(1)">
-                </div>
-                <div style="display: flex; align-items: end;">
-                  <i class="material-icons text-success cursor-pointer" (click)="handleSearchMember(1)">search</i>
-                </div>
+                  <button matSuffix mat-icon-button (click)="handleSearchMember(1)">
+                    <mat-icon>search</mat-icon>
+                  </button>
+                </mat-form-field>
               </div>
 
               <div formArrayName="personProjects">
@@ -128,12 +132,13 @@
         </div>
       </div>
     </form>
-    <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
-      <button class="btn" (click)="handleCancel()">Cancelar</button>
-      <button
-        class="btn bg-gradient-info"
-        [disabled]="projectForm.invalid || loading"
-        (click)="handleCreate()">{{btnActionText}}</button>
-    </div>
-  </div>
-</div>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-button (click)="handleCancel()">Cancelar</button>
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="projectForm.invalid || loading"
+      (click)="handleCreate()">{{btnActionText}}</button>
+  </mat-card-actions>
+</mat-card>

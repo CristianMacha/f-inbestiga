@@ -1,55 +1,61 @@
-<div class="table-responsive">
-  <table class="table align-items-center mb-0">
-    <thead>
-      <tr>
-        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"># CODIGO</th>
-        <th class="text-uppercase text-start text-secondary text-xxs font-weight-bolder opacity-7">PROYECTO</th>
-        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">DESCRIPCIÓN</th>
-        <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">VENCIMIENTO</th>
-        <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ESTADO</th>
-        <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ACCIONES</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let project of projects$ | async">
-        <td class="align-middle">{{project.code}}</td>
-        <td class="align-middle text-start">{{project.name}}</td>
-        <td class="align-middle">{{project.description}}</td>
-        <td class="align-middle text-end">{{project.expirationDate | date}}</td>
-        <td class="align-middle text-end">
+<mat-card>
+  <mat-card-content>
+    <div class="table-responsive">
+      <table class="table align-items-center mb-0">
+        <thead>
+        <tr>
+          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"># CODIGO</th>
+          <th class="text-uppercase text-start text-secondary text-xxs font-weight-bolder opacity-7">PROYECTO</th>
+          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">DESCRIPCIÓN</th>
+          <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">VENCIMIENTO</th>
+          <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ESTADO</th>
+          <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ACCIONES</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let project of projects$ | async">
+          <td class="align-middle">{{project.code}}</td>
+          <td class="align-middle text-start">{{project.name}}</td>
+          <td class="align-middle">{{project.description}}</td>
+          <td class="align-middle text-end">{{project.expirationDate | date}}</td>
+          <td class="align-middle text-end">
           <span
             class="badge"
             [class.bg-gradient-secondary]="project.status==cProjectStatus.PENDING"
             [class.bg-gradient-success]="project.status==cProjectStatus.COMPLETED">
             {{project.status}}
           </span>
-        </td>
-        <td class="align-middle">
-          <div style="display: flex; gap: 2px; justify-content: end;">
-            <div *ngIf="roleSelected.id !== cRole.STUDENT">
-              <button
-                class="btn btn-icon btn-primary"
-                (click)="handleBtnEdit(project)">
-                  <i class="material-icons">edit</i>
-              </button>
+          </td>
+          <td class="align-middle">
+            <div style="display: flex; gap: 2px; justify-content: end;">
+              <div *ngIf="roleSelected.id !== cRole.STUDENT">
+                <button
+                  mat-icon-button
+                  color="primary"
+                  (click)="handleBtnEdit(project)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </div>
+              <!--            <div>-->
+              <!--              <button-->
+              <!--                class="btn btn-icon btn-danger"-->
+              <!--                (click)="handleBtnEdit(project)">-->
+              <!--                  <i class="material-icons">delete</i>-->
+              <!--              </button>-->
+              <!--            </div>-->
+              <div>
+                <button
+                  mat-icon-button
+                  color="secondary"
+                  (click)="handleViewProject(project.id)">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+              </div>
             </div>
-<!--            <div>-->
-<!--              <button-->
-<!--                class="btn btn-icon btn-danger"-->
-<!--                (click)="handleBtnEdit(project)">-->
-<!--                  <i class="material-icons">delete</i>-->
-<!--              </button>-->
-<!--            </div>-->
-            <div>
-              <button
-                class="btn btn-icon btn-secondary"
-                (click)="handleViewProject(project.id)">
-                <i class="material-icons">visibility</i>
-              </button>
-            </div>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -43,7 +43,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     expirationDate: new FormControl('', Validators.required),
     personProjects: new FormArray([]),
     category: new FormGroup({
-      id: new FormControl(0, Validators.required),
+      id: new FormControl(0, [Validators.required, Validators.min(1)]),
       name: new FormControl(''),
     }),
     invoices: new FormArray([
