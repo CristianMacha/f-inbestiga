@@ -1,15 +1,15 @@
-import {EInvoicePaymentMethod, EInvoiceStatus} from "../enums/invoice.enum";
 import {Invoice} from "./invoice.models";
 import {Person} from "./person.model";
+import {EFeePaymentMethod, EFeeStatus} from "@core/enums";
 
 export class Fee {
   public id: number;
   public total: number;
-  public status: EInvoiceStatus;
+  public status: EFeeStatus;
   public fileName: string;
   public code: string;
   public active: boolean;
-  public paymentMethod: EInvoicePaymentMethod;
+  public paymentMethod: EFeePaymentMethod;
   public createdAt: Date;
   public updatedAt: Date;
   public invoice: Invoice;
@@ -18,11 +18,11 @@ export class Fee {
   constructor() {
     this.id = 0;
     this.total = 0;
-    this.status = EInvoiceStatus.PENDING;
+    this.status = EFeeStatus.PENDING;
     this.fileName = '';
     this.code = '';
     this.active = false;
-    this.paymentMethod = EInvoicePaymentMethod.CASH_PAYMENT;
+    this.paymentMethod = EFeePaymentMethod.CASH_PAYMENT;
     this.createdAt = new Date();
     this.updatedAt = new Date();
     this.invoice = new Invoice();

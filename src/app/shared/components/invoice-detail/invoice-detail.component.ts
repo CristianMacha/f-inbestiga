@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 
-import {Fee, Invoice} from "@core/models";
+import {Invoice} from "@core/models";
 import {CInvoiceStatus} from "../../../core/enums/invoice.enum";
 
 @Component({
@@ -13,8 +13,6 @@ export class InvoiceDetailComponent implements OnInit {
   @Input() showFees: boolean = false;
 
   cInvoiceStatus = CInvoiceStatus;
-
-  fees: Fee[] = [];
 
   constructor() {
   }

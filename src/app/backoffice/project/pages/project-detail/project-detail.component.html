@@ -56,6 +56,14 @@
   <div class="col-md-4">
     <div class="row g-3">
       <div class="col-md-12">
+        <div *ngFor="let invoice of invoices">
+          <vs-invoice-detail
+            [invoice]="invoice"
+            [showFees]="true">
+          </vs-invoice-detail>
+        </div>
+      </div>
+      <div class="col-md-12">
         <mat-card>
           <mat-card-header>
             <mat-card-title>Comentarios</mat-card-title>
@@ -64,14 +72,6 @@
             <vs-project-comments [projectId]="projectId"></vs-project-comments>
           </mat-card-content>
         </mat-card>
-      </div>
-      <div class="col-md-12">
-        <div *ngFor="let invoice of invoices">
-          <vs-invoice-detail
-            [invoice]="invoice"
-            [showFees]="true">
-          </vs-invoice-detail>
-        </div>
       </div>
     </div>
   </div>

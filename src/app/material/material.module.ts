@@ -9,6 +9,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 const MATERIAL_COMPONENTS = [
   MatDialogModule,
@@ -20,7 +22,9 @@ const MATERIAL_COMPONENTS = [
   MatDatepickerModule,
   MatCardModule,
   MatDividerModule,
-  MatProgressBarModule
+  MatProgressBarModule,
+  MatSnackBarModule,
+  MatTooltipModule,
 ]
 
 @NgModule({

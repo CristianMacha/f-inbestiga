@@ -25,7 +25,7 @@ export class ProjectRequirementFormComponent implements OnInit, OnDestroy {
   fileSelected: boolean = false;
   retryUploadFile: boolean = false;
   progressUploadFile: number = 0;
-  filename: string = '';
+  projectCode: string = '';
 
   editMode: boolean = false;
   title: string = 'Subir actualizacion';
@@ -70,7 +70,7 @@ export class ProjectRequirementFormComponent implements OnInit, OnDestroy {
     this.requirementService
       .create(this.requirementForm.value)
       .subscribe((resp) => {
-        this.filename = resp.code;
+        this.projectCode = resp.code;
         this.uploadImage();
         this.store.dispatch(loadRequirements({ projectId: resp.project.id }));
       });
@@ -80,7 +80,7 @@ export class ProjectRequirementFormComponent implements OnInit, OnDestroy {
     this.requirementService
       .update(this.requirementForm.value)
       .subscribe((resp) => {
-        this.filename = resp.code;
+        this.projectCode = resp.code;
         this.file && this.uploadImage();
         this.store.dispatch(loadRequirements({ projectId: resp.project.id }));
         this.handleCancel();
@@ -105,7 +105,7 @@ export class ProjectRequirementFormComponent implements OnInit, OnDestroy {
     console.log('xd');
 
 
-    const filePath = `${EStorage.REF_REQUIREMENT}/${this.filename}`;
+    const filePath = `${EStorage.REF_REQUIREMENT}/${this.projectCode}`;
     const task = this.storage.upload(filePath, this.file);
 
     task.snapshotChanges().subscribe({

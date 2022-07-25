@@ -15,7 +15,19 @@ export class FeeService {
     this.uri = `${environment.url}/fee`;
   }
 
+  create(fee: Fee): Observable<Fee> {
+    return this.http.post<Fee>(`${this.uri}`, fee);
+  }
+
   getByInvoice(invoiceId: number): Observable<Fee[]> {
     return this.http.get<Fee[]>(`${this.uri}/invoice/${invoiceId}`);
+  }
+
+  update(fee: Fee): Observable<Fee> {
+    return this.http.put<Fee>(`${this.uri}`, fee);
+  }
+
+  validate(feeId: number, fee: Fee): Observable<Fee> {
+    return this.http.put<Fee>(`${this.uri}/validate/${feeId}`, fee);
   }
 }

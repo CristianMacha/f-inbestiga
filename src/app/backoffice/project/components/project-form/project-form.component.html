@@ -62,7 +62,11 @@
                     placeholder="Codigo asesor"
                     [formControl]="codeControl"
                     (keyup.enter)="handleSearchMember(3)">
-                  <button matSuffix mat-icon-button (click)="handleSearchMember(1)">
+                  <button
+                    type="button"
+                    matSuffix
+                    mat-icon-button
+                    (click)="handleSearchMember(3)">
                     <mat-icon>search</mat-icon>
                   </button>
                 </mat-form-field>
@@ -100,7 +104,11 @@
                     placeholder="Codigo estudiante"
                     [formControl]="codeControl"
                     (keyup.enter)="handleSearchMember(1)">
-                  <button matSuffix mat-icon-button (click)="handleSearchMember(1)">
+                  <button
+                    type="button"
+                    matSuffix
+                    mat-icon-button
+                    (click)="handleSearchMember(1)">
                     <mat-icon>search</mat-icon>
                   </button>
                 </mat-form-field>
