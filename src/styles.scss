@@ -1,8 +1,58 @@
 @use '@angular/material' as mat;
 @include mat.core();
 
-$frontend-inbestiga-primary: mat.define-palette(mat.$indigo-palette);
-$frontend-inbestiga-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$i-primary: (
+  50: #D0A9FB,
+  100: #C18CF9,
+  200: #B16FF8,
+  300: #A153F6,
+  400: #9236F5,
+  500: #8219F3,
+  600: #710CDF,
+  700: #610ABF,
+  800: #51089F,
+  900: #41077F,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: white,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  ),
+);
+
+$i-secondary: (
+  50: #99FAF1,
+  100: #77F8EC,
+  200: #54F6E7,
+  300: #32F4E2,
+  400: #10F3DD,
+  500: #0BD4C1,
+  600: #0ABAA9,
+  700: #089F91,
+  800: #078579,
+  900: #066A61,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  ),
+);
+
+$frontend-inbestiga-primary: mat.define-palette($i-primary, 500);
+$frontend-inbestiga-accent: mat.define-palette($i-secondary, 500);
 
 $frontend-inbestiga-warn: mat.define-palette(mat.$red-palette);
 

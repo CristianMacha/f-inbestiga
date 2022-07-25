@@ -19,28 +19,25 @@
     </div>
   </div>
   <div>
-    <div class="progress-wrapper">
-      <div class="progress-info">
-        <div class="mb-2" style="display: flex; gap: .5rem; align-items: center;">
-          <div class="input-group input-group-dynamic w-auto">
-            <span class="input-group-text" id="basic-addon1">%</span>
-            <input
-              class="form-control"
-              type="number"
-              max="100"
-              min="0"
-              [formControl]="progressControl"
-              (keyup.enter)="handleUpdateProgress()">
-          </div>
-          <div *ngIf="progressControl.dirty">
-            <button class="m-0 btn bg-gradient-info btn-sm" (click)="handleUpdateProgress()">Actualizar</button>
-          </div>
-        </div>
-      </div>
-      <div class="progress">
-        <div class="progress-bar bg-gradient-info" role="progressbar"
-          aria-valuemax="100" [style.width]="project.progress+'%'"></div>
-      </div>
+    <div style="display: flex; align-items: center; gap: 1rem">
+      <mat-form-field appearance="outline">
+        <mat-label>Avance</mat-label>
+        <input
+          matInput
+          type="number"
+          min="0"
+          max="100"
+          [formControl]="progressControl">
+        <mat-icon matSuffix>percent</mat-icon>
+      </mat-form-field>
+      <button
+        mat-flat-button
+        color="primary"
+        *ngIf="progressControl.dirty"
+        (click)="handleUpdateProgress()">
+        Guardar avance
+      </button>
     </div>
+    <mat-progress-bar mode="determinate" [value]="project.progress"></mat-progress-bar>
   </div>
 </div>

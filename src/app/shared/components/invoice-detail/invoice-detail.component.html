@@ -1,28 +1,29 @@
-<div class="card">
-  <div class="card-header mx-4 p-3 text-center">
-    <div
-      class="icon icon-shape icon-lg shadow text-center border-radius-lg"
-      [class.bg-gradient-danger]="invoice.status == cInvoiceStatus.PENDING"
-      [class.bg-gradient-info]="invoice.status == cInvoiceStatus.PROCESSING"
-      [class.bg-gradient-success]="invoice.status == cInvoiceStatus.PAID_OUT">
-      <i class="material-icons opacity-10">payments</i>
+<mat-card>
+  <mat-card-content>
+    <div class="text-center">
+      <div
+        class="icon icon-shape icon-lg shadow text-center border-radius-lg my-2"
+        [class.bg-gradient-danger]="invoice.status == cInvoiceStatus.PENDING"
+        [class.bg-gradient-info]="invoice.status == cInvoiceStatus.PROCESSING"
+        [class.bg-gradient-success]="invoice.status == cInvoiceStatus.PAID_OUT">
+        <i class="material-icons opacity-10">payments</i>
+      </div>
+      <h6 class="mb-0">{{invoice.project.name | titlecase}}</h6>
+      <span class="text-xs mt-0">{{invoice.project.description}}</span>
+      <mat-divider class="my-3"></mat-divider>
+      <h5 class="mb-0">{{invoice.total | currency}}</h5>
+      <mat-divider class="my-3"></mat-divider>
+      <h5
+        class="mb-0"
+        [class.text-danger]="invoice.status == cInvoiceStatus.PENDING"
+        [class.text-info]="invoice.status == cInvoiceStatus.PROCESSING"
+        [class.text-success]="invoice.status == cInvoiceStatus.PAID_OUT">
+        {{invoice.status}}
+      </h5>
     </div>
-  </div>
-  <div class="card-body pt-0 p-3 text-center">
-    <h6 class="text-center mb-0">{{invoice.project.name | titlecase}}</h6>
-    <span class="text-xs">{{invoice.project.description}}</span>
-    <hr class="horizontal dark my-3">
-    <h5 class="mb-0">{{invoice.total | currency}}</h5>
-    <hr class="horizontal dark my-3">
-    <h5
-      class="mb-0"
-      [class.text-danger]="invoice.status == cInvoiceStatus.PENDING"
-      [class.text-info]="invoice.status == cInvoiceStatus.PROCESSING"
-      [class.text-success]="invoice.status == cInvoiceStatus.PAID_OUT">
-      {{invoice.status}}
-    </h5>
-  </div>
-  <div>
-    <button mat-button (click)="handleViewMoreDetail()">Ver</button>
-  </div>
-</div>
+
+    <div class="mt-3" *ngIf="showFees">
+      <vs-fees [invoiceId]="invoice.id"></vs-fees>
+    </div>
+  </mat-card-content>
+</mat-card>

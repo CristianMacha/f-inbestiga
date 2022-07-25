@@ -6,6 +6,10 @@ import {AppStatePaymentFeature} from "./store/payment.reducers";
 import {paymentFeatureInvoice, paymentFeatureShowInvoiceDetail} from "./store/payment.selectors";
 import {Invoice} from "@core/models";
 import {activeShowInvoiceDetail} from "./store/payment.actions";
+import {MatDialog} from "@angular/material/dialog";
+import {
+  DialogPaymentMethodsComponent
+} from "../../shared/dialogs/dialog-payment-methods/dialog-payment-methods.component";
 
 @Component({
   selector: 'vs-payment',
@@ -18,7 +22,10 @@ export class PaymentComponent implements OnInit, OnDestroy {
   showInvoiceDetail: boolean = false;
   invoice: Invoice = new Invoice();
 
-  constructor(private store: Store<AppStatePaymentFeature>) {
+  constructor(
+    private store: Store<AppStatePaymentFeature>,
+    private dialog: MatDialog,
+    ) {
   }
 
   ngOnInit(): void {
@@ -40,6 +47,12 @@ export class PaymentComponent implements OnInit, OnDestroy {
 
   handleArrowBack(): void {
     this.store.dispatch(activeShowInvoiceDetail({active: false}));
+  }
+
+  handlePaymentMethods(): void {
+    this.dialog.open(DialogPaymentMethodsComponent, {
+      width: '650px'
+    })
   }
 
 }

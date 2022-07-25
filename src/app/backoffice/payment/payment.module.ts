@@ -10,6 +10,7 @@ import {PaymentEffects} from "./store/payment.effects";
 import {PaymentTableComponent} from './components/payment-table/payment-table.component';
 import {InvoiceFeeComponent} from './components/invoice-fee/invoice-fee.component';
 import {SharedModule} from "../../shared/shared.module";
+import {MaterialModule} from "../../material/material.module";
 
 @NgModule({
   declarations: [
@@ -17,12 +18,16 @@ import {SharedModule} from "../../shared/shared.module";
     PaymentTableComponent,
     InvoiceFeeComponent
   ],
+  exports: [
+    InvoiceFeeComponent
+  ],
   imports: [
     CommonModule,
     PaymentRoutingModule,
     StoreModule.forFeature(paymentFeatureKey, _paymentReducer),
     EffectsModule.forFeature([PaymentEffects]),
-    SharedModule
+    SharedModule,
+    MaterialModule,
   ]
 })
 export class PaymentModule {

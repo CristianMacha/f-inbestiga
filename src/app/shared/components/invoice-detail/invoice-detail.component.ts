@@ -1,9 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {MatDialog} from "@angular/material/dialog";
 
-import {Invoice} from "@core/models";
+import {Fee, Invoice} from "@core/models";
 import {CInvoiceStatus} from "../../../core/enums/invoice.enum";
-import {DialogInvoicePaymentComponent} from "../../dialogs/dialog-invoice-payment/dialog-invoice-payment.component";
 
 @Component({
   selector: 'vs-invoice-detail',
@@ -12,19 +10,15 @@ import {DialogInvoicePaymentComponent} from "../../dialogs/dialog-invoice-paymen
 })
 export class InvoiceDetailComponent implements OnInit {
   @Input() invoice: Invoice = new Invoice();
+  @Input() showFees: boolean = false;
+
   cInvoiceStatus = CInvoiceStatus;
 
-  constructor(public dialog: MatDialog) {
+  fees: Fee[] = [];
+
+  constructor() {
   }
 
   ngOnInit(): void {
   }
-
-  handleViewMoreDetail(): void {
-    const dialogRef = this.dialog.open(DialogInvoicePaymentComponent, {
-      width: '500px',
-      data: {invoiceId: this.invoice.id}
-    })
-  }
-
 }

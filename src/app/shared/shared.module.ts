@@ -4,22 +4,26 @@ import {RouterModule} from '@angular/router';
 
 import {BackofficeNavComponent} from './components/backoffice-nav/backoffice-nav.component';
 import {ProjectDetailComponent} from './components/project-detail/project-detail.component';
-import { InvoiceDetailComponent } from './components/invoice-detail/invoice-detail.component';
+import {InvoiceDetailComponent} from './components/invoice-detail/invoice-detail.component';
 import {MaterialModule} from "../material/material.module";
-import { DialogInvoicePaymentComponent } from './dialogs/dialog-invoice-payment/dialog-invoice-payment.component';
+import {DialogPaymentMethodsComponent} from './dialogs/dialog-payment-methods/dialog-payment-methods.component';
+import {FeesComponent} from './components/fees/fees.component';
+import { DialogPayFeeComponent } from './dialogs/dialog-pay-fee/dialog-pay-fee.component';
 
 const COMPONENTS_SHARED = [
   BackofficeNavComponent,
   ProjectDetailComponent,
-  InvoiceDetailComponent
+  InvoiceDetailComponent,
+  DialogPaymentMethodsComponent,
+  FeesComponent
 ]
 
 @NgModule({
-  declarations: [COMPONENTS_SHARED, DialogInvoicePaymentComponent],
+  declarations: [COMPONENTS_SHARED, DialogPayFeeComponent],
   imports: [
     CommonModule,
     RouterModule,
-    MaterialModule
+    MaterialModule,
   ],
   exports: [COMPONENTS_SHARED]
 })

@@ -1,10 +1,18 @@
 <div *ngIf="!showInvoiceDetail">
-  <h2>Pagos</h2>
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <h2>Pagos</h2>
+    <button
+      mat-button
+      color="primary"
+      (click)="handlePaymentMethods()">
+      <mat-icon>wallet</mat-icon>
+      Metodos de pago
+    </button>
+  </div>
   <div class="card">
     <vs-payment-table></vs-payment-table>
   </div>
 </div>
-
 <div *ngIf="showInvoiceDetail">
   <div style="display: flex; align-items: center;">
     <i class="material-icons text-bold cursor-pointer" (click)="handleArrowBack()">arrow_back</i>

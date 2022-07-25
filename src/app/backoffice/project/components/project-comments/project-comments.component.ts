@@ -71,6 +71,8 @@ export class ProjectCommentsComponent implements OnInit {
         const { project, ...commentary } = newCommentary;
         this.createProject(commentary);
       }
+    } else {
+      this.commentaryControl.markAsTouched();
     }
   }
 }
