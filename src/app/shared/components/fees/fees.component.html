@@ -32,7 +32,7 @@
         </button>
         <button
           mat-icon-button
-          *ngIf="fee.status == cFeeStatus.PENDING"
+          *ngIf="fee.status == cFeeStatus.PENDING || fee.status == cFeeStatus.REFUSED"
           color="accent"
           (click)="handlePay(fee)">
           <mat-icon>payment</mat-icon>
@@ -42,7 +42,8 @@
           color="warn"
           *ngIf="fee.status == cFeeStatus.PROCESSING"
           matTooltip="Rechazar pago"
-          [matTooltipPosition]="'above'">
+          [matTooltipPosition]="'above'"
+          (click)="handleVerifyPayment(fee.id, false)">
           <mat-icon>close</mat-icon>
         </button>
         <button
@@ -50,7 +51,8 @@
           color="accent"
           *ngIf="fee.status == cFeeStatus.PROCESSING"
           matTooltip="Verificar pago"
-          [matTooltipPosition]="'above'">
+          [matTooltipPosition]="'above'"
+          (click)="handleVerifyPayment(fee.id, true)">
           <mat-icon>done</mat-icon>
         </button>
       </div>

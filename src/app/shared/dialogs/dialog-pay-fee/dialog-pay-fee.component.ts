@@ -3,10 +3,9 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 import {EFeePaymentMethod, EStorage} from "@core/enums";
-import {FeeService} from "@core/services";
+import {FeeService, SnackBarService} from "@core/services";
 import {Fee} from "@core/models";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
-import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'vs-dialog-pay-fee',
@@ -39,7 +38,7 @@ export class DialogPayFeeComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: { fee: Fee },
     private feeService: FeeService,
     private storage: AngularFireStorage,
-    private snackBar: MatSnackBar
+    private snackBar: SnackBarService,
   ) {
   }
 
@@ -80,14 +79,14 @@ export class DialogPayFeeComponent implements OnInit {
     const filePath = `${EStorage.REF_VOUCHER}/${this.feeCode}`;
     const task = this.storage.upload(filePath, this.file);
     task.then((snapshot) => {
-      this.snackBar.open('Voucher registrado.');
-      this.onNoClick();
+      this.snackBar.openTopEnd('Voucher registrado.');
+      this.dialogRef.close(true);
     });
-    task.catch((error) => this.snackBar.open(`${error.message}`));
+    task.catch((error) => this.snackBar.openTopEnd(`${error.message}`));
   }
 
   onNoClick(): void {
-    this.dialogRef.close(true);
+    this.dialogRef.close();
   }
 
 }

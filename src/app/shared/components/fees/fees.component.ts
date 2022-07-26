@@ -1,12 +1,16 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
+import {Store} from "@ngrx/store";
+import {Subscription} from "rxjs";
 
 import {FeeService} from "@core/services";
 import {Fee} from "@core/models";
 import {CFeeStatus, EStorage} from "@core/enums";
 import {DialogPayFeeComponent} from "../../dialogs/dialog-pay-fee/dialog-pay-fee.component";
-import {Subscription} from "rxjs";
+import {DialogVerifyPaymentComponent} from "../../dialogs/dialog-verify-payment/dialog-verify-payment.component";
+import {IDialogVerifyPayment} from "@core/interfaces";
+import {AppStatePaymentFeature} from "../../../backoffice/payment/store/payment.reducers";
 
 @Component({
   selector: 'vs-fees',
@@ -14,6 +18,7 @@ import {Subscription} from "rxjs";
   styleUrls: ['./fees.component.scss']
 })
 export class FeesComponent implements OnInit, OnDestroy {
+  @Output() paidOut: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Input() invoiceId: number = 0;
   subscription: Subscription = new Subscription();
 
@@ -24,6 +29,7 @@ export class FeesComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private feeService: FeeService,
     private storage: AngularFireStorage,
+    private store: Store<AppStatePaymentFeature>
   ) {
   }
 
@@ -59,4 +65,29 @@ export class FeesComponent implements OnInit, OnDestroy {
     );
   }
 
+  handleVerifyPayment(feeId: number, accepted: boolean): void {
+    const newDialogContent: IDialogVerifyPayment = {
+      title: accepted ? 'Aceptar pago' : 'Rechazar pago',
+      accepted,
+    };
+
+    const dialogRef = this.dialog.open(DialogVerifyPaymentComponent, {
+      width: '400px',
+      data: newDialogContent
+    });
+
+    this.subscription.add(
+      dialogRef.afterClosed().subscribe((resp) => {
+        this.updateStatus(feeId, resp);
+      })
+    );
+  }
+
+  updateStatus(feeId: number, fee: Fee): void {
+    this.feeService.validate(feeId, fee)
+      .subscribe((resp) => {
+        this.getFees();
+        this.paidOut.emit(true);
+      })
+  }
 }

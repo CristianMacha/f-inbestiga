@@ -1,0 +1,25 @@
+<h5 mat-dialog-title>{{data.title}}</h5>
+<div mat-dialog-content>
+  <mat-form-field
+    appearance="outline"
+    class="w-100">
+    <mat-label>Observacion</mat-label>
+    <input
+      matInput
+      [formControl]="observationControl">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions [align]="'end'">
+  <button
+    mat-button
+    (click)="onNoClick()">
+    Cancelar
+  </button>
+  <button
+    mat-flat-button
+    [color]="data.accepted ? 'accent' : 'warn'"
+    [mat-dialog-close]="fee"
+    cdkFocusInitial>
+    {{data.accepted ? 'Acceptar' : 'Rechazar'}}
+  </button>
+</div>

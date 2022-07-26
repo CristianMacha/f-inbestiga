@@ -34,7 +34,12 @@
   </form>
 </div>
 <div mat-dialog-actions [align]="'end'">
-  <button mat-button mat-dialog-close cdkFocusInitial>Cancelar</button>
+  <button
+    mat-button
+    cdkFocusInitial
+    (click)="onNoClick()">
+    Cancelar
+  </button>
   <button
     mat-flat-button
     color="primary"

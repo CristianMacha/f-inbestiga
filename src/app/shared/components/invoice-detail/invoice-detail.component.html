@@ -23,7 +23,9 @@
     </div>
 
     <div class="mt-3" *ngIf="showFees">
-      <vs-fees [invoiceId]="invoice.id"></vs-fees>
+      <vs-fees
+        [invoiceId]="invoice.id"
+        (paidOut)="feePaidOut($event)"></vs-fees>
     </div>
   </mat-card-content>
 </mat-card>

@@ -10,6 +10,7 @@ import {MaterialModule} from "../material/material.module";
 import {DialogPaymentMethodsComponent} from './dialogs/dialog-payment-methods/dialog-payment-methods.component';
 import {FeesComponent} from './components/fees/fees.component';
 import {DialogPayFeeComponent} from './dialogs/dialog-pay-fee/dialog-pay-fee.component';
+import {DialogVerifyPaymentComponent} from './dialogs/dialog-verify-payment/dialog-verify-payment.component';
 
 const COMPONENTS_SHARED = [
   BackofficeNavComponent,
@@ -17,7 +18,8 @@ const COMPONENTS_SHARED = [
   InvoiceDetailComponent,
   DialogPaymentMethodsComponent,
   FeesComponent,
-  DialogPayFeeComponent
+  DialogPayFeeComponent,
+  DialogVerifyPaymentComponent
 ]
 
 @NgModule({

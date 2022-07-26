@@ -7,6 +7,7 @@ export class Fee {
   public total: number;
   public status: EFeeStatus;
   public fileName: string;
+  public observation: string;
   public code: string;
   public active: boolean;
   public paymentMethod: EFeePaymentMethod;
@@ -20,6 +21,7 @@ export class Fee {
     this.total = 0;
     this.status = EFeeStatus.PENDING;
     this.fileName = '';
+    this.observation = '';
     this.code = '';
     this.active = false;
     this.paymentMethod = EFeePaymentMethod.CASH_PAYMENT;
