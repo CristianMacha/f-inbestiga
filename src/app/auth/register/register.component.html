@@ -2,9 +2,7 @@
   <div class="row">
     <div class="col-12">
       <!-- Navbar -->
-      <nav
-        class="navbar navbar-expand-lg blur border-radius-xl top-0 z-index-3 shadow position-absolute my-4 py-2 start-0 end-0 mx-4"
-      >
+      <nav class="navbar navbar-expand-lg blur border-radius-xl top-0 z-index-3 shadow position-absolute my-4 py-2 start-0 end-0 mx-4">
         <div class="container-fluid ps-2 pe-0">
           <a
             class="navbar-brand font-weight-bolder ms-lg-0 ms-3"
@@ -65,24 +63,17 @@
 
 <!-- Seccion Registro -->
 
-<main class="main-content mt-0">
+<main class="main-content mt-0 overflow-auto">
   <!-- Seccion Ingreso -->
-  <div
-    class="page-header align-items-start min-vh-100"
-    style="background-image: url(../../../assets/img/inbestiga-fondo-1.webp)"
-  >
+  <div class="page-header align-items-start min-vh-100" style="background-image: url(../../../assets/img/inbestiga-fondo-1.webp)">
     <span class="mask bg-gradient-dark opacity-6"></span>
     <div class="container my-auto">
       <div class="row">
         <div class="col-lg-5 col-md-8 col-12 mx-auto">
           <div class="card z-index-0 fadeIn3 fadeInBottom">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <div
-                class="bg-gradient-info shadow-info border-radius-lg py-2 pe-1"
-              >
-                <h4
-                  class="text-white font-weight-bolder text-center mt-2 mb-2 fs-4"
-                >
+              <div class="bg-gradient-info shadow-info border-radius-lg py-2 pe-1">
+                <h4 class="text-white font-weight-bolder text-center mt-2 mb-2 fs-4">
                   Únete a InBESTiga
                 </h4>
                 <p class="text-white mx-3 my-2 text-center">
@@ -91,52 +82,37 @@
               </div>
             </div>
             <div class="card-body">
-              <form role="form" class="text-start">
-                <div class="input-group input-group-outline my-3 mx-auto">
-                  <button class="btn btn-primary" type="button">
-                    Subir Archivo
-                  </button>
-                </div>
-                <div class="input-group input-group-outline my-3">
-                  <label class="form-label">Nombres *</label>
-                  <input type="text" class="form-control" />
-                </div>
-                <div class="input-group input-group-outline my-3">
-                  <label class="form-label">Apellidos *</label>
-                  <input type="text" class="form-control" />
-                </div>
-                <div class="input-group input-group-outline my-3">
-                  <label class="form-label">Email *</label>
-                  <input type="email" class="form-control" />
-                </div>
-                <div class="row g-2">
-                  <div class="col-md-6 mx-0">
-                    <div class="input-group input-group-outline">
-                      <label class="form-label">Teléfono/Celular *</label>
-                      <input type="text" class="form-control" />
-                    </div>
-                  </div>
-                  <div class="col-md-6 mx-0">
-                    <div class="input-group input-group-outline">
-                      <label class="form-label" for="inputCategory"
-                        >Categoría</label
-                      >
-                      <select id="inputCategory" class="form-control">
-                        <option selected></option>
-                        <option>.</option>
-                        <option>.</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="input-group input-group-outline my-3">
-                  <label class="form-label" for="message">Mensaje</label>
-                  <textarea
-                    class="form-control"
-                    id="message"
-                    rows="3"
-                  ></textarea>
-                </div>
+              <form [formGroup]="registerForm">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Nombres</mat-label>
+                  <input matInput formControlName="fullname">
+                  <mat-error>El nombre es necesario</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Celular / telefono</mat-label>
+                  <input matInput formControlName="phone">
+                  <mat-error>El celular/telefono es necesario.</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Email</mat-label>
+                  <input matInput type="email" formControlName="email">
+                  <mat-error>El email es necesario.</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Contraseña</mat-label>
+                  <input matInput type="password" formControlName="password">
+                  <mat-error>La contraseña es necesaria.</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Verificar contraseña</mat-label>
+                  <input matInput type="password" formControlName="confirmPassword">
+                  <mat-error>La contraseña es necesaria.</mat-error>
+                </mat-form-field>
+
                 <div class="form-check form-check-info text-start ps-0">
                   <input
                     class="form-check-input checkbox-register"
@@ -156,11 +132,12 @@
                   <button
                     type="button"
                     class="btn bg-gradient-info w-100 my-4 mb-2"
-                  >
+                    (click)="handleRegister()"
+                    [disabled]="loading">
                     Registrarse
                   </button>
                 </div>
-                <p class="mt-4 text-sm text-center">
+                <p class="mt-2 mb-2 text-sm text-center">
                   ¿Ya tienes una cuenta?
                   <a
                     [routerLink]="['/auth/login']"
@@ -174,7 +151,7 @@
         </div>
       </div>
     </div>
-    <footer class="footer position-absolute bottom-2 py-2 w-100">
+    <footer class="footer position-absolute bottom-2 py-1 w-100">
       <div class="container">
         <div class="row align-items-center justify-content-lg-between">
           <div class="col-12 col-md-6 my-auto">
