@@ -21,8 +21,11 @@
           <td class="align-middle text-end">
           <span
             class="badge"
-            [class.bg-gradient-secondary]="project.status==cProjectStatus.PENDING"
-            [class.bg-gradient-success]="project.status==cProjectStatus.COMPLETED">
+            [class.bg-gradient-warning]="project.status == cProjectStatus.REQUIRED"
+            [class.bg-gradient-info]="project.status == cProjectStatus.ACCEPTED"
+            [class.bg-gradient-danger]="project.status == cProjectStatus.REFUSED"
+            [class.bg-gradient-secondary]="project.status == cProjectStatus.PENDING"
+            [class.bg-gradient-success]="project.status == cProjectStatus.COMPLETED">
             {{project.status}}
           </span>
           </td>

@@ -11,6 +11,8 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatListModule} from '@angular/material/list';
 
 const MATERIAL_COMPONENTS = [
   MatDialogModule,
@@ -25,6 +27,8 @@ const MATERIAL_COMPONENTS = [
   MatProgressBarModule,
   MatSnackBarModule,
   MatTooltipModule,
+  MatChipsModule,
+  MatListModule,
 ]
 
 @NgModule({

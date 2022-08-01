@@ -1,60 +1,70 @@
-<div class="card-body">
-  <h5 class="card-title">{{title | titlecase}}</h5>
-  <form [formGroup]="requirementForm">
-    <div class="row g-2">
-      <div class="col-md-12">
-        <label>Titulo</label>
-        <div class="input-group input-group-static">
-          <input class="form-control" formControlName="name">
+<mat-card>
+  <mat-card-title>{{title | titlecase}}</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="requirementForm">
+      <div class="row g-2">
+        <div class="col-md-12">
+          <label>Titulo</label>
+          <div class="input-group input-group-static">
+            <input class="form-control" formControlName="name">
+          </div>
+        </div>
+        <div class="col-md-12">
+          <label>Descripcion</label>
+          <div class="input-group input-group-static">
+            <input class="form-control" formControlName="description">
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="d-flex align-items-center justify-content-center">
+            <button
+              mat-mini-fab
+              color="primary"
+              (click)="files.click()">
+              <mat-icon>upload_file</mat-icon>
+            </button>
+          </div>
+          <input
+            type="file"
+            class="form-control"
+            hidden
+            #files
+            (change)="handleSelectPhoto($event)">
+        </div>
+        <div class="col-md-10">
+          <label>Nombre del documento</label>
+          <div class="input-group input-group-static">
+            <input class="form-control" formControlName="filename">
+          </div>
         </div>
       </div>
-      <div class="col-md-12">
-        <label>Descripcion</label>
-        <div class="input-group input-group-static">
-          <input class="form-control" formControlName="description">
-        </div>
-      </div>
-      <div class="col-md-2">
-        <button class="btn btn-primary btn-sm w-100 m-0" (click)="files.click()">Elegir archivo</button>
-        <input
-          type="file"
-          class="form-control"
-          hidden
-          #files
-          (change)="handleSelectPhoto($event)">
-      </div>
-      <div class="col-md-10">
-        <label>Nombre del documento</label>
-        <div class="input-group input-group-static">
-          <input class="form-control" formControlName="filename">
-        </div>
-      </div>
-    </div>
-  </form>
-  <div class="my-4">
-    <div *ngIf="loading && file">
-      <div class="progress">
-        <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuemin="0"
-          aria-valuemax="100" [style.width]="progressUploadFile + '%'"></div>
+    </form>
+    <div class="my-4">
+      <div *ngIf="loading && file">
+        <div class="progress">
+          <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuemin="0"
+               aria-valuemax="100" [style.width]="progressUploadFile + '%'"></div>
         </div>
       </div>
     </div>
     <p class="m-0 text-danger" *ngIf="retryUploadFile">Algo salio mal</p>
-  <div class="mt-4 text-end">
-    <div style="display: flex; justify-content: space-between;">
-      <button class="btn m-0" (click)="handleCancel()">Cancelar</button>
+  </mat-card-content>
+  <mat-card-actions [align]="'end'">
+    <button mat-button (click)="handleCancel()">Cancelar</button>
 
-      <button
-        class="btn btn-info m-0"
-        *ngIf="retryUploadFile"
-        [disabled]="loading"
-        (click)="uploadImage()">Reintentar subir archivo</button>
-      <button
-        class="btn bg-gradient-info m-o"
-        [disabled]="requirementForm.invalid || !fileSelected || loading"
-        *ngIf="!retryUploadFile"
-        (click)="handleCreate()">{{btnActionText}}</button>
-    </div>
-    <pre>{{requirementForm.invalid || !fileSelected || loading | json}}</pre>
-  </div>
-</div>
+    <button
+      mat-flat-button
+      color="primary"
+      *ngIf="retryUploadFile"
+      [disabled]="loading"
+      (click)="uploadImage()">Reintentar subir archivo
+    </button>
+    <button
+      mat-flat-button
+      color="primary"
+      [disabled]="requirementForm.invalid || !fileSelected || loading"
+      *ngIf="!retryUploadFile"
+      (click)="handleCreate()">{{btnActionText}}</button>
+  </mat-card-actions>
+</mat-card>
+

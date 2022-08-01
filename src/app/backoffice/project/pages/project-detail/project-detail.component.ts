@@ -1,22 +1,21 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Subscription} from 'rxjs';
+import {finalize, Subscription} from 'rxjs';
 import {Store} from '@ngrx/store';
+import {MatDialog} from "@angular/material/dialog";
 
 import {Invoice, Project, Role} from '@core/models';
 import {AppStateProjectFeature} from '../../store/project.reducers';
-import {
-  activeFormR,
-  loadProject,
-  updateProjectActive,
-} from '../../store/project.actions';
-import {
-  projectFeatureActiveFormR,
-  projectFeatureProject,
-} from '../../store/project.selectors';
-import {CRole} from "@core/enums";
+import {activeFormR, loadProject, updateProjectActive} from '../../store/project.actions';
+import {projectFeatureActiveFormR, projectFeatureProject} from '../../store/project.selectors';
+import {CProjectStatus, CRole} from "@core/enums";
 import {uiRoleSelected} from "../../../../shared/ui.selectors";
-import {InvoiceService} from "@core/services";
+import {InvoiceService, ProjectService, SnackBarService} from "@core/services";
+import {
+  DialogAcceptProjectComponent
+} from "../../../../shared/dialogs/dialog-accept-project/dialog-accept-project.component";
+import {DialogConfirmComponent} from "../../../../shared/dialogs/dialog-confirm/dialog-confirm.component";
+import {IDialogConfirm} from "@core/interfaces";
 
 @Component({
   selector: 'vs-project-detail',
@@ -27,6 +26,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   projectId: number = 0;
   project: Project = new Project();
+  cProjectStatus = CProjectStatus;
 
   invoices: Invoice[] = [];
   activeFormR: boolean = false;
@@ -37,7 +37,10 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private store: Store<AppStateProjectFeature>,
     private router: Router,
-    private invoiceService: InvoiceService
+    private invoiceService: InvoiceService,
+    private matDialog: MatDialog,
+    private projectService: ProjectService,
+    private snackBar: SnackBarService
   ) {
   }
 
@@ -50,6 +53,47 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  handleAccept(): void {
+    const dialogRef = this.matDialog.open(DialogAcceptProjectComponent, {
+      width: '400px',
+      data: {projectId: this.projectId}
+    });
+
+    this.subscription.add(
+      dialogRef.afterClosed().subscribe((resp) => {
+        if (resp) {
+          this.store.dispatch(loadProject({projectId: this.projectId}))
+          this.getInvoices(this.projectId);
+        }
+      })
+    );
+  }
+
+  handleRefuse(): void {
+    const data: IDialogConfirm = {
+      title: 'Rechazar',
+      description: 'Esta seguro de rachazar este proyecto?',
+      action: 'Rechazar',
+      accept: false
+    };
+
+    const dialogRef = this.matDialog.open(DialogConfirmComponent, {width: '300px', data, autoFocus: false});
+    this.subscription.add(
+      dialogRef.afterClosed().subscribe((resp) => resp && this.refuseProject())
+    );
+  }
+
+  refuseProject(): void {
+    this.projectService.refuse(this.projectId)
+      .subscribe({
+        next: (resp) => {
+          this.store.dispatch(loadProject({projectId: resp.id}))
+          this.snackBar.openTopEnd('Proyecto rechazdo');
+        },
+        error: (e) => this.snackBar.openTopEnd('Algo salio mal.')
+      })
   }
 
   getProject(): void {

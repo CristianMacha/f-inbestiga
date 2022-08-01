@@ -5,30 +5,50 @@
       (click)="handleBtnArrowBack()">arrow_back</i>
     {{project.name | titlecase}}
   </h2>
-  <div style="display: flex; gap: .5rem; flex-wrap: wrap; align-items: center">
+  <div class="list-button">
+    <div class="list-button"
+         *ngIf="roleSelected.id == cRole.ADMINISTRATOR && project.status != cProjectStatus.ACCEPTED && project.status != cProjectStatus.REFUSED">
+      <button
+        mat-flat-button
+        color="warn"
+        (click)="handleRefuse()">
+        Rechazar
+      </button>
+      <button
+        mat-flat-button
+        color="accent"
+        (click)="handleAccept()">
+        Aceptar
+      </button>
+    </div>
+
     <button
       mat-flat-button
       color="primary"
-      *ngIf="!activeFormR"
-      (click)="handleUploadUpdate()">
+      (click)="handleUploadUpdate()"
+      *ngIf="project.status != cProjectStatus.REQUIRED && project.status != cProjectStatus.REFUSED">
       <mat-icon>file_upload</mat-icon>
       Subir Actualizacion
     </button>
-    <button
-      mat-flat-button
-      color="warn"
-      *ngIf="project.active && (roleSelected.id !== cRole.STUDENT)"
-      (click)="handleBtnToggleActiveProject()">
-      <mat-icon>block</mat-icon>
-      Deshabilitar Proyecto
-    </button>
-    <button
-      mat-flat-button color="accent"
-      *ngIf="!project.active && (roleSelected.id !== cRole.STUDENT)"
-      (click)="handleBtnToggleActiveProject()">
-      <mat-icon>restore_page</mat-icon>
-      Habilitar Proyecto
-    </button>
+
+    <div
+      *ngIf="roleSelected.id !== cRole.STUDENT && roleSelected.id !== 0 && project.status != cProjectStatus.REQUIRED && project.status != cProjectStatus.REFUSED">
+      <button
+        mat-flat-button
+        color="warn"
+        *ngIf="project.active"
+        (click)="handleBtnToggleActiveProject()">
+        <mat-icon>block</mat-icon>
+        Deshabilitar Proyecto
+      </button>
+      <button
+        mat-flat-button color="accent"
+        *ngIf="!project.active"
+        (click)="handleBtnToggleActiveProject()">
+        <mat-icon>restore_page</mat-icon>
+        Habilitar Proyecto
+      </button>
+    </div>
   </div>
 </div>
 <div class="row g-3">
@@ -55,7 +75,7 @@
   </div>
   <div class="col-md-4">
     <div class="row g-3">
-      <div class="col-md-12">
+      <div class="col-md-12" *ngIf="invoices.length > 0">
         <div *ngFor="let invoice of invoices">
           <vs-invoice-detail
             [invoice]="invoice"

@@ -1,7 +1,12 @@
-<div *ngIf="!activeForm && (roleSelected.id !== cRole.STUDENT)">
+<div *ngIf="!activeForm && (roleSelected.id !== cRole.STUDENT)" class="mb-2">
   <button
-    class="btn bg-gradient-info"
-    (click)="handleBtnNewProject()">Crear proyecto <i class="material-icons">create_new_folder</i></button>
+    type="button"
+    mat-flat-button
+    color="primary"
+    (click)="handleBtnNewProject()">
+    Crear proyecto
+    <i class="material-icons">create_new_folder</i>
+  </button>
 </div>
 
 <div class="row g-3" *ngIf="!activeForm">

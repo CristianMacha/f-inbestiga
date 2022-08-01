@@ -1,10 +1,9 @@
-<div class="card">
-  <div class="card-header">
-    <h5 class="card-title m-0">{{project.name | titlecase}}</h5>
-    <small class="mb-2"># {{project.code}}</small>
-  </div>
-  <div class="card-body">
-
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{project.name | titlecase}}</mat-card-title>
+    <mat-card-subtitle># {{project.code}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
     <div class="progress-wrapper">
       <div class="progress-info">
         <div class="progress-percentage">
@@ -16,7 +15,6 @@
              aria-valuemax="100" [style.width]="project.progress+'%'"></div>
       </div>
     </div>
-
     <div class="mt-2">
       <div>
         <div style="display: flex; flex-wrap: nowrap; align-content: center; gap: .5rem;">
@@ -48,11 +46,26 @@
           </div>
         </div>
       </div>
+      <div class="mt-1">
+        <span
+          class="badge badge-pill"
+          [class.bg-gradient-warning]="project.status == cProjectStatus.REQUIRED"
+          [class.bg-gradient-info]="project.status == cProjectStatus.ACCEPTED"
+          [class.bg-gradient-danger]="project.status == cProjectStatus.REFUSED"
+          [class.bg-gradient-secondary]="project.status == cProjectStatus.PENDING"
+          [class.bg-gradient-success]="project.status == cProjectStatus.COMPLETED">
+          {{project.status}}
+        </span>
+      </div>
     </div>
-  </div>
-  <div class="card-footer">
-    <div class="text-end">
-      <button class="btn btn-link m-0" (click)="seeProject()">ver proyecto</button>
-    </div>
-  </div>
-</div>
+  </mat-card-content>
+  <mat-card-actions
+    [align]="'end'"
+    *ngIf="project.status !== cProjectStatus.REFUSED && project.status !== cProjectStatus.REQUIRED">
+    <button
+      mat-button
+      color="primary"
+      (click)="seeProject()">ver proyecto
+    </button>
+  </mat-card-actions>
+</mat-card>

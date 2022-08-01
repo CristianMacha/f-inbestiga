@@ -5,12 +5,13 @@ import {Store} from "@ngrx/store";
 import {Subscription} from "rxjs";
 
 import {FeeService} from "@core/services";
-import {Fee} from "@core/models";
-import {CFeeStatus, EStorage} from "@core/enums";
+import {Fee, Role} from "@core/models";
+import {CFeeStatus, CRole, EStorage} from "@core/enums";
 import {DialogPayFeeComponent} from "../../dialogs/dialog-pay-fee/dialog-pay-fee.component";
 import {DialogVerifyPaymentComponent} from "../../dialogs/dialog-verify-payment/dialog-verify-payment.component";
 import {IDialogVerifyPayment} from "@core/interfaces";
 import {AppStatePaymentFeature} from "../../../backoffice/payment/store/payment.reducers";
+import {uiRoleSelected} from "../../ui.selectors";
 
 @Component({
   selector: 'vs-fees',
@@ -24,6 +25,8 @@ export class FeesComponent implements OnInit, OnDestroy {
 
   fees: Fee[] = [];
   cFeeStatus = CFeeStatus;
+  roleSelect: Role = new Role();
+  cRole = CRole;
 
   constructor(
     public dialog: MatDialog,
@@ -35,6 +38,7 @@ export class FeesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getFees();
+    this.getRoleSelected();
   }
 
   ngOnDestroy() {
@@ -89,5 +93,11 @@ export class FeesComponent implements OnInit, OnDestroy {
         this.getFees();
         this.paidOut.emit(true);
       })
+  }
+
+  getRoleSelected(): void {
+    this.subscription.add(
+      this.store.select(uiRoleSelected).subscribe((resp) => this.roleSelect = resp)
+    )
   }
 }

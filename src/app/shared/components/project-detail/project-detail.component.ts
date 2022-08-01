@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 
 import {PersonProject, Project} from "@core/models";
 import {PersonProjectService} from "@core/services";
+import {CProjectStatus} from "@core/enums";
 
 @Component({
   selector: 'vs-project-detail',
@@ -13,6 +14,7 @@ export class ProjectDetailComponent implements OnInit {
   @Input() project: Project = new Project();
 
   personsProject: PersonProject[] = [];
+  cProjectStatus = CProjectStatus;
 
   constructor(
     private router: Router,

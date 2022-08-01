@@ -30,7 +30,7 @@ export class Project {
     this.progress = 0;
     this.inProgress = false;
     this.statusPay = EInvoiceStatus.PENDING;
-    this.status = EProjectStatus.PENDING;
+    this.status = EProjectStatus.REQUIRED;
     this.expirationDate = new Date();
     this.active = false;
     this.deleted = false;

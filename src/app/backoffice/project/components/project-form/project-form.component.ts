@@ -1,26 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { Store } from '@ngrx/store';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators,} from '@angular/forms';
+import {Store} from '@ngrx/store';
 
 import {Category, Person, PersonProject, Project, Role} from '@core/models';
-import { CategoryService, PersonService, ProjectService } from '@core/services';
-import {
-  activeForm,
-  createProject,
-  updateProject,
-} from '../../store/project.actions';
-import { AppStateProjectFeature } from '../../store/project.reducers';
-import {CRole, ERole} from '@core/enums';
-import { finalize, Subscription } from 'rxjs';
-import { projectFeature } from '../../store/project.selectors';
+import {CategoryService, PersonService, ProjectService} from '@core/services';
+import {activeForm, createProject, updateProject,} from '../../store/project.actions';
+import {AppStateProjectFeature} from '../../store/project.reducers';
+import {CRole, EProjectStatus, ERole} from '@core/enums';
+import {finalize, Subscription} from 'rxjs';
+import {projectFeature} from '../../store/project.selectors';
 import * as moment from 'moment';
-import {uiFeature, uiPerson, uiRoleSelected} from "../../../../shared/ui.selectors";
+import {uiFeature} from "../../../../shared/ui.selectors";
 
 @Component({
   selector: 'vs-project-form',
@@ -71,7 +61,8 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     private personService: PersonService,
     private projectService: ProjectService,
     private categoryService: CategoryService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.getCategories();
@@ -134,7 +125,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   }
 
   handleCancel() {
-    this.store.dispatch(activeForm({ active: false }));
+    this.store.dispatch(activeForm({active: false}));
   }
 
   handleSearchMember(roleId: number) {
@@ -181,14 +172,14 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       this.projectForm.invalid
         ? this.projectForm.markAllAsTouched()
         : this.store.dispatch(
-            updateProject({ project: this.projectForm.value })
-          );
+          updateProject({project: this.projectForm.value})
+        );
     } else {
       this.projectForm.invalid
         ? this.projectForm.markAllAsTouched()
         : this.store.dispatch(
-            createProject({ project: this.projectForm.value })
-          );
+          createProject({project: this.projectForm.value})
+        );
     }
   }
 
@@ -213,7 +204,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
           !this.editMode && this.addPersonProjects(newAdvisorProject);
         }
 
-        if(this.roleSelected.id == this.cRole.STUDENT) {
+        if (this.roleSelected.id == this.cRole.STUDENT) {
           const newStudentProject = new PersonProject();
           newStudentProject.isAdvisor = false;
           newStudentProject.active = true;

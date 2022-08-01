@@ -4,16 +4,28 @@ import {Observable} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
 import {Project} from '../models/project.model';
-import {ProjectInterfaceFilter} from "@core/interfaces";
+import {ProjectAcceptInterface, ProjectInterfaceFilter} from "@core/interfaces";
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProjectService {
-  private uri: string;
+  private readonly uri: string;
 
   constructor(private http: HttpClient) {
     this.uri = `${environment.url}/project`;
+  }
+
+  accept(acceptProject: ProjectAcceptInterface): Observable<Project> {
+    return this.http.post<Project>(`${this.uri}/accept`, acceptProject);
+  }
+
+  refuse(projectId: number): Observable<Project> {
+    return this.http.get<Project>(`${this.uri}/refused/${projectId}`);
+  }
+
+  request(project: Project): Observable<Project> {
+    return this.http.post<Project>(`${this.uri}/request`, project);
   }
 
   getProject(projectId: number): Observable<Project> {

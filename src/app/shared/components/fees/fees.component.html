@@ -37,24 +37,24 @@
           (click)="handlePay(fee)">
           <mat-icon>payment</mat-icon>
         </button>
-        <button
-          mat-icon-button
-          color="warn"
-          *ngIf="fee.status == cFeeStatus.PROCESSING"
-          matTooltip="Rechazar pago"
-          [matTooltipPosition]="'above'"
-          (click)="handleVerifyPayment(fee.id, false)">
-          <mat-icon>close</mat-icon>
-        </button>
-        <button
-          mat-icon-button
-          color="accent"
-          *ngIf="fee.status == cFeeStatus.PROCESSING"
-          matTooltip="Verificar pago"
-          [matTooltipPosition]="'above'"
-          (click)="handleVerifyPayment(fee.id, true)">
-          <mat-icon>done</mat-icon>
-        </button>
+        <div *ngIf="roleSelect.id == cRole.ADMINISTRATOR && fee.status == cFeeStatus.PROCESSING">
+          <button
+            mat-icon-button
+            color="warn"
+            matTooltip="Rechazar pago"
+            [matTooltipPosition]="'above'"
+            (click)="handleVerifyPayment(fee.id, false)">
+            <mat-icon>close</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            color="accent"
+            matTooltip="Verificar pago"
+            [matTooltipPosition]="'above'"
+            (click)="handleVerifyPayment(fee.id, true)">
+            <mat-icon>done</mat-icon>
+          </button>
+        </div>
       </div>
     </div>
   </li>
