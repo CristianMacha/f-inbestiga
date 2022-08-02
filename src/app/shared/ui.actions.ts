@@ -1,6 +1,6 @@
 import {createAction, props} from "@ngrx/store";
 import {ILogin} from "@core/interfaces";
-import {Person, PersonRoles, Role, User} from "@core/models";
+import {Person, PersonRoles, ResourceModel, Role, User} from "@core/models";
 
 export const loading = createAction('[UI Component] Loading');
 export const stopLoading = createAction('[UI Component] Stop Loading');
@@ -17,5 +17,7 @@ export const personRolesLoadedSuccess = createAction('[UI Component] Person Role
 export const loadRoleSelected = createAction('[UI Component] Load Role Selected', props<{ roleId: number }>());
 export const roleSelectedLoadedSuccess = createAction('[UI Component] Role Selected Loaded Success', props<{ role: Role }>());
 
-export const loadPerson = createAction('[UI Component] Load Person', props<{userId: number}>());
-export const personLoadedSuccess = createAction('[UI Component] Person Loaded Success', props<{person: Person}>());
+export const loadPerson = createAction('[UI Component] Load Person', props<{ userId: number }>());
+export const personLoadedSuccess = createAction('[UI Component] Person Loaded Success', props<{ person: Person }>());
+
+export const loadResources = createAction('[UI Component] Load Resource', props<{ resources: ResourceModel[] }>());

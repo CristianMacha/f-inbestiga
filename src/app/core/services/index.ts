@@ -11,3 +11,4 @@ export {FeeService} from "./fee.service";
 export {PersonRoleService} from "./person-role.service";
 export {PersonProjectService} from "./person-project.service";
 export {SnackBarService} from "./snack-bar.service";
+export {ResourceService} from "./resource.service";

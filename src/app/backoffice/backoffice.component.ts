@@ -6,8 +6,9 @@ import {FormControl, Validators} from "@angular/forms";
 
 import {appState} from '../app.reducers';
 import {PersonRoles, User} from '@core/models';
-import {loadPerson, loadPersonRoles, loadRoleSelected, unsetUser} from '../shared/ui.actions';
-import {uiFeatureUser, uiPersonRoles} from '../shared/ui.selectors';
+import {loadPerson, loadPersonRoles, loadResources, loadRoleSelected, unsetUser} from '../shared/ui.actions';
+import {uiFeatureUser, uiPersonRoles, uiRoleSelected} from '../shared/ui.selectors';
+import {ResourceService} from "@core/services";
 
 declare function toggleSidenav(): any;
 
@@ -29,6 +30,7 @@ export class BackofficeComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<appState>,
     private router: Router,
+    private resource: ResourceService,
   ) {
   }
 
@@ -37,11 +39,22 @@ export class BackofficeComponent implements OnInit, OnDestroy {
     this.store.dispatch(loadPersonRoles());
     this.getPersonRoles();
     this.roleControl.valueChanges.subscribe(resp => resp && this.store.dispatch(loadRoleSelected({roleId: resp})));
-    // this.router.navigateByUrl('/backoffice');
+    this.getRoleSelected();
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  getRoleSelected(): void {
+    this.subscription.add(
+      this.store.select(uiRoleSelected).subscribe((role) => this.getResources(role.id))
+    );
+  }
+
+  getResources(roleId: number): void {
+    this.resource.getAllByRoleId(roleId)
+      .subscribe((resp) => this.store.dispatch(loadResources({resources: resp})))
   }
 
   getPersonRoles(): void {

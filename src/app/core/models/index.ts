@@ -9,3 +9,7 @@ export * from "./requirement.model";
 export * from "./commentary.model";
 export * from "./invoice.models";
 export * from "./fee.model";
+export * from "./resource.model";
+export * from "./role-resource.model";
+export * from "./permission.model";
+export * from "./role-permission.model";
