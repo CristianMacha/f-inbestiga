@@ -12,6 +12,7 @@ import { UserEffects } from './store/user.effects';
 import { userFeatureKey, _userReducer } from './store/user.reducer';
 import { SharedModule } from '../../shared/shared.module';
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
+import { MaterialModule } from 'src/app/material/material.module';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { UserDetailComponent } from './components/user-detail/user-detail.compon
     StoreModule.forFeature(userFeatureKey, _userReducer),
     EffectsModule.forFeature([UserEffects]),
     SharedModule,
+    MaterialModule
   ]
 })
 export class UserModule { }

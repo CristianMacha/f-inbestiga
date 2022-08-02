@@ -8,8 +8,6 @@ import { activeDetails, activeForm, createPerson, updatePerson } from '../../sto
 import { userFeature, userFeatureLoading } from '../../store/user.selectors';
 import { Person } from '@core/models';
 
-declare function loadInputs(): any;
-
 @Component({
   selector: 'vs-user-form',
   templateUrl: './user-form.component.html',
@@ -51,7 +49,6 @@ export class UserFormComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    loadInputs();
     this.checkFormStatus();
   }
 

@@ -10,6 +10,7 @@ import { categoryFeatureKey, _categoryReducer } from './store/category.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { CategoryEffects } from './store/category.effects';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MaterialModule } from 'src/app/material/material.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     CategoryRoutingModule,
     StoreModule.forFeature(categoryFeatureKey,_categoryReducer),
     EffectsModule.forFeature([CategoryEffects]),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MaterialModule
   ]
 })
 export class CategoryModule { }

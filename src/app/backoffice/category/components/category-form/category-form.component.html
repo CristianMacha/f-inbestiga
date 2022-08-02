@@ -12,10 +12,16 @@
     <form [formGroup]="categoryForm">
       <div class="row g-2 px-5">
         <div class="col-md-6 px-3">
-          <div class="input-group input-group-static my-3">
-            <label>Categoria</label>
-            <input class="form-control" formControlName="name" />
-          </div>
+          <mat-form-field class="my-3 w-100" appearance="outline">
+            <mat-label>Categoria</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="name"
+              placeholder="Categoria..."
+            />
+            <mat-error> Ingresa la categoría </mat-error>
+          </mat-form-field>
         </div>
         <div class="col-md-6 px-5">
           <div class="input-group input-group-static my-3">
