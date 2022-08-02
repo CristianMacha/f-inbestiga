@@ -1,15 +1,15 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators,} from '@angular/forms';
 import {Store} from '@ngrx/store';
+import {finalize, Subscription} from 'rxjs';
+import * as moment from 'moment';
 
 import {Category, Person, PersonProject, Project, Role} from '@core/models';
 import {CategoryService, PersonService, ProjectService} from '@core/services';
+import {CRole, EProjectStatus, ERole} from '@core/enums';
 import {activeForm, createProject, updateProject,} from '../../store/project.actions';
 import {AppStateProjectFeature} from '../../store/project.reducers';
-import {CRole, EProjectStatus, ERole} from '@core/enums';
-import {finalize, Subscription} from 'rxjs';
 import {projectFeature} from '../../store/project.selectors';
-import * as moment from 'moment';
 import {uiFeature} from "../../../../shared/ui.selectors";
 
 @Component({
@@ -44,7 +44,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
           '2021-10-20 11:19:11',
           Validators.required
         ),
-        total: new FormControl(0, Validators.required),
+        total: new FormControl(0, [Validators.required, Validators.min(1)]),
       }),
     ]),
   });
@@ -168,18 +168,11 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
   handleCreate(): void {
     this.loading = true;
-    if (this.editMode) {
-      this.projectForm.invalid
-        ? this.projectForm.markAllAsTouched()
-        : this.store.dispatch(
-          updateProject({project: this.projectForm.value})
-        );
+    if (this.projectForm.invalid) {
+      this.loading = false;
+      this.projectForm.markAllAsTouched();
     } else {
-      this.projectForm.invalid
-        ? this.projectForm.markAllAsTouched()
-        : this.store.dispatch(
-          createProject({project: this.projectForm.value})
-        );
+      this.editMode ? this.store.dispatch(updateProject({project: this.projectForm.value})) : this.store.dispatch(createProject({project: this.projectForm.value}));
     }
   }
 
