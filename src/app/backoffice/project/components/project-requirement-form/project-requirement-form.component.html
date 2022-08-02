@@ -1,26 +1,35 @@
 <mat-card>
-  <mat-card-title>{{title | titlecase}}</mat-card-title>
+  <mat-card-title>{{ title | titlecase }}</mat-card-title>
   <mat-card-content>
     <form [formGroup]="requirementForm">
       <div class="row g-2">
         <div class="col-md-12">
-          <label>Titulo</label>
-          <div class="input-group input-group-static">
-            <input class="form-control" formControlName="name">
-          </div>
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Título</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="name"
+              placeholder="Título..."
+            />
+            <mat-error> Ingresa el título </mat-error>
+          </mat-form-field>
         </div>
         <div class="col-md-12">
-          <label>Descripcion</label>
-          <div class="input-group input-group-static">
-            <input class="form-control" formControlName="description">
-          </div>
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Descripción</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="description"
+              placeholder="Descripción..."
+            />
+            <mat-error> Ingresa el descripción </mat-error>
+          </mat-form-field>
         </div>
         <div class="col-md-2">
           <div class="d-flex align-items-center justify-content-center">
-            <button
-              mat-mini-fab
-              color="primary"
-              (click)="files.click()">
+            <button mat-mini-fab color="primary" (click)="files.click()">
               <mat-icon>upload_file</mat-icon>
             </button>
           </div>
@@ -29,21 +38,33 @@
             class="form-control"
             hidden
             #files
-            (change)="handleSelectPhoto($event)">
+            (change)="handleSelectPhoto($event)"
+          />
         </div>
         <div class="col-md-10">
-          <label>Nombre del documento</label>
-          <div class="input-group input-group-static">
-            <input class="form-control" formControlName="filename">
-          </div>
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Nombre del documento</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="filename"
+              placeholder="Nombre del documento"
+            />
+            <mat-error> Ingresa el nombre del documento </mat-error>
+          </mat-form-field>
         </div>
       </div>
     </form>
     <div class="my-4">
       <div *ngIf="loading && file">
         <div class="progress">
-          <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuemin="0"
-               aria-valuemax="100" [style.width]="progressUploadFile + '%'"></div>
+          <div
+            class="progress-bar bg-gradient-info"
+            role="progressbar"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            [style.width]="progressUploadFile + '%'"
+          ></div>
         </div>
       </div>
     </div>
@@ -57,14 +78,18 @@
       color="primary"
       *ngIf="retryUploadFile"
       [disabled]="loading"
-      (click)="uploadImage()">Reintentar subir archivo
+      (click)="uploadImage()"
+    >
+      Reintentar subir archivo
     </button>
     <button
       mat-flat-button
       color="primary"
       [disabled]="requirementForm.invalid || !fileSelected || loading"
       *ngIf="!retryUploadFile"
-      (click)="handleCreate()">{{btnActionText}}</button>
+      (click)="handleCreate()"
+    >
+      {{ btnActionText }}
+    </button>
   </mat-card-actions>
 </mat-card>
-

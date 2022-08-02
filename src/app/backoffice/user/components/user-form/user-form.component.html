@@ -1,8 +1,10 @@
-<div class="card z-index-2 ">
-  <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+<div class="card z-index-2">
+  <div
+    class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent"
+  >
     <div class="bg-gradient-info shadow-white border-radius-lg py-3 pe-1">
-      <div style="text-align: center;">
-        <h2 style="color: rgb(231, 230, 230);">{{title}}</h2>
+      <div style="text-align: center">
+        <h2 style="color: rgb(231, 230, 230)">{{ title }}</h2>
       </div>
     </div>
   </div>
@@ -10,59 +12,82 @@
     <form [formGroup]="personForm">
       <div class="row g-2">
         <div class="col-md-6">
-          <div class="input-group input-group-static">
-            <label>Nombres</label>
-            <input class="form-control" formControlName="fullname">
-          </div>
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="fullname"
+              placeholder="Nombre..."
+            />
+            <mat-error> Ingresa el nombre </mat-error>
+          </mat-form-field>
         </div>
         <div class="col-md-6">
-          <div class="input-group input-group-static">
-            <label>Apellidos</label>
-            <input class="form-control" formControlName="surnames">
-          </div>
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Apellidos</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="surnames"
+              placeholder="Apellidos..."
+            />
+            <mat-error> Ingresa los apellidos </mat-error>
+          </mat-form-field>
         </div>
         <div class="col-md-12">
           <div formGroupName="user">
             <div class="row g-2">
               <div class="col-md-6">
-                  <div class="input-group input-group-static">
-                    <label>Email</label>
-                    <input
-                      type="email"
-                      class="form-control"
-                      formControlName="email"
-                      autocomplete="off">
-                  </div>
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Correo</mat-label>
+                  <input
+                    type="email"
+                    matInput
+                    formControlName="email"
+                    placeholder="Correo..."
+                  />
+                  <mat-error> Ingresa un correo válido </mat-error>
+                </mat-form-field>
               </div>
               <div class="col-md-6">
-                <div class="input-group input-group-static">
-                  <label>Contraseña</label>
-                  <input type="password" class="form-control" formControlName="password">
-                </div>
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Contraseña</mat-label>
+                  <input type="password" matInput formControlName="password" />
+                  <mat-error>Ingresa una contraseña válida</mat-error>
+                </mat-form-field>
               </div>
             </div>
           </div>
         </div>
         <div class="col-md-6">
-          <div class="input-group input-group-static">
-            <label>Celular</label>
-            <input class="form-control" formControlName="phone">
-          </div>
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Celular</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="phone"
+              placeholder="Celular..."
+            />
+            <mat-error> Ingresa el celular</mat-error>
+          </mat-form-field>
         </div>
         <div class="col-md-6">
           <div formArrayName="personRoles">
-            <div *ngFor="let roleF of rolesForm.controls; let i = index;">
+            <div *ngFor="let roleF of rolesForm.controls; let i = index">
               <div [formGroupName]="i">
                 <div formGroupName="role">
-                  <div class="input-group input-group-static">
-                    <label>Rol</label>
-                    <select class="form-control" formControlName="id">
-                      <option selected [value]="0">Seleccione rol</option>
-                      <option [value]="1">ESTUDIANTE</option>
-                      <option [value]="2">ADMINISTRADOR</option>
-                      <option [value]="3">ASESOR</option>
-                    </select>
-                  </div>
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Rol</mat-label>
+                    <mat-select formControlName="id">
+                      <mat-option selected [value]="0"
+                        >Seleccione rol</mat-option
+                      >
+                      <mat-option [value]="1">ESTUDIANTE</mat-option>
+                      <mat-option [value]="2">ADMINISTRADOR</mat-option>
+                      <mat-option [value]="3">ASESOR</mat-option>
+                    </mat-select>
+                  </mat-form-field>
                 </div>
               </div>
             </div>
@@ -80,7 +105,10 @@
         <button
           class="btn bg-gradient-info"
           [disabled]="personForm.invalid || loading"
-          (click)="handleBtnActionUser()">{{btnActionText}}</button>
+          (click)="handleBtnActionUser()"
+        >
+          {{ btnActionText }}
+        </button>
       </div>
     </div>
   </div>
