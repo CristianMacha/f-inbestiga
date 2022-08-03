@@ -84,8 +84,8 @@ export class BackofficeComponent implements OnInit, OnDestroy {
   }
 
   logout() {
+    localStorage.removeItem('token');
     this.store.dispatch(unsetUser());
-    localStorage.clear();
     this.router.navigateByUrl('auth/login');
   }
 

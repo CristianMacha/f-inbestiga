@@ -5,8 +5,7 @@ import {Subscription} from "rxjs";
 import {FormControl} from "@angular/forms";
 
 import {AppStateProjectFeature} from "../../store/project.reducers";
-import {loadProjectsFilter} from "../../store/project.actions";
-import {uiRoleSelected} from "../../../../shared/ui.selectors";
+import {setFilterStatus} from "../../store/project.actions";
 
 @Component({
   selector: 'vs-project-filter',
@@ -17,28 +16,17 @@ export class ProjectFilterComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   roleId: number = 0;
 
-  cProjectStatus: EProjectStatus[] = [EProjectStatus.PENDING, EProjectStatus.COMPLETED];
+  cProjectStatus: EProjectStatus[] = [EProjectStatus.ACCEPTED, EProjectStatus.COMPLETED, EProjectStatus.REQUIRED, EProjectStatus.REFUSED];
   statusControl: FormControl = new FormControl('ALL');
 
   constructor(private store: Store<AppStateProjectFeature>) {
-    this.getUiRoleSelected()
   }
 
   ngOnInit(): void {
-    this.statusControl.valueChanges.subscribe(value => this.store.dispatch(loadProjectsFilter({
-      roleId: this.roleId,
-      filter: {status: this.statusControl.value, take: 30, skip: 1}
-    })));
+    this.statusControl.valueChanges.subscribe(value => this.store.dispatch(setFilterStatus({status: value})));
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-
-  getUiRoleSelected(): void {
-    this.subscription.add(
-      this.store.select(uiRoleSelected).subscribe((resp) => this.roleId = resp.id)
-    );
-  }
-
 }

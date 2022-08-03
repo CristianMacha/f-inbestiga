@@ -1,1 +1,6 @@
-<p>dashboard-advisor works!</p>
+<h2>Proyectos</h2>
+<div class="row g-2">
+  <div class="col-lg-4 col-md-6" *ngFor="let project of projects">
+    <vs-project-detail [project]="project"></vs-project-detail>
+  </div>
+</div>

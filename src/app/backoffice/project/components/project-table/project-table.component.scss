@@ -5,6 +5,7 @@
 .table-container {
   position: relative;
   min-height: 200px;
+  overflow: auto;
 }
 
 .loading-shade {
@@ -18,4 +19,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+th.mat-header-cell, td.mat-cell {
+  padding-left: .5rem;
+  padding-right: .5rem;
 }

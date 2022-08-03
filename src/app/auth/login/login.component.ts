@@ -1,12 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { LoadScriptService } from '@core/services';
-import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Store} from '@ngrx/store';
+import {Observable, Subscription} from 'rxjs';
 
-import { uiFeatureIsLoading } from '../../../app/shared/ui.selectors';
-import { login } from '../../shared/ui.actions';
-import { AppStateAuthFeature } from '../store/auth.reducer';
+import {uiFeatureIsLoading} from '../../../app/shared/ui.selectors';
+import {login} from '../../shared/ui.actions';
+import {AppStateAuthFeature} from '../store/auth.reducer';
 
 @Component({
   selector: 'vs-login',
@@ -26,7 +25,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly store: Store<AppStateAuthFeature>,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.isLoading$ = this.store.select(uiFeatureIsLoading);
@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   login(): void {
-    this.store.dispatch(login({ login: this.loginForm.value }));
+    this.loginForm.invalid ? this.loginForm.markAllAsTouched() : this.store.dispatch(login({login: this.loginForm.value}));
   }
 
 }

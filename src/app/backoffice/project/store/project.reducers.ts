@@ -1,22 +1,24 @@
-import { state } from '@angular/animations';
-import { Project, Requirement } from '@core/models';
-import { createReducer, on } from '@ngrx/store';
+import {Project, Requirement} from '@core/models';
+import {createReducer, on} from '@ngrx/store';
 
-import { appState } from '../../../app.reducers';
+import {appState} from '../../../app.reducers';
 import {
   activeForm,
   activeFormR,
   activeFormRUpdate,
   activeFormUpdate,
   loadProject,
-  loadProjects, loadProjectsFilter,
+  loadProjects,
+  loadProjectsFilter,
   loadProjectsSuccess,
   loadRequirements,
   pushProject,
   requirementLoadedSuccess,
-  setError,
+  setError, setFilterStatus,
   setProject,
 } from './project.actions';
+import {ProjectInterfaceFilter} from "@core/interfaces";
+import {EProjectStatus} from "@core/enums";
 
 export const projectFeatureKey = 'projectFeature';
 
@@ -26,6 +28,7 @@ export interface projectState {
   activeFormR: boolean;
   editModeR: boolean;
   projects: Project[];
+  filter: ProjectInterfaceFilter,
   requirements: Requirement[];
   loaded: boolean;
   loading: boolean;
@@ -45,6 +48,7 @@ export const initialState: projectState = {
   activeFormR: false,
   editModeR: false,
   projects: [],
+  filter: {status: EProjectStatus.ALL, take: 30, skip: 0},
   requirements: [],
   loading: false,
   loaded: false,
@@ -56,64 +60,65 @@ export const initialState: projectState = {
 
 export const _projectReducer = createReducer(
   initialState,
-  on(pushProject, (state, { project }) => ({
+  on(pushProject, (state, {project}) => ({
     ...state,
     loading: false,
     loaded: true,
     projects: [project, ...state.projects],
     activeForm: false,
   })),
-  on(loadProjects, (state) => ({ ...state, loaded: false, loading: true })),
+  on(loadProjects, (state) => ({...state, loaded: false, loading: true})),
   on(loadProjectsFilter, (state) => ({...state, loading: true})),
-  on(loadProjectsSuccess, (state, { projects }) => ({
+  on(loadProjectsSuccess, (state, {projects}) => ({
     ...state,
     loaded: true,
     loading: false,
     projects: [...projects],
   })),
-  on(loadProject, (state) => ({ ...state, loading: true })),
-  on(activeForm, (state, { active }) => ({
+  on(loadProject, (state) => ({...state, loading: true})),
+  on(setFilterStatus, (state, {status}) => ({...state, filter: {...state.filter, status}})),
+  on(activeForm, (state, {active}) => ({
     ...state,
     activeForm: active,
     editMode: false,
   })),
-  on(activeFormUpdate, (state, { project }) => ({
+  on(activeFormUpdate, (state, {project}) => ({
     ...state,
     activeForm: true,
     editMode: true,
-    project: { ...project },
+    project: {...project},
   })),
-  on(setProject, (state, { project }) => ({
+  on(setProject, (state, {project}) => ({
     ...state,
-    project: { ...project },
+    project: {...project},
     loaded: true,
     loading: false,
     activeForm: false,
     editMode: false,
   })),
 
-  on(loadRequirements, (state) => ({ ...state, loading: true })),
-  on(requirementLoadedSuccess, (state, { requirements }) => ({
+  on(loadRequirements, (state) => ({...state, loading: true})),
+  on(requirementLoadedSuccess, (state, {requirements}) => ({
     ...state,
     loading: false,
-    requirements: [ ...requirements]
+    requirements: [...requirements]
   })),
-  on(activeFormR, (state, { active }) => ({
+  on(activeFormR, (state, {active}) => ({
     ...state,
     activeFormR: active,
     editModeR: false,
   })),
-  on(activeFormRUpdate, (state, { requirement }) => ({
+  on(activeFormRUpdate, (state, {requirement}) => ({
     ...state,
     activeFormR: true,
     editModeR: true,
-    requirement: { ...requirement },
+    requirement: {...requirement},
   })),
 
-  on(setError, (state, { payload }) => ({
+  on(setError, (state, {payload}) => ({
     ...state,
     loaded: false,
     loading: false,
-    error: { ...payload },
+    error: {...payload},
   }))
 );

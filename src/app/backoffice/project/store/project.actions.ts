@@ -2,6 +2,7 @@ import {createAction, props} from '@ngrx/store';
 
 import {Project, Requirement} from '@core/models';
 import {ProjectInterfaceFilter} from "@core/interfaces";
+import {EProjectStatus} from "@core/enums";
 
 export const createProject = createAction('[Project Component] Create Project', props<{ project: Project }>());
 export const updateProject = createAction('[Project Component] Update Project', props<{ project: Project }>());
@@ -13,6 +14,7 @@ export const loadProjects = createAction('[Project Component] Load Projects', pr
 export const loadProjectsFilter = createAction('[Project Component] Load Projects Filter', props<{ roleId: number, filter: ProjectInterfaceFilter }>());
 export const loadProjectsSuccess = createAction('[Project Component] Load Projects Success', props<{ projects: Project[] }>());
 export const setError = createAction('[Project Component] Set Error', props<{ payload: any }>());
+export const setFilterStatus = createAction('[Project Component] Set Filter Status', props<{ status: EProjectStatus }>());
 
 export const loadProject = createAction('[Project Component] Load Project', props<{ projectId: number }>());
 
