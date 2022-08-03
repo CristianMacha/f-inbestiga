@@ -19,7 +19,7 @@
     </div>
   </div>
   <div>
-    <div style="display: flex; align-items: center; gap: 1rem">
+    <div style="display: flex; align-items: center; gap: 1rem" *ngIf="project.status !== cProjectStatus.REQUIRED">
       <mat-form-field appearance="outline">
         <mat-label>Avance</mat-label>
         <input
@@ -34,6 +34,7 @@
         mat-flat-button
         color="primary"
         *ngIf="progressControl.dirty"
+        [disabled]="roleSelected.id == cRole.STUDENT"
         (click)="handleUpdateProgress()">
         Guardar avance
       </button>

@@ -7,7 +7,7 @@ import {catchError, map, mergeMap, of} from "rxjs";
 import {AuthService, PersonRoleService, PersonService} from "@core/services";
 import {
   loadPerson,
-  loadPersonRoles,
+  loadPersonRoles, loadResources,
   loadRoleSelected,
   loginError, personLoadedSuccess,
   personRolesLoadedSuccess,
@@ -27,6 +27,7 @@ export class UiEffects {
         .pipe(
           map(resp => {
             localStorage.setItem('token', resp.token);
+            this.store.dispatch(loadResources({resources: resp.resources}))
             this.store.dispatch(stopLoading());
             return setUser({user: resp.userDb});
           }),

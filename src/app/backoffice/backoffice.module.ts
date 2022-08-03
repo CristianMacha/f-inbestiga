@@ -6,6 +6,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import { BackofficeComponent } from './backoffice.component';
 import { BackofficeRoutingModule } from './backoffice-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import {MaterialModule} from "../material/material.module";
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { SharedModule } from '../shared/shared.module';
     ReactiveFormsModule,
     BackofficeRoutingModule,
     SharedModule,
+    MaterialModule,
   ]
 })
 export class BackofficeModule { }

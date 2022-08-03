@@ -5,6 +5,8 @@ export class ResourceModel {
   public id: number;
   public name: string;
   public url: string;
+  public order: number;
+  public icon: string;
   public active: boolean;
   public deleted: boolean;
   public createdAt: Date;
@@ -16,6 +18,8 @@ export class ResourceModel {
     this.id = 0;
     this.name = '';
     this.url = '';
+    this.order = 0;
+    this.icon = '';
     this.active = false;
     this.deleted = false;
     this.createdAt = new Date();

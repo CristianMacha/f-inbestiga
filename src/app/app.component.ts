@@ -1,10 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {Observable, Subscription} from 'rxjs';
+import {Router} from "@angular/router";
 
+import {Subscription} from 'rxjs';
 import {appState} from './app.reducers';
 import {refreshToken} from './shared/ui.actions';
-import {uiFeatureIsLoading} from './shared/ui.selectors';
+import {uiFeatureIsAuthenticate, uiFeatureIsLoading} from './shared/ui.selectors';
 
 @Component({
   selector: 'vs-root',
@@ -16,10 +17,10 @@ export class AppComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
 
   subscription: Subscription = new Subscription();
-  isLoading$: Observable<boolean> = new Observable();
 
   constructor(
     private store: Store<appState>,
+    private router: Router
   ) {
   }
 
@@ -27,6 +28,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.store.select(uiFeatureIsLoading).subscribe(resp => this.isLoading = resp)
     );
+    this.subscription.add(
+      this.store.select(uiFeatureIsAuthenticate).subscribe((resp) => resp && this.router.navigateByUrl('backoffice'))
+    )
     this.refreshToken();
   }
 

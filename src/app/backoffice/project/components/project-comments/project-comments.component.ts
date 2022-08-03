@@ -95,8 +95,6 @@ export class ProjectCommentsComponent implements OnInit {
       this.store.select(projectFeatureProject).subscribe((resp) => {
         this.project = resp;
         (this.project.status === this.cProjectStatus.REQUIRED) ? this.commentaryControl.disable() : this.commentaryControl.enable();
-        console.log(this.project)
-        console.log(this.project.status == this.cProjectStatus.REQUIRED)
       })
     );
   }

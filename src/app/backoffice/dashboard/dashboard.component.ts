@@ -5,6 +5,7 @@ import {appState} from "../../app.reducers";
 import {Role} from "@core/models";
 import {Subscription} from "rxjs";
 import {uiRoleSelected} from "../../shared/ui.selectors";
+import {CRole} from "@core/enums";
 
 @Component({
   selector: 'vs-dashboard',
@@ -15,6 +16,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
 
   roleSelected: Role = new Role();
+  cRole = CRole;
 
   constructor(private store: Store<appState>) {
   }

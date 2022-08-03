@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
 import {Project} from '../models/project.model';
-import {ProjectAcceptInterface, ProjectInterfaceFilter} from "@core/interfaces";
+import {ProjectAcceptInterface, ProjectInterfaceFilter, ProjectResponseInterface} from "@core/interfaces";
 
 @Injectable({
   providedIn: 'root',
@@ -32,8 +32,8 @@ export class ProjectService {
     return this.http.get<Project>(`${this.uri}/${projectId}`);
   }
 
-  getProjects(roleId: number, filter?: ProjectInterfaceFilter): Observable<Project[]> {
-    return this.http.get<Project[]>(`${this.uri}/role/${roleId}?status=${filter?.status}`);
+  getProjects(roleId: number, filter?: ProjectInterfaceFilter): Observable<ProjectResponseInterface> {
+    return this.http.get<ProjectResponseInterface>(`${this.uri}/role/${roleId}?status=${filter?.status}&take=${filter?.take}&skip=${filter?.skip}`);
   }
 
   create(project: Project): Observable<Project> {

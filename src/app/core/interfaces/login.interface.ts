@@ -1,4 +1,4 @@
-import {User} from "@core/models";
+import {ResourceModel, User} from "@core/models";
 
 export interface ILogin {
   email: string;
@@ -15,4 +15,5 @@ export interface IRegister {
 export interface ILoginResponse {
   token: string;
   userDb: User;
+  resources: ResourceModel[];
 }

@@ -27,7 +27,7 @@ export class ProjectFilterComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.statusControl.valueChanges.subscribe(value => this.store.dispatch(loadProjectsFilter({
       roleId: this.roleId,
-      filter: {status: this.statusControl.value}
+      filter: {status: this.statusControl.value, take: 30, skip: 1}
     })));
   }
 

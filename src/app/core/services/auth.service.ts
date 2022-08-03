@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AuthService {
-  private uri: string;
+  private readonly uri: string;
 
   constructor(
     private http: HttpClient,
@@ -18,7 +18,7 @@ export class AuthService {
    }
 
   login(login: ILogin): Observable<ILoginResponse> {
-    return this.http.post<ILoginResponse>(`${this.uri}/signin`, login);
+    return this.http.post<ILoginResponse>(`${this.uri}/signing`, login);
   }
 
   refreshToken(): Observable<ILoginResponse> {

@@ -10,6 +10,7 @@ import {environment} from "../../../environments/environment";
 })
 export class ResourceService {
   private readonly uri: string;
+  public resources: ResourceModel[] = [];
 
   constructor(private http: HttpClient) {
     this.uri = `${environment.url}/resource`;
@@ -17,5 +18,9 @@ export class ResourceService {
 
   getAllByRoleId(roleId: number): Observable<ResourceModel[]> {
     return this.http.get<ResourceModel[]>(`${this.uri}/role/${roleId}`);
+  }
+
+  setResources(resources: ResourceModel[]) {
+    this.resources = resources;
   }
 }

@@ -1,4 +1,4 @@
-import { PersonRoles } from "./personRoles.model";
+import {PersonRoles} from "./personRoles.model";
 
 export class Role {
   public id: number;
@@ -7,6 +7,7 @@ export class Role {
   public createdAt: Date;
   public updatedAt: Date;
   public personRoles: PersonRoles[];
+
   constructor() {
     this.id = 0;
     this.name = '';

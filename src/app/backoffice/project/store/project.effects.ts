@@ -22,7 +22,7 @@ export class ProjectEffects {
     ofType(loadProjects),
     mergeMap((resp) =>
       this.projectService.getProjects(resp.roleId).pipe(
-        map((resp) => loadProjectsSuccess({projects: resp})),
+        map((resp) => loadProjectsSuccess({projects: resp.data})),
         catchError((err) => of(setError({payload: err})))
       )
     )
@@ -32,7 +32,7 @@ export class ProjectEffects {
     ofType(loadProjectsFilter),
     mergeMap((resp) => this.projectService.getProjects(resp.roleId, resp.filter)
       .pipe(
-        map((resp) => loadProjectsSuccess({projects: resp})),
+        map((resp) => loadProjectsSuccess({projects: resp.data})),
         catchError((err) => of(setError({payload: err})))
       ))
   ));

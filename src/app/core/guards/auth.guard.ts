@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, CanLoad, Route, Router, RouterStateSnapshot, UrlSegment, UrlTree } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { catchError, map, merge, mergeMap, Observable, of, take, tap } from 'rxjs';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 
 import { appState } from '../../app.reducers';
 import { uiFeature, uiFeatureIsAuthenticate, uiFeatureIsLoading } from '../../shared/ui.selectors';
@@ -28,21 +28,6 @@ export class AuthGuard implements CanActivate, CanLoad {
         map((resp) => resp.token ? true : false),
         catchError((error) => of(false))
       )
-
-    // const isAuthenticated = this.store.select(uiFeature)
-    //   .pipe(
-    //     map((resp) => {
-    //       console.log(resp);
-          
-    //       if (resp.isAuthenticate && !resp.isLoading) {
-    //         return true
-    //       } else {
-    //         this.router.navigateByUrl('auth/login');
-    //         return false;
-    //       }
-    //     }),
-    //     take(1)
-    //   )
 
     return isAuthenticated;
   }

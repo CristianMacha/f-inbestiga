@@ -3,12 +3,13 @@ import {Store} from '@ngrx/store';
 import {Subscription} from 'rxjs';
 import {FormControl, Validators} from '@angular/forms';
 
-import {Person, Project} from '@core/models';
+import {Person, Project, Role} from '@core/models';
 import {AppStateProjectFeature} from '../../store/project.reducers';
 import {projectFeatureProject} from '../../store/project.selectors';
 import {ProjectService} from '@core/services';
 import {loadProject} from '../../store/project.actions';
-import {CProjectStatus} from "@core/enums";
+import {CProjectStatus, CRole} from "@core/enums";
+import {uiRoleSelected} from "../../../../shared/ui.selectors";
 
 @Component({
   selector: 'vs-project-info',
@@ -24,6 +25,8 @@ export class ProjectInfoComponent implements OnInit, OnDestroy {
   students: Person[] = [];
   advisors: Person[] = [];
   cProjectStatus = CProjectStatus;
+  roleSelected: Role = new Role();
+  cRole = CRole;
 
   constructor(
     private store: Store<AppStateProjectFeature>,
@@ -33,10 +36,21 @@ export class ProjectInfoComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getProject();
+    this.getRoleSelected();
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  getRoleSelected(): void {
+    this.subscription.add(
+      this.store.select(uiRoleSelected).subscribe((role) => {
+        console.log((role.id == this.cRole.STUDENT));
+        (role.id == this.cRole.STUDENT) && this.progressControl.disable();
+        this.roleSelected = role;
+      })
+    )
   }
 
   handleUpdateProgress(): void {
@@ -54,7 +68,6 @@ export class ProjectInfoComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.store.select(projectFeatureProject).subscribe((resp) => {
         this.project = resp;
-        (this.project.status == this.cProjectStatus.REQUIRED) ? this.progressControl.disable() : this.progressControl.enable();
         this.progressControl.patchValue(resp.progress);
         this.project.personProjects.forEach((pp) => {
           pp.isAdvisor ? this.advisors.push(pp.person) : this.students.push(pp.person);

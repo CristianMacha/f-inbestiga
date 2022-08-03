@@ -1,64 +1,79 @@
 <mat-card>
   <mat-card-content>
-    <div class="table-responsive">
-      <table class="table align-items-center mb-0">
-        <thead>
-        <tr>
-          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"># CODIGO</th>
-          <th class="text-uppercase text-start text-secondary text-xxs font-weight-bolder opacity-7">PROYECTO</th>
-          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">DESCRIPCIÓN</th>
-          <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">VENCIMIENTO</th>
-          <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ESTADO</th>
-          <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ACCIONES</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let project of projects$ | async">
-          <td class="align-middle">{{project.code}}</td>
-          <td class="align-middle text-start">{{project.name}}</td>
-          <td class="align-middle">{{project.description}}</td>
-          <td class="align-middle text-end">{{project.expirationDate | date}}</td>
-          <td class="align-middle text-end">
-          <span
-            class="badge"
-            [class.bg-gradient-warning]="project.status == cProjectStatus.REQUIRED"
-            [class.bg-gradient-info]="project.status == cProjectStatus.ACCEPTED"
-            [class.bg-gradient-danger]="project.status == cProjectStatus.REFUSED"
-            [class.bg-gradient-secondary]="project.status == cProjectStatus.PENDING"
-            [class.bg-gradient-success]="project.status == cProjectStatus.COMPLETED">
+    <div class="container-table">
+      <div class="loading-shade" *ngIf="isLoadingResults">
+        <mat-spinner color="primary"></mat-spinner>
+      </div>
+      <div class="table-container">
+        <table mat-table [dataSource]="projects" class="w-100">
+          <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef># CODIGO</th>
+            <td mat-cell *matCellDef="let project">{{project.code}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>PROYECTO</th>
+            <td mat-cell *matCellDef="let project">{{project.name}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>DESCRIPCION</th>
+            <td mat-cell *matCellDef="let project">{{project.description}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="expirationDate">
+            <th mat-header-cell *matHeaderCellDef>F. VENCIMIENTO</th>
+            <td mat-cell *matCellDef="let project">{{project.expirationDate | date}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>ESTADO</th>
+            <td mat-cell *matCellDef="let project">
+              <span
+                class="badge"
+                [class.bg-gradient-warning]="project.status == cProjectStatus.REQUIRED"
+                [class.bg-gradient-info]="project.status == cProjectStatus.ACCEPTED"
+                [class.bg-gradient-danger]="project.status == cProjectStatus.REFUSED"
+                [class.bg-gradient-secondary]="project.status == cProjectStatus.PENDING"
+                [class.bg-gradient-success]="project.status == cProjectStatus.COMPLETED">
             {{project.status}}
           </span>
-          </td>
-          <td class="align-middle">
-            <div style="display: flex; gap: 2px; justify-content: end;">
-              <div *ngIf="roleSelected.id !== cRole.STUDENT">
-                <button
-                  mat-icon-button
-                  color="primary"
-                  (click)="handleBtnEdit(project)">
-                  <mat-icon>edit</mat-icon>
-                </button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>ACCIONES</th>
+            <td mat-cell *matCellDef="let project">
+              <div style="display: flex; gap: 2px; justify-content: end;">
+                <div *ngIf="roleSelected.id !== cRole.STUDENT">
+                  <button
+                    mat-icon-button
+                    color="primary"
+                    (click)="handleBtnEdit(project)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                </div>
+                <div>
+                  <button
+                    mat-icon-button
+                    color="accent"
+                    (click)="handleViewProject(project.id)">
+                    <mat-icon>visibility</mat-icon>
+                  </button>
+                </div>
               </div>
-              <!--            <div>-->
-              <!--              <button-->
-              <!--                class="btn btn-icon btn-danger"-->
-              <!--                (click)="handleBtnEdit(project)">-->
-              <!--                  <i class="material-icons">delete</i>-->
-              <!--              </button>-->
-              <!--            </div>-->
-              <div>
-                <button
-                  mat-icon-button
-                  color="accent"
-                  (click)="handleViewProject(project.id)">
-                  <mat-icon>visibility</mat-icon>
-                </button>
-              </div>
-            </div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+      <mat-paginator
+        [length]="resultsLength"
+        [pageSize]="30"
+        [pageSizeOptions]="[10, 20, 30, 50]"
+        (page)="pageEvent($event)"></mat-paginator>
     </div>
   </mat-card-content>
 </mat-card>

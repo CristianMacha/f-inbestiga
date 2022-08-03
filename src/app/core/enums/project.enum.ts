@@ -1,4 +1,5 @@
 export enum EProjectStatus {
+  ALL = 'ALL',
   REQUIRED = 'SOLICITADO',
   ACCEPTED = 'ACEPTADO',
   REFUSED = 'RECHAZADO',

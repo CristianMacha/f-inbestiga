@@ -8,7 +8,6 @@ import { uiFeatureIsLoading } from '../../../app/shared/ui.selectors';
 import { login } from '../../shared/ui.actions';
 import { AppStateAuthFeature } from '../store/auth.reducer';
 
-declare function loadInputs(): any;
 @Component({
   selector: 'vs-login',
   templateUrl: './login.component.html',
@@ -27,12 +26,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly store: Store<AppStateAuthFeature>,
-    private loadScriptService: LoadScriptService,
   ) { }
 
   ngOnInit(): void {
     this.isLoading$ = this.store.select(uiFeatureIsLoading);
-    loadInputs();
   }
 
   ngOnDestroy(): void {
@@ -43,5 +40,4 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.store.dispatch(login({ login: this.loginForm.value }));
   }
 
-  //TODO: USAR CANLOAD AUTHGAURD - udemy
 }

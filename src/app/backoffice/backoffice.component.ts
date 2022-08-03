@@ -5,9 +5,9 @@ import {Observable, Subscription} from 'rxjs';
 import {FormControl, Validators} from "@angular/forms";
 
 import {appState} from '../app.reducers';
-import {PersonRoles, User} from '@core/models';
+import {PersonRoles, ResourceModel, User} from '@core/models';
 import {loadPerson, loadPersonRoles, loadResources, loadRoleSelected, unsetUser} from '../shared/ui.actions';
-import {uiFeatureUser, uiPersonRoles, uiRoleSelected} from '../shared/ui.selectors';
+import {uiFeatureUser, uiPersonRoles, uiResources, uiRoleSelected} from '../shared/ui.selectors';
 import {ResourceService} from "@core/services";
 
 declare function toggleSidenav(): any;
@@ -24,13 +24,14 @@ export class BackofficeComponent implements OnInit, OnDestroy {
 
   personRoles: PersonRoles[] = [];
   roleControl = new FormControl(0, Validators.required);
+  resources: ResourceModel[] = [];
 
   btnCloseSidenav: boolean = false;
 
   constructor(
     private store: Store<appState>,
     private router: Router,
-    private resource: ResourceService,
+    private resourceService: ResourceService,
   ) {
   }
 
@@ -40,6 +41,7 @@ export class BackofficeComponent implements OnInit, OnDestroy {
     this.getPersonRoles();
     this.roleControl.valueChanges.subscribe(resp => resp && this.store.dispatch(loadRoleSelected({roleId: resp})));
     this.getRoleSelected();
+    this.getResources();
   }
 
   ngOnDestroy(): void {
@@ -48,12 +50,18 @@ export class BackofficeComponent implements OnInit, OnDestroy {
 
   getRoleSelected(): void {
     this.subscription.add(
-      this.store.select(uiRoleSelected).subscribe((role) => this.getResources(role.id))
+      this.store.select(uiRoleSelected).subscribe((role) => this.dispatchResources(role.id))
     );
   }
 
-  getResources(roleId: number): void {
-    this.resource.getAllByRoleId(roleId)
+  getResources(): void {
+    this.subscription.add(
+      this.store.select(uiResources).subscribe((resp) => this.resources = resp)
+    )
+  }
+
+  dispatchResources(roleId: number): void {
+    this.resourceService.getAllByRoleId(roleId)
       .subscribe((resp) => this.store.dispatch(loadResources({resources: resp})))
   }
 
@@ -66,7 +74,7 @@ export class BackofficeComponent implements OnInit, OnDestroy {
     )
   }
 
-  getUser():void {
+  getUser(): void {
     this.subscription.add(
       this.store.select(uiFeatureUser).subscribe((resp) => {
         this.user = resp;
