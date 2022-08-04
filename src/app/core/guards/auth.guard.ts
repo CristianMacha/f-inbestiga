@@ -32,11 +32,11 @@ export class AuthGuard implements CanActivate, CanLoad {
   canLoad(route: Route, segments: UrlSegment[]): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
     const isAuthenticated = this.authService.refreshToken()
       .pipe(
-        map((resp) => {
+        map((resp) => resp),
+        catchError((error) => {
           this.router.navigateByUrl('auth/login');
-          return resp
-        }),
-        catchError((error) => of(false))
+          return of(false);
+        })
       )
 
     return isAuthenticated;
@@ -48,11 +48,11 @@ export class AuthGuard implements CanActivate, CanLoad {
 
     const isAuthenticated = this.authService.refreshToken()
       .pipe(
-        map((resp) => {
+        map((resp) => resp),
+        catchError((error) => {
           this.router.navigateByUrl('auth/login');
-          return resp;
-        }),
-        catchError((error) => of(false))
+          return of(false)
+        })
       )
 
     return isAuthenticated;
