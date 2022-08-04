@@ -9,7 +9,7 @@ const routes: Routes = [
   {
     path: '',
     component: BackofficeComponent,
-    canLoad: [AuthGuard],
+    canLoad: [AuthGuard, ResourceGuard],
     children: [
       {
         path: 'user',
@@ -23,7 +23,7 @@ const routes: Routes = [
       },
       {
         path: 'project',
-        canActivate: [ResourceGuard],
+        canLoad: [AuthGuard, ResourceGuard],
         loadChildren: () => import('./project/project.module').then(project => project.ProjectModule),
       },
       {

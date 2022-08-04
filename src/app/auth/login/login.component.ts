@@ -4,8 +4,11 @@ import {Store} from '@ngrx/store';
 import {Observable, Subscription} from 'rxjs';
 
 import {uiFeatureIsLoading} from '../../../app/shared/ui.selectors';
-import {login} from '../../shared/ui.actions';
+import {loadResources, login, setUser} from '../../shared/ui.actions';
 import {AppStateAuthFeature} from '../store/auth.reducer';
+import {AuthService} from "@core/services";
+import {Router} from "@angular/router";
+import {UserModule} from "../../backoffice/user/user.module";
 
 @Component({
   selector: 'vs-login',
@@ -13,7 +16,6 @@ import {AppStateAuthFeature} from '../store/auth.reducer';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-
   year = new Date().getFullYear();
   loginForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.email, Validators.required]),
@@ -25,6 +27,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly store: Store<AppStateAuthFeature>,
+    private authService: AuthService,
+    private router: Router,
   ) {
   }
 
@@ -37,7 +41,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   login(): void {
-    this.loginForm.invalid ? this.loginForm.markAllAsTouched() : this.store.dispatch(login({login: this.loginForm.value}));
+    this.authService.login(this.loginForm.value)
+      .subscribe((resp) => resp && this.router.navigateByUrl('backoffice/dashboard'));
   }
 
 }

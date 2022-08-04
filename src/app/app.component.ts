@@ -19,27 +19,18 @@ export class AppComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
 
   constructor(
-    private store: Store<appState>,
-    private router: Router
+    private store: Store<appState>
   ) {
   }
 
   ngOnInit() {
     this.subscription.add(
       this.store.select(uiFeatureIsLoading).subscribe(resp => this.isLoading = resp)
-    );
-    this.subscription.add(
-      this.store.select(uiFeatureIsAuthenticate).subscribe((resp) => resp && this.router.navigateByUrl('backoffice'))
     )
-    this.refreshToken();
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-  }
-
-  refreshToken(): void {
-    this.store.dispatch(refreshToken());
   }
 
 }

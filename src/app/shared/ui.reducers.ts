@@ -27,7 +27,7 @@ export interface uiState {
 }
 
 export const initialUiState: uiState = {
-  isLoading: true,
+  isLoading: false,
   isAuthenticate: false,
   user: new User(),
   person: new Person(),
@@ -41,7 +41,7 @@ export const uiReducer = createReducer(
   initialUiState,
   on(refreshToken, (state) => ({...state, isLoading: true})),
   on(login, (state) => ({...state, isLoading: true})),
-  on(setUser, (state, {user}) => ({...state, isLoading: true, user: {...user}, isAuthenticate: true, error: null})),
+  on(setUser, (state, {user}) => ({...state, isLoading: false, user: {...user}, isAuthenticate: true, error: null})),
   on(unsetUser, (state) => ({...state, isLoading: false, user: new User(), isAuthenticate: false})),
 
   on(loadPersonRoles, (state) => ({...state, isLoading: true})),

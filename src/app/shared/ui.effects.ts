@@ -20,25 +20,6 @@ import {RoleService} from "../core/services/role.service";
 @Injectable()
 export class UiEffects {
 
-  refreshToken$ = createEffect(() => this.actions$.pipe(
-    ofType(refreshToken),
-    mergeMap(
-      () => this.authService.refreshToken()
-        .pipe(
-          map(resp => {
-            localStorage.setItem('token', resp.token);
-            this.store.dispatch(loadResources({resources: resp.resources}))
-            this.store.dispatch(stopLoading());
-            return setUser({user: resp.userDb});
-          }),
-          catchError(err => {
-            this.router.navigateByUrl('auth/login');
-            return of(loginError({payload: err}))
-          })
-        )
-    )
-  ));
-
   getPersonRoles$ = createEffect(() => this.actions$.pipe(
     ofType(loadPersonRoles),
     mergeMap(() => this.personRolesService.getByPerson()

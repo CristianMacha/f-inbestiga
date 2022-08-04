@@ -13,3 +13,4 @@ export * from "./resource.model";
 export * from "./role-resource.model";
 export * from "./permission.model";
 export * from "./role-permission.model";
+export * from "./user.model";

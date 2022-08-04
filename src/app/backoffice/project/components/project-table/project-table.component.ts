@@ -54,10 +54,7 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
 
   getFilterState(): void {
     this.subscription.add(
-      this.store.select(projectFeatureFilter).subscribe((resp) => {
-        this.filterStatusSelected = resp.status;
-        this.getProjects(resp.take, resp.skip);
-      })
+      this.store.select(projectFeatureFilter).subscribe((resp) => this.filterStatusSelected = resp.status)
     );
   }
 
@@ -77,7 +74,10 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
 
   getRoleSelectedState(): void {
     this.subscription.add(
-      this.store.select(uiRoleSelected).subscribe((resp) => this.roleSelected = resp)
+      this.store.select(uiRoleSelected).subscribe((resp) => {
+        this.roleSelected = resp;
+        this.roleSelected.id > 0 && this.getProjects(30, 0);
+      })
     );
   }
 

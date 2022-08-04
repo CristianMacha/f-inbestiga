@@ -9,23 +9,6 @@ import { login, setUser, loginError } from "../../shared/ui.actions";
 @Injectable()
 export class AuthEffects {
 
-    login$ = createEffect(
-        () => this.actions$.pipe(
-            ofType(login),
-            mergeMap(
-                (resp) => this.authService.login(resp.login)
-                    .pipe(
-                        map(resp => {
-                            localStorage.setItem('token', resp.token);
-                            this.router.navigateByUrl('backoffice/dashboard');
-                            return setUser({ user: resp.userDb});
-                        }),
-                        catchError(err => of(loginError({ payload: err })))
-                    )
-            )
-        )
-    )
-
     constructor(
         private actions$: Actions,
         private authService: AuthService,

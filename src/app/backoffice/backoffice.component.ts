@@ -8,7 +8,7 @@ import {appState} from '../app.reducers';
 import {PersonRoles, ResourceModel, User} from '@core/models';
 import {loadPerson, loadPersonRoles, loadResources, loadRoleSelected, unsetUser} from '../shared/ui.actions';
 import {uiFeatureUser, uiPersonRoles, uiResources, uiRoleSelected} from '../shared/ui.selectors';
-import {ResourceService} from "@core/services";
+import {AuthService, ResourceService} from "@core/services";
 
 declare function toggleSidenav(): any;
 
@@ -32,16 +32,19 @@ export class BackofficeComponent implements OnInit, OnDestroy {
     private store: Store<appState>,
     private router: Router,
     private resourceService: ResourceService,
+    private authService: AuthService,
   ) {
   }
 
   ngOnInit(): void {
     this.getUser();
     this.store.dispatch(loadPersonRoles());
+    this.store.dispatch(loadPerson({userId: this.authService.user.id}))
     this.getPersonRoles();
     this.roleControl.valueChanges.subscribe(resp => resp && this.store.dispatch(loadRoleSelected({roleId: resp})));
     this.getRoleSelected();
-    this.getResources();
+    this.resources = this.authService.resources;
+    // TODO: inizializar antes que se ejecute el ngOnint
   }
 
   ngOnDestroy(): void {
@@ -52,12 +55,6 @@ export class BackofficeComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.store.select(uiRoleSelected).subscribe((role) => this.dispatchResources(role.id))
     );
-  }
-
-  getResources(): void {
-    this.subscription.add(
-      this.store.select(uiResources).subscribe((resp) => this.resources = resp)
-    )
   }
 
   dispatchResources(roleId: number): void {
@@ -93,5 +90,4 @@ export class BackofficeComponent implements OnInit, OnDestroy {
     toggleSidenav();
     this.btnCloseSidenav = active;
   }
-
 }
