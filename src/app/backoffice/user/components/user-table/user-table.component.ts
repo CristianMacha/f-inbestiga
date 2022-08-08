@@ -4,7 +4,7 @@ import {finalize, Subscription} from 'rxjs';
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {MatDialog} from "@angular/material/dialog";
 
-import {Person} from '@core/models';
+import {Person, User} from '@core/models';
 import {AppStateUserFeature} from '../../store/user.reducer';
 import {activeDetails, activeFormUpdate} from '../../store/user.actions';
 import {CRole} from "@core/enums";
@@ -62,12 +62,13 @@ export class UserTableComponent implements OnInit {
     this.getPersons(event.pageSize, event.pageIndex);
   }
 
-  handleDelete(userId: number): void {
+  handleActive(user: User): void {
+    const userActive = user.active;
     const dataDialog: IDialogConfirm = {
-      accept: false,
-      action: 'Eliminar usuario',
-      title: 'Eliminar usuario',
-      description: 'Desea eliminar este usuario?'
+      accept: userActive ? false : true,
+      action: `${userActive ? 'Desactivar' : 'Activar'} Usuario`,
+      title: `${userActive ? 'Desactivar' : 'Activar'} Usuario`,
+      description: `Desea ${userActive ? 'desactivar' : 'activar'} este usuario?`
     }
     const dialogRef = this.matDialog.open(DialogConfirmComponent, {
       width: '400px',
@@ -75,7 +76,7 @@ export class UserTableComponent implements OnInit {
     });
 
     this.subscription.add(
-      dialogRef.afterClosed().subscribe((resp) => resp && this.updateActiveUser(userId))
+      dialogRef.afterClosed().subscribe((resp) => resp && this.updateActiveUser(user.id))
     );
   }
 

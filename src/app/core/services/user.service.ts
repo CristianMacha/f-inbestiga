@@ -27,4 +27,8 @@ export class UserService {
   public updateActive(userId: number): Observable<User> {
     return this.http.get<User>(`${this.uri}/update/active/${userId}`);
   }
+
+  public updateDeleted(userId: number): Observable<User> {
+    return this.http.get<User>(`${this.uri}/update/deleted/${userId}`)
+  }
 }

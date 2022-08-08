@@ -1,12 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Store} from '@ngrx/store';
+import {Subscription} from 'rxjs';
+import {MatDialog} from "@angular/material/dialog";
 
-import { Person, Project } from '@core/models';
-import { AppStateUserFeature } from '../../store/user.reducer';
-import { userFeaturePerson } from '../../store/user.selectors';
-import { activeFormUpdate, closeDetails } from '../../store/user.actions';
-import { ProjectService } from '@core/services';
+import {Person, Project} from '@core/models';
+import {IDialogConfirm} from "@core/interfaces";
+import {ProjectService, UserService} from '@core/services';
+import {AppStateUserFeature} from '../../store/user.reducer';
+import {userFeaturePerson} from '../../store/user.selectors';
+import {activeFormUpdate, closeDetails} from '../../store/user.actions';
+import {DialogConfirmComponent} from "../../../../shared/dialogs/dialog-confirm/dialog-confirm.component";
 
 @Component({
   selector: 'vs-user-detail',
@@ -22,14 +25,40 @@ export class UserDetailComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<AppStateUserFeature>,
     private projectService: ProjectService,
-  ) { }
+    private matDialog: MatDialog,
+    private userService: UserService,
+  ) {
+  }
 
   ngOnInit(): void {
     this.getPerson();
-   }
+  }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  handleBtnActive(userId: number): void {
+    const userDeleted = this.person.user.deleted;
+    const dataDialog: IDialogConfirm = {
+      accept: userDeleted ? true : false,
+      title: `${userDeleted ? 'Restaurar' : 'Eliminar'} Usuario`,
+      description: `Desea ${userDeleted ? 'Restaurar' : 'Eliminar permanentemente'} este usuario?`,
+      action: `${userDeleted ? 'Restaruar' : 'Eliminar'} usuario`,
+    }
+    const dialogRef = this.matDialog.open(DialogConfirmComponent, {
+      width: '400px',
+      data: dataDialog,
+    });
+
+    this.subscription.add(
+      dialogRef.afterClosed().subscribe((resp) => resp && this.updateDeleted(userId))
+    );
+  }
+
+  updateDeleted(userId: number): void {
+    this.userService.updateDeleted(userId)
+      .subscribe(() => this.handleBtnBack())
   }
 
   getPerson(): void {
@@ -38,13 +67,13 @@ export class UserDetailComponent implements OnInit, OnDestroy {
         .subscribe(
           (resp) => {
             this.person = resp;
-            this.getProjetcs(resp.id)
+            this.getProjects(resp.id)
           },
         )
     )
   }
 
-  getProjetcs(personId: number): void {
+  getProjects(personId: number): void {
     this.projectService.getByPerson(personId)
       .subscribe(
         (resp) => this.projects = resp,
@@ -52,7 +81,7 @@ export class UserDetailComponent implements OnInit, OnDestroy {
   }
 
   handleBtnEditUser() {
-    this.store.dispatch(activeFormUpdate({ person: this.person }));
+    this.store.dispatch(activeFormUpdate({person: this.person}));
   }
 
   handleBtnBack() {

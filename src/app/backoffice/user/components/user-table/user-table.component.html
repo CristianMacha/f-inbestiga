@@ -57,9 +57,9 @@
               </button>
               <button
                 mat-icon-button
-                color="warn"
-                (click)="handleDelete(person.user.id)">
-                <mat-icon>delete</mat-icon>
+                [color]="person.user.active ? 'accent' : 'warn'"
+                (click)="handleActive(person.user)">
+                <mat-icon>{{person.user.active ? 'person' : 'person_off'}}</mat-icon>
               </button>
             </td>
           </ng-container>

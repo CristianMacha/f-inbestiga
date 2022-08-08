@@ -1,38 +1,48 @@
-<div>
-  <div class="card-body">
-    <h2 class="card-title"><i class="material-icons cursor-pointer"
-                              (click)="handleBtnBack()">arrow_back</i> {{person.fullname | titlecase}} {{person.surnames | titlecase}}
-    </h2>
-    <div class="row g-3 mt-2">
-      <div class="col-md-4">
-        <div class="card">
-          <div class="card-body">
-            <h5>Informacion personal</h5>
-            <div>
-              <ul class="list-group">
-                <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong
-                  class="text-dark">Email:</strong> {{person.user.email}}</li>
-                <li class="list-group-item border-0 ps-0 text-sm"><strong
-                  class="text-dark">Teléfono:</strong> {{person.phone}}</li>
-                <li class="list-group-item border-0 ps-0 text-sm"><strong
-                  class="text-dark">Rol:</strong> {{person.personRoles[0].role.name}}</li>
-              </ul>
-            </div>
-            <button class="btn bg-gradient-info" (click)="handleBtnEditUser()">Editar usuario <i class="material-icons">edit</i>
-            </button>
-          </div>
+<div style="display: flex; flex-direction: row; gap: .5rem; align-items: center; margin-bottom: .5rem">
+  <button mat-icon-button (click)="handleBtnBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <h2 style="margin: 0">{{person.fullname | titlecase}} {{person.surnames | titlecase}}</h2>
+</div>
+
+<div class="row g-3">
+  <div class="col-md-4">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Informacion personal</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div>
+          <p><strong>Email: </strong>{{person.user.email}}</p>
+          <p><strong>Telefono: </strong>{{person.phone}}</p>
+          <p><strong>Rol: </strong>{{person.personRoles[0].role.name}}</p>
         </div>
+      </mat-card-content>
+      <mat-card-actions [align]="'end'">
+        <button
+          mat-button
+          [color]="person.user.deleted ? 'accent': 'warn'"
+          (click)="handleBtnActive(person.user.id)">
+          {{person.user.deleted ? 'Restaurar usuario' : 'Eliminar usuario'}}
+        </button>
+        <button
+          type="button"
+          mat-flat-button
+          (click)="handleBtnEditUser()"
+          color="primary">
+          Editar Usuario
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <div class="col-md-8">
+    <h5>Proyectos</h5>
+    <div class="row g-2">
+      <div class="col-lg-4 col-md-6" *ngFor="let project of projects">
+        <vs-project-detail [project]="project"></vs-project-detail>
       </div>
-      <div class="col-md-8">
-        <h5>Proyectos</h5>
-        <div class="row g-2">
-          <div class="col-lg-4 col-md-6" *ngFor="let project of projects">
-            <vs-project-detail [project]="project"></vs-project-detail>
-          </div>
-          <div class="border-radius-lg bg-gray-100 border-0 p-4" *ngIf="projects.length == 0">
-            <p class="m-0">No tiene proyectos.</p>
-          </div>
-        </div>
+      <div class="border-radius-lg bg-gray-100 border-0 p-4" *ngIf="projects.length == 0">
+        <p class="m-0">No tiene proyectos.</p>
       </div>
     </div>
   </div>
