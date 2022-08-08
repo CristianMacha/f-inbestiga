@@ -23,4 +23,8 @@ export class UserService {
   public create(userRegister: IRegister): Observable<User> {
     return this.http.post<User>(`${this.uri}`, userRegister);
   }
+
+  public updateActive(userId: number): Observable<User> {
+    return this.http.get<User>(`${this.uri}/update/active/${userId}`);
+  }
 }

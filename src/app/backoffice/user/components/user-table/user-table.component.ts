@@ -1,14 +1,16 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {finalize, Observable, Subscription} from 'rxjs';
+import {finalize, Subscription} from 'rxjs';
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {MatDialog} from "@angular/material/dialog";
 
 import {Person} from '@core/models';
 import {AppStateUserFeature} from '../../store/user.reducer';
-import {userFeaturePersons} from '../../store/user.selectors';
-import {activeDetails, activeFormUpdate, loadPersons} from '../../store/user.actions';
+import {activeDetails, activeFormUpdate} from '../../store/user.actions';
 import {CRole} from "@core/enums";
-import {PersonService} from "@core/services";
+import {PersonService, UserService} from "@core/services";
+import {DialogConfirmComponent} from "../../../../shared/dialogs/dialog-confirm/dialog-confirm.component";
+import {IDialogConfirm} from "@core/interfaces";
 
 @Component({
   selector: 'vs-user-table',
@@ -29,6 +31,8 @@ export class UserTableComponent implements OnInit {
   constructor(
     private store: Store<AppStateUserFeature>,
     private personService: PersonService,
+    private matDialog: MatDialog,
+    private userService: UserService,
   ) {
   }
 
@@ -58,5 +62,26 @@ export class UserTableComponent implements OnInit {
     this.getPersons(event.pageSize, event.pageIndex);
   }
 
+  handleDelete(userId: number): void {
+    const dataDialog: IDialogConfirm = {
+      accept: false,
+      action: 'Eliminar usuario',
+      title: 'Eliminar usuario',
+      description: 'Desea eliminar este usuario?'
+    }
+    const dialogRef = this.matDialog.open(DialogConfirmComponent, {
+      width: '400px',
+      data: dataDialog,
+    });
+
+    this.subscription.add(
+      dialogRef.afterClosed().subscribe((resp) => resp && this.updateActiveUser(userId))
+    );
+  }
+
+  updateActiveUser(userId: number): void {
+    this.userService.updateActive(userId)
+      .subscribe((resp) => this.getPersons(30, 0));
+  }
 
 }
