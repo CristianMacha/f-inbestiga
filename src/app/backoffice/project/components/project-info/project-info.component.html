@@ -1,6 +1,6 @@
 <div>
   <div style="position: absolute; right: 16px;">
-    <button mat-button color="warn" (click)="handleDeleteProject()">Eliminar proyecto</button>
+    <button mat-button color="warn" (click)="handleDeleteProject()" *ngIf="roleSelected.id !== cRole.STUDENT">Eliminar proyecto</button>
   </div>
   <div>
     <p><strong>Descripcion:</strong> {{project.description}}</p>

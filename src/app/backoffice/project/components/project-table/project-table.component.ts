@@ -14,6 +14,7 @@ import {ProjectService} from "@core/services";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogConfirmComponent} from "../../../../shared/dialogs/dialog-confirm/dialog-confirm.component";
 import {IDialogConfirm} from "@core/interfaces";
+import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'vs-project-table',
@@ -29,6 +30,7 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
   pageSize = 30;
   pageIndex = 0;
   isLoadingResults = true;
+  dataSource: MatTableDataSource<Project> = new MatTableDataSource<Project>([]);
 
   cProjectStatus = CProjectStatus;
   roleSelected: Role = new Role();
@@ -98,7 +100,7 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
     this.projectService.getProjects(this.roleSelected.id, {status: this.filterStatusSelected, take, skip})
       .pipe(finalize(() => this.isLoadingResults = false))
       .subscribe((resp) => {
-        this.projects = resp.data;
+        this.dataSource.data = resp.data
         this.resultsLength = resp.total;
       });
   }
@@ -116,5 +118,10 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
     this.getProjects(this.pageSize, this.pageIndex);
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 }

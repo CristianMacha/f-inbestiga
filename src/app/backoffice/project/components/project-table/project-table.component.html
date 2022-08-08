@@ -4,8 +4,17 @@
       <div class="loading-shade" *ngIf="isLoadingResults">
         <mat-spinner color="primary"></mat-spinner>
       </div>
+      <mat-form-field class="w-100">
+        <mat-label>Buscar proyecto</mat-label>
+        <input matInput (keyup)="applyFilter($event)">
+        <button
+          mat-icon-button
+          matSuffix>
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
       <div class="table-container">
-        <table mat-table [dataSource]="projects" class="w-100">
+        <table mat-table [dataSource]="dataSource" class="w-100">
           <ng-container matColumnDef="code">
             <th mat-header-cell *matHeaderCellDef># CODIGO</th>
             <td mat-cell *matCellDef="let project">{{project.code}}</td>
