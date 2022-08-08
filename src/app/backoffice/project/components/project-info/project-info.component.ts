@@ -59,6 +59,28 @@ export class ProjectInfoComponent implements OnInit, OnDestroy {
   }
 
   handleUpdateProgress(): void {
+    (this.progressControl.value == 100) ? this.openDialogConfirm() : this.updateProgressProject();
+  }
+
+  openDialogConfirm(): void {
+    const dataDialog: IDialogConfirm = {
+      accept: true,
+      action: 'Completar proyecto',
+      description: 'Desea marcar como completado este proyecto?',
+      title: 'Marcar como completado.',
+    }
+
+    const dialogRef = this.matDialog.open(DialogConfirmComponent, {
+      width: '400px',
+      data: dataDialog,
+    });
+
+    this.subscription.add(
+      dialogRef.afterClosed().subscribe((resp) => resp ? this.updateProgressProject() : this.progressControl.reset(this.project.progress))
+    );
+  }
+
+  updateProgressProject(): void {
     this.projectService
       .updateProgress(this.project.id, this.progressControl.value)
       .subscribe((resp) => {

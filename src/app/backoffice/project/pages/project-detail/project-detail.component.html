@@ -7,7 +7,7 @@
   </h2>
   <div class="list-button">
     <div class="list-button"
-         *ngIf="roleSelected.id == cRole.ADMINISTRATOR && project.status != cProjectStatus.ACCEPTED && project.status != cProjectStatus.REFUSED">
+         *ngIf="roleSelected.id == cRole.ADMINISTRATOR && project.status != cProjectStatus.ACCEPTED && project.status != cProjectStatus.REFUSED && project.status !== cProjectStatus.COMPLETED">
       <button
         mat-flat-button
         color="warn"
@@ -26,13 +26,13 @@
       mat-flat-button
       color="primary"
       (click)="handleUploadUpdate()"
-      *ngIf="project.status != cProjectStatus.REQUIRED && project.status != cProjectStatus.REFUSED">
+      *ngIf="project.status != cProjectStatus.REQUIRED && project.status != cProjectStatus.REFUSED && project.status !== cProjectStatus.COMPLETED">
       <mat-icon>file_upload</mat-icon>
       Subir Actualizacion
     </button>
 
     <div
-      *ngIf="roleSelected.id !== cRole.STUDENT && roleSelected.id !== 0 && project.status != cProjectStatus.REQUIRED && project.status != cProjectStatus.REFUSED">
+      *ngIf="roleSelected.id !== cRole.STUDENT && roleSelected.id !== 0 && project.status != cProjectStatus.REQUIRED && project.status != cProjectStatus.REFUSED && project.status !== cProjectStatus.COMPLETED">
       <button
         mat-flat-button
         color="warn"
