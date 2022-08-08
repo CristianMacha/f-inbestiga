@@ -4,6 +4,8 @@ import {Observable} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
 import {Person} from '@core/models';
+import {ResponseListInterface} from "../interfaces/response.interface";
+import {PersonFilterInterface} from "@core/interfaces";
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +17,8 @@ export class PersonService {
     this.uri = `${environment.url}/person`;
   }
 
-  public getPersons(): Observable<Person[]> {
-    return this.http.get<Person[]>(`${this.uri}`);
+  public getPersons(filter: PersonFilterInterface): Observable<ResponseListInterface<Person[]>> {
+    return this.http.get<ResponseListInterface<Person[]>>(`${this.uri}?roleId=${filter.roleId}&take=${filter.take}&skip=${filter.skip}`);
   }
 
   public create(person: Person): Observable<Person> {

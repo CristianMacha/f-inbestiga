@@ -23,6 +23,8 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
   projects: Project[] = [];
   displayedColumns: string[] = ['code', 'name', 'description', 'expirationDate', 'status', 'actions'];
   resultsLength = 0;
+  pageSize = 30;
+  pageIndex = 0;
   isLoadingResults = true;
 
   cProjectStatus = CProjectStatus;
@@ -41,7 +43,6 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getRoleSelectedState();
-    this.getFilterState();
   }
 
   ngOnDestroy() {
@@ -54,7 +55,11 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
 
   getFilterState(): void {
     this.subscription.add(
-      this.store.select(projectFeatureFilter).subscribe((resp) => this.filterStatusSelected = resp.status)
+      this.store.select(projectFeatureFilter).subscribe((resp) => {
+        this.filterStatusSelected = resp.status;
+        this.resultsLength > 1 && this.paginator.firstPage();
+        this.getProjects(resp.take, resp.skip);
+      })
     );
   }
 
@@ -76,12 +81,14 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.store.select(uiRoleSelected).subscribe((resp) => {
         this.roleSelected = resp;
-        this.roleSelected.id > 0 && this.getProjects(30, 0);
+        this.roleSelected.id > 0 && this.getFilterState();
       })
     );
   }
 
   pageEvent(event: PageEvent) {
-    this.getProjects(event.pageSize, event.pageIndex);
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.getProjects(this.pageSize, this.pageIndex);
   }
 }

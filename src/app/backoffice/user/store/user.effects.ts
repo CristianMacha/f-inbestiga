@@ -1,9 +1,9 @@
-import { Injectable } from "@angular/core";
-import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { catchError, map, mergeMap, of } from "rxjs";
+import {Injectable} from "@angular/core";
+import {Actions, createEffect, ofType} from "@ngrx/effects";
+import {catchError, map, mergeMap, of} from "rxjs";
 
-import { PersonService } from "@core/services";
-import { createPerson, loadError, loadPersons, loadPersonsSuccess, setPerson, updatePerson } from "./user.actions";
+import {PersonService} from "@core/services";
+import {createPerson, loadError, loadPersons, loadPersonsSuccess, setPerson, updatePerson} from "./user.actions";
 
 @Injectable()
 export class UserEffects {
@@ -12,10 +12,10 @@ export class UserEffects {
     () => this.actions$.pipe(
       ofType(loadPersons),
       mergeMap(
-        (resp) => this.personService.getPersons()
+        (resp) => this.personService.getPersons({roleId: 0, take: 30, skip: 0})
           .pipe(
-            map((resp) => loadPersonsSuccess({ persons: resp })),
-            catchError(err => of(loadError({ payload: err })))
+            map((resp) => loadPersonsSuccess({persons: resp.data})),
+            catchError(err => of(loadError({payload: err})))
           )
       )
     )
@@ -27,8 +27,8 @@ export class UserEffects {
       mergeMap(
         (resp) => this.personService.create(resp.person)
           .pipe(
-            map((resp) => setPerson({ person: resp })),
-            catchError(err => of(loadError({ payload: err })))
+            map((resp) => setPerson({person: resp})),
+            catchError(err => of(loadError({payload: err})))
           )
       )
     )
@@ -39,10 +39,10 @@ export class UserEffects {
       ofType(updatePerson),
       mergeMap(
         (resp) => this.personService.update(resp.person)
-        .pipe(
-          map((resp) => setPerson({ person: resp })),
-          catchError(err => of(loadError({ payload: err })))
-        )
+          .pipe(
+            map((resp) => setPerson({person: resp})),
+            catchError(err => of(loadError({payload: err})))
+          )
       )
     )
   )
@@ -50,5 +50,6 @@ export class UserEffects {
   constructor(
     private actions$: Actions,
     private personService: PersonService,
-  ) { }
+  ) {
+  }
 }

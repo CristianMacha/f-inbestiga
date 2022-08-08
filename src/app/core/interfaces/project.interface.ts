@@ -1,19 +1,12 @@
 import {EProjectStatus} from "@core/enums";
-import {Project} from "@core/models";
+import {FilterListInterface} from "./filter.interface";
 
-export interface ProjectInterfaceFilter {
+export interface ProjectInterfaceFilter extends FilterListInterface{
   status: EProjectStatus;
-  take: number;
-  skip: number;
 }
 
 export interface ProjectAcceptInterface {
   projectId: number;
   amount: number;
   advisorId: number;
-}
-
-export interface ProjectResponseInterface {
-  data: Project[];
-  total: number;
 }

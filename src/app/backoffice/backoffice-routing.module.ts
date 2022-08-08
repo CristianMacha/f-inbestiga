@@ -13,12 +13,12 @@ const routes: Routes = [
     children: [
       {
         path: 'user',
-        canActivate: [ResourceGuard],
+        canLoad: [AuthGuard, ResourceGuard],
         loadChildren: () => import('./user/user.module').then(user => user.UserModule),
       },
       {
         path: 'category',
-        canActivate: [ResourceGuard],
+        canLoad: [AuthGuard, ResourceGuard],
         loadChildren: () => import('./category/category.module').then(category => category.CategoryModule),
       },
       {
@@ -32,12 +32,12 @@ const routes: Routes = [
       },
       {
         path: 'pagos',
-        canActivate: [ResourceGuard],
+        canLoad: [AuthGuard, ResourceGuard],
         loadChildren: () => import('./payment/payment.module').then(payment => payment.PaymentModule),
       },
       {
         path: 'dashboard',
-        canActivate: [ResourceGuard],
+        canLoad: [AuthGuard, ResourceGuard],
         loadChildren: () => import('./dashboard/dashboard.module').then(dashboard => dashboard.DashboardModule),
       },
       {

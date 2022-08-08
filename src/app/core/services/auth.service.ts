@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {map, Observable} from 'rxjs';
+import {catchError, map, Observable} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
 import {ILogin, ILoginResponse} from '@core/interfaces';

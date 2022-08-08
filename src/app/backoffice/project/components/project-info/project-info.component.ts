@@ -46,7 +46,6 @@ export class ProjectInfoComponent implements OnInit, OnDestroy {
   getRoleSelected(): void {
     this.subscription.add(
       this.store.select(uiRoleSelected).subscribe((role) => {
-        console.log((role.id == this.cRole.STUDENT));
         (role.id == this.cRole.STUDENT) && this.progressControl.disable();
         this.roleSelected = role;
       })

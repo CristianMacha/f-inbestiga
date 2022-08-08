@@ -41,17 +41,14 @@ export const uiReducer = createReducer(
   initialUiState,
   on(refreshToken, (state) => ({...state, isLoading: true})),
   on(login, (state) => ({...state, isLoading: true})),
-  on(setUser, (state, {user}) => ({...state, isLoading: false, user: {...user}, isAuthenticate: true, error: null})),
+  on(setUser, (state, {user}) => ({...state, user: {...user}, isLoading: true, isAuthenticate: true, error: null})),
   on(unsetUser, (state) => ({...state, isLoading: false, user: new User(), isAuthenticate: false})),
 
-  on(loadPersonRoles, (state) => ({...state, isLoading: true})),
   on(personRolesLoadedSuccess, (state, {personRoles}) => ({...state, isLoading: false, personRoles: [...personRoles]})),
-  on(loadRoleSelected, (state) => ({...state, isLoading: true})),
   on(roleSelectedLoadedSuccess, (state, {role}) => ({...state, isLoading: false, roleSelected: {...role}})),
   on(loginError, (state, {payload}) => ({...state, isLoading: false, isAuthenticate: false, error: {...payload}})),
 
   on(loadResources, (state, {resources}) => ({...state, resources: [...resources]})),
 
-  on(loadPerson, (state) => ({...state, isLoading: true})),
   on(personLoadedSuccess, (state, {person}) => ({...state, isLoading: false, person: {...person}}))
 );
