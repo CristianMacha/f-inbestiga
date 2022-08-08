@@ -1,44 +1,45 @@
-<div class="card-body">
+<div>
+  <div style="position: absolute; right: 16px;">
+    <button mat-button color="warn" (click)="handleDeleteProject()">Eliminar proyecto</button>
+  </div>
   <div>
+    <p><strong>Descripcion:</strong> {{project.description}}</p>
+  </div>
+  <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
     <div>
-      <p><strong>Descripcion:</strong> {{project.description}}</p>
-    </div>
-    <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
-      <div>
-        <h6 class="text-sm">Estudiantes</h6>
-        <div *ngFor="let pp of project.personProjects">
-          <p class="m-0" *ngIf="!pp.isAdvisor">{{pp.person.fullname}} {{pp.person.surnames}}</p>
-        </div>
+      <h6 class="text-sm">Estudiantes</h6>
+      <div *ngFor="let pp of project.personProjects">
+        <p class="m-0" *ngIf="!pp.isAdvisor">{{pp.person.fullname}} {{pp.person.surnames}}</p>
       </div>
-      <div>
-        <h6 class="text-sm">Asesores</h6>
-        <div *ngFor="let pp of project.personProjects">
-          <p class="m-0" *ngIf="pp.isAdvisor">{{pp.person.fullname}} {{pp.person.surnames}}</p>
-        </div>
+    </div>
+    <div>
+      <h6 class="text-sm">Asesores</h6>
+      <div *ngFor="let pp of project.personProjects">
+        <p class="m-0" *ngIf="pp.isAdvisor">{{pp.person.fullname}} {{pp.person.surnames}}</p>
       </div>
     </div>
   </div>
-  <div>
-    <div style="display: flex; align-items: center; gap: 1rem" *ngIf="project.status !== cProjectStatus.REQUIRED">
-      <mat-form-field appearance="outline">
-        <mat-label>Avance</mat-label>
-        <input
-          matInput
-          type="number"
-          min="0"
-          max="100"
-          [formControl]="progressControl">
-        <mat-icon matSuffix>percent</mat-icon>
-      </mat-form-field>
-      <button
-        mat-flat-button
-        color="primary"
-        *ngIf="progressControl.dirty"
-        [disabled]="roleSelected.id == cRole.STUDENT"
-        (click)="handleUpdateProgress()">
-        Guardar avance
-      </button>
-    </div>
-    <mat-progress-bar mode="determinate" [value]="project.progress"></mat-progress-bar>
+</div>
+<div>
+  <div style="display: flex; align-items: center; gap: 1rem" *ngIf="project.status !== cProjectStatus.REQUIRED">
+    <mat-form-field appearance="outline">
+      <mat-label>Avance</mat-label>
+      <input
+        matInput
+        type="number"
+        min="0"
+        max="100"
+        [formControl]="progressControl">
+      <mat-icon matSuffix>percent</mat-icon>
+    </mat-form-field>
+    <button
+      mat-flat-button
+      color="primary"
+      *ngIf="progressControl.dirty"
+      [disabled]="roleSelected.id == cRole.STUDENT"
+      (click)="handleUpdateProgress()">
+      Guardar avance
+    </button>
   </div>
+  <mat-progress-bar mode="determinate" [value]="project.progress"></mat-progress-bar>
 </div>

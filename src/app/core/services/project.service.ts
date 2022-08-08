@@ -3,8 +3,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
-import {ProjectAcceptInterface, ProjectInterfaceFilter} from "@core/interfaces";
-import {ResponseListInterface} from "../interfaces/response.interface";
+import {ProjectAcceptInterface, ProjectInterfaceFilter, ResponseListInterface} from "@core/interfaces";
 import {Project} from "@core/models";
 
 @Injectable({
@@ -51,6 +50,14 @@ export class ProjectService {
 
   updateActive(projectId: number): Observable<Project> {
     return this.http.get<Project>(`${this.uri}/update/active/${projectId}`);
+  }
+
+  updateArchived(projectId: number): Observable<Project> {
+    return this.http.get<Project>(`${this.uri}/update/archived/${projectId}`);
+  }
+
+  updateDeleted(projectId: number): Observable<Project> {
+    return this.http.get<Project>(`${this.uri}/update/deleted/${projectId}`);
   }
 
   updateProgress(projectId: number, progress: number): Observable<Project> {

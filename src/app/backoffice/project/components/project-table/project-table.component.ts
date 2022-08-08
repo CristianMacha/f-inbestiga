@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {finalize, Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
+import {MatPaginator, PageEvent} from "@angular/material/paginator";
 
 import {Project, Role} from '@core/models';
 import {AppStateProjectFeature} from '../../store/project.reducers';
@@ -10,7 +11,9 @@ import {projectFeatureFilter} from '../../store/project.selectors';
 import {uiRoleSelected} from "../../../../shared/ui.selectors";
 import {CProjectStatus, CRole, EProjectStatus} from "@core/enums";
 import {ProjectService} from "@core/services";
-import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {MatDialog} from "@angular/material/dialog";
+import {DialogConfirmComponent} from "../../../../shared/dialogs/dialog-confirm/dialog-confirm.component";
+import {IDialogConfirm} from "@core/interfaces";
 
 @Component({
   selector: 'vs-project-table',
@@ -38,6 +41,7 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
     private store: Store<AppStateProjectFeature>,
     private router: Router,
     private projectService: ProjectService,
+    private matDialog: MatDialog,
   ) {
   }
 
@@ -47,6 +51,28 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  handleDelete(projectId: number): void {
+    const dataDialog: IDialogConfirm = {
+      action: 'Archivar proyecto',
+      title: 'Archivar proyecto',
+      description: 'Desea archivar este proyecto?',
+      accept: false
+    }
+    const dialogRef = this.matDialog.open(DialogConfirmComponent, {
+      width: '400px',
+      data: dataDialog,
+    });
+
+    this.subscription.add(
+      dialogRef.afterClosed().subscribe((resp) => resp && this.updateArchived(projectId))
+    )
+  }
+
+  updateArchived(projectId: number): void {
+    this.projectService.updateArchived(projectId)
+      .subscribe(() => this.getProjects(30, 0));
   }
 
   handleBtnEdit(project: Project) {
@@ -64,12 +90,12 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
   }
 
   handleViewProject(projectId: number): void {
-    this.router.navigateByUrl(`backoffice/project/${projectId}`);
+    this.router.navigateByUrl(`backoffice/project/${projectId}`).then();
   }
 
   getProjects(take: number, skip: number): void {
     this.isLoadingResults = true;
-    this.projectService.getProjects(this.roleSelected.id, { status: this.filterStatusSelected, take, skip })
+    this.projectService.getProjects(this.roleSelected.id, {status: this.filterStatusSelected, take, skip})
       .pipe(finalize(() => this.isLoadingResults = false))
       .subscribe((resp) => {
         this.projects = resp.data;

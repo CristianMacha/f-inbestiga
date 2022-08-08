@@ -2,14 +2,18 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Subscription} from 'rxjs';
 import {FormControl, Validators} from '@angular/forms';
+import {MatDialog} from "@angular/material/dialog";
+import {Router} from "@angular/router";
 
 import {Person, Project, Role} from '@core/models';
+import {CProjectStatus, CRole} from "@core/enums";
+import {IDialogConfirm} from "@core/interfaces";
+import {ProjectService} from '@core/services';
 import {AppStateProjectFeature} from '../../store/project.reducers';
 import {projectFeatureProject} from '../../store/project.selectors';
-import {ProjectService} from '@core/services';
 import {loadProject} from '../../store/project.actions';
-import {CProjectStatus, CRole} from "@core/enums";
 import {uiRoleSelected} from "../../../../shared/ui.selectors";
+import {DialogConfirmComponent} from "../../../../shared/dialogs/dialog-confirm/dialog-confirm.component";
 
 @Component({
   selector: 'vs-project-info',
@@ -30,7 +34,9 @@ export class ProjectInfoComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<AppStateProjectFeature>,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private matDialog: MatDialog,
+    private router: Router,
   ) {
   }
 
@@ -73,5 +79,27 @@ export class ProjectInfoComponent implements OnInit, OnDestroy {
         });
       })
     );
+  }
+
+  handleDeleteProject(): void {
+    const dataDialog: IDialogConfirm = {
+      accept: false,
+      title: 'Eliminar Proyecto',
+      description: 'Desea eliminar este proyecto permanentemente?',
+      action: 'Eliminar proyecto',
+    };
+    const dialogRef = this.matDialog.open(DialogConfirmComponent, {
+      width: '400px',
+      data: dataDialog
+    });
+
+    this.subscription.add(
+      dialogRef.afterClosed().subscribe((resp) => resp && this.deleteProject())
+    );
+  }
+
+  deleteProject(): void {
+    this.projectService.updateDeleted(this.project.id)
+      .subscribe((resp) => this.router.navigateByUrl('backoffice/project'))
   }
 }
