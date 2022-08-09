@@ -3,18 +3,18 @@ import {finalize, Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {MatTableDataSource} from "@angular/material/table";
+import {MatDialog} from "@angular/material/dialog";
 
+import {CProjectStatus, CRole, EProjectStatus} from "@core/enums";
+import {IDialogConfirm} from "@core/interfaces";
+import {ProjectService} from "@core/services";
 import {Project, Role} from '@core/models';
 import {AppStateProjectFeature} from '../../store/project.reducers';
 import {activeFormUpdate} from '../../store/project.actions';
 import {projectFeatureFilter} from '../../store/project.selectors';
 import {uiRoleSelected} from "../../../../shared/ui.selectors";
-import {CProjectStatus, CRole, EProjectStatus} from "@core/enums";
-import {ProjectService} from "@core/services";
-import {MatDialog} from "@angular/material/dialog";
 import {DialogConfirmComponent} from "../../../../shared/dialogs/dialog-confirm/dialog-confirm.component";
-import {IDialogConfirm} from "@core/interfaces";
-import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'vs-project-table',
@@ -62,6 +62,7 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
       description: 'Desea archivar este proyecto?',
       accept: false
     }
+
     const dialogRef = this.matDialog.open(DialogConfirmComponent, {
       width: '400px',
       data: dataDialog,

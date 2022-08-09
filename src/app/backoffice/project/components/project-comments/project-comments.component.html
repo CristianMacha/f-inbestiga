@@ -8,7 +8,11 @@
         [formControl]="commentaryControl"
         (keyup.enter)="handleCreate()">
       <mat-error>Escribe un comentario</mat-error>
-      <button matSuffix mat-icon-button (click)="handleCreate()">
+      <button
+        matSuffix
+        mat-icon-button
+        (click)="handleCreate()"
+        [disabled]="commentaryControl.disabled">
         <mat-icon>send</mat-icon>
       </button>
     </mat-form-field>

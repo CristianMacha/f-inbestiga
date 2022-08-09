@@ -1,14 +1,13 @@
 import {Component, Input, OnInit} from '@angular/core';
-
-import {CommentaryService} from '@core/services';
-import {Commentary, Project, Requirement} from '@core/models';
 import {FormControl, Validators} from '@angular/forms';
-import {Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
+import {Subscription} from "rxjs";
 
+import {Commentary, Project, Requirement} from '@core/models';
+import {CommentaryService} from '@core/services';
+import {CProjectStatus, EProjectStatus} from "@core/enums";
 import {AppStateProjectFeature} from "../../store/project.reducers";
 import {projectFeatureProject} from "../../store/project.selectors";
-import {CProjectStatus} from "@core/enums";
 
 @Component({
   selector: 'vs-project-comments',
@@ -94,7 +93,12 @@ export class ProjectCommentsComponent implements OnInit {
     this.subscription.add(
       this.store.select(projectFeatureProject).subscribe((resp) => {
         this.project = resp;
-        (this.project.status === this.cProjectStatus.REQUIRED) ? this.commentaryControl.disable() : this.commentaryControl.enable();
+        console.log(this.project)
+        if (this.project.status === this.cProjectStatus.REQUIRED || this.project.status === EProjectStatus.COMPLETED || this.project.status === EProjectStatus.REFUSED) {
+          this.commentaryControl.disable();
+        } else {
+          this.commentaryControl.enable();
+        }
       })
     );
   }

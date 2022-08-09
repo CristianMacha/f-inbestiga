@@ -1,15 +1,17 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {Store} from "@ngrx/store";
-import {Subscription} from "rxjs";
+import {finalize, Subscription} from "rxjs";
 
 import {InvoiceService, ProjectService} from "@core/services";
 import {Invoice, Person, Project} from "@core/models";
 import {appState} from "../../../../app.reducers";
-import {uiPerson} from "../../../../shared/ui.selectors";
+import {uiPerson, uiRoleSelected} from "../../../../shared/ui.selectors";
 import {
   DialogRequestProjectComponent
 } from "../../../../shared/dialogs/dialog-request-project/dialog-request-project.component";
+import {PageEvent} from "@angular/material/paginator";
+import {EProjectStatus, ERole} from "@core/enums";
 
 @Component({
   selector: 'vs-dashboard-student',
@@ -21,6 +23,8 @@ export class DashboardStudentComponent implements OnInit, OnDestroy {
   projects: Project[] = [];
   invoices: Invoice[] = [];
   person: Person = new Person();
+  resultsLength = 0;
+  loading: boolean = false;
 
   constructor(
     private projectService: ProjectService,
@@ -31,6 +35,7 @@ export class DashboardStudentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.getUiRoleSelected();
     this.getPerson();
   }
 
@@ -49,9 +54,14 @@ export class DashboardStudentComponent implements OnInit, OnDestroy {
     );
   }
 
-  getProjects(personId: number): void {
-    this.projectService.getByPerson(personId)
-      .subscribe((resp) => this.projects = resp)
+  getProjects(roleId: number, take: number = 3, skip = 0): void {
+    this.loading = true;
+    this.projectService.getProjects(roleId, {status: EProjectStatus.ALL, take, skip})
+      .pipe(finalize(() => this.loading = false))
+      .subscribe((resp) => {
+        this.resultsLength = resp.total;
+        this.projects = resp.data;
+      });
   }
 
   getInvoices(personId: number): void {
@@ -59,15 +69,20 @@ export class DashboardStudentComponent implements OnInit, OnDestroy {
       .subscribe((resp) => this.invoices = resp);
   }
 
+  getUiRoleSelected(): void {
+    this.subscription.add(
+      this.store.select(uiRoleSelected).subscribe((role) => this.getProjects(role.id))
+    );
+  }
+
   getPerson(): void {
     this.subscription.add(
-      this.store.select(uiPerson).subscribe((resp) => {
-        this.person = resp;
-        this.getProjects(resp.id);
-        this.getInvoices(resp.id)
-        ;
-      })
+      this.store.select(uiPerson).subscribe((resp) => this.getInvoices(resp.id))
     )
+  }
+
+  pageEvent(event: PageEvent) {
+    this.getProjects(ERole.STUDENT, event.pageSize, event.pageIndex);
   }
 
 }

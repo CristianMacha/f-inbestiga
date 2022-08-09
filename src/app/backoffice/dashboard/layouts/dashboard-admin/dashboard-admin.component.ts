@@ -1,12 +1,13 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {Store} from "@ngrx/store";
+import {finalize, Subscription} from "rxjs";
 
-import {appState} from "../../../../app.reducers";
 import {ProjectService} from "@core/services";
-import {Subscription} from "rxjs";
+import {EProjectStatus, ERole} from "@core/enums";
 import {Project} from "@core/models";
+import {appState} from "../../../../app.reducers";
 import {uiRoleSelected} from "../../../../shared/ui.selectors";
-import {EProjectStatus} from "@core/enums";
 
 @Component({
   selector: 'vs-dashboard-admin',
@@ -15,7 +16,9 @@ import {EProjectStatus} from "@core/enums";
 })
 export class DashboardAdminComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
+  resultsLength = 0;
   projects: Project[] = [];
+  loading: boolean = false;
 
   constructor(
     private projectService: ProjectService,
@@ -36,9 +39,18 @@ export class DashboardAdminComponent implements OnInit, OnDestroy {
     )
   }
 
-  getProjects(roleId: number): void {
-    this.projectService.getProjects(roleId, { status: EProjectStatus.ALL, take: 10, skip: 0})
-      .subscribe((resp) => this.projects = resp.data);
+  getProjects(roleId: number, take: number = 3, skip = 0): void {
+    this.loading = true;
+    this.projectService.getProjects(roleId, { status: EProjectStatus.ALL, take, skip})
+      .pipe(finalize(() => this.loading = false))
+      .subscribe((resp) => {
+        this.resultsLength = resp.total;
+        this.projects = resp.data;
+      });
+  }
+
+  pageEvent(event: PageEvent) {
+    this.getProjects(ERole.ADMINISTRATOR, event.pageSize, event.pageIndex);
   }
 
 }

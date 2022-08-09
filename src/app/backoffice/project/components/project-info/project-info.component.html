@@ -1,9 +1,21 @@
 <div>
   <div style="position: absolute; right: 16px;">
-    <button mat-button color="warn" (click)="handleDeleteProject()" *ngIf="roleSelected.id !== cRole.STUDENT">Eliminar proyecto</button>
+    <button
+      mat-button
+      color="warn"
+      (click)="handleDeleteProject()"
+      *ngIf="roleSelected.id !== cRole.STUDENT">
+      Eliminar proyecto
+    </button>
   </div>
   <div>
     <p><strong>Descripcion:</strong> {{project.description}}</p>
+    <p><strong>Estado:</strong><span
+      [class.text-warning]="project.status == cProjectStatus.REQUIRED"
+      [class.text-info]="project.status == cProjectStatus.ACCEPTED"
+      [class.text-danger]="project.status == cProjectStatus.REFUSED"
+      [class.text-secondary]="project.status == cProjectStatus.PENDING"
+      [class.text-success]="project.status == cProjectStatus.COMPLETED"> {{project.status}}</span></p>
   </div>
   <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
     <div>
@@ -21,7 +33,7 @@
   </div>
 </div>
 <div>
-  <div style="display: flex; align-items: center; gap: 1rem" *ngIf="project.status !== cProjectStatus.REQUIRED">
+  <div style="display: flex; align-items: center; gap: 1rem;" *ngIf="project.status !== cProjectStatus.REQUIRED && project.status !== cProjectStatus.COMPLETED && project.status !== cProjectStatus.REFUSED">
     <mat-form-field appearance="outline">
       <mat-label>Avance</mat-label>
       <input
@@ -41,5 +53,9 @@
       Guardar avance
     </button>
   </div>
-  <mat-progress-bar mode="determinate" [value]="project.progress"></mat-progress-bar>
+  <mat-progress-bar
+    style="margin-top: 1rem"
+    [color]="project.status === cProjectStatus.COMPLETED ? 'accent' : 'primary'"
+    mode="determinate"
+    [value]="project.progress"></mat-progress-bar>
 </div>

@@ -1,6 +1,16 @@
 <h2>Proyectos</h2>
+<mat-paginator
+  [disabled]="loading"
+  class="bg-gray-200"
+  [length]="resultsLength"
+  [pageSize]="3"
+  (page)="pageEvent($event)">
+</mat-paginator>
 <div class="row g-2">
   <div class="col-lg-4 col-md-6" *ngFor="let project of projects">
     <vs-project-detail [project]="project"></vs-project-detail>
+  </div>
+  <div class="border-radius-lg bg-gray-100 border-0 p-4" *ngIf="projects.length == 0">
+    <p class="m-0">No tiene proyectos.</p>
   </div>
 </div>
