@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { Category } from '@core/models';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {Observable} from 'rxjs';
+import {Category} from '@core/models';
 
-import { AppStateCategoryFeature } from '../../store/category.reducer';
-import { categoriesFeature } from '../../store/category.selectors';
-import { activeFormUpdate, loadCategories } from '../../store/category.actions';
+import {MatPaginator} from "@angular/material/paginator";
+import {CategoryService} from "@core/services";
+import {MatTableDataSource} from "@angular/material/table";
+import {Store} from "@ngrx/store";
+import {AppStateCategoryFeature} from "../../store/category.reducer";
+import {activeFormUpdate} from "../../store/category.actions";
 
 @Component({
   selector: 'vs-category-table',
@@ -15,14 +17,30 @@ import { activeFormUpdate, loadCategories } from '../../store/category.actions';
 export class CategoryTableComponent implements OnInit {
   categories$: Observable<Category[]> = new Observable();
 
-  constructor(private store: Store<AppStateCategoryFeature>) {}
+  dataSource = new MatTableDataSource<Category>([]);
+  displayedColumns: string[] = ['name', 'status', 'actions'];
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  constructor(
+    private store: Store<AppStateCategoryFeature>,
+    private categoryService: CategoryService,
+  ) {
+  }
 
   ngOnInit(): void {
-    this.store.dispatch(loadCategories());
-    this.categories$ = this.store.select(categoriesFeature);
+    this.getCategories();
+  }
+
+  getCategories(): void {
+    this.categoryService.getCategories()
+      .subscribe((resp) => {
+        this.dataSource.data = resp;
+        this.dataSource.paginator = this.paginator;
+      });
   }
 
   handleBtnEdit(category: Category) {
-    this.store.dispatch(activeFormUpdate({ category }));
+    this.store.dispatch(activeFormUpdate({category}));
   }
 }

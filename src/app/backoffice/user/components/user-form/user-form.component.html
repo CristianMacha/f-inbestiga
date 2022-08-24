@@ -1,14 +1,8 @@
-<div class="card z-index-2">
-  <div
-    class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent"
-  >
-    <div class="bg-gradient-info shadow-white border-radius-lg py-3 pe-1">
-      <div style="text-align: center">
-        <h2 style="color: rgb(231, 230, 230)">{{ title }}</h2>
-      </div>
-    </div>
-  </div>
-  <div class="card-body">
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{title | uppercase}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
     <form [formGroup]="personForm">
       <div class="row g-2">
         <div class="col-md-6">
@@ -18,9 +12,8 @@
               type="text"
               matInput
               formControlName="fullname"
-              placeholder="Nombre..."
-            />
-            <mat-error> Ingresa el nombre </mat-error>
+              placeholder="Nombre"/>
+            <mat-error> Ingresa el nombre</mat-error>
           </mat-form-field>
         </div>
         <div class="col-md-6">
@@ -30,9 +23,8 @@
               type="text"
               matInput
               formControlName="surnames"
-              placeholder="Apellidos..."
-            />
-            <mat-error> Ingresa los apellidos </mat-error>
+              placeholder="Apellidos"/>
+            <mat-error> Ingresa los apellidos</mat-error>
           </mat-form-field>
         </div>
         <div class="col-md-12">
@@ -45,15 +37,14 @@
                     type="email"
                     matInput
                     formControlName="email"
-                    placeholder="Correo..."
-                  />
-                  <mat-error> Ingresa un correo válido </mat-error>
+                    placeholder="Correo electrónico"/>
+                  <mat-error> Ingresa un correo válido</mat-error>
                 </mat-form-field>
               </div>
               <div class="col-md-6">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Contraseña</mat-label>
-                  <input type="password" matInput formControlName="password" />
+                  <input type="password" matInput formControlName="password"/>
                   <mat-error>Ingresa una contraseña válida</mat-error>
                 </mat-form-field>
               </div>
@@ -67,8 +58,7 @@
               type="text"
               matInput
               formControlName="phone"
-              placeholder="Celular..."
-            />
+              placeholder="Celular"/>
             <mat-error> Ingresa el celular</mat-error>
           </mat-form-field>
         </div>
@@ -80,9 +70,7 @@
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Rol</mat-label>
                     <mat-select formControlName="id">
-                      <mat-option selected [value]="0"
-                        >Seleccione rol</mat-option
-                      >
+                      <mat-option selected [value]="0">Seleccione rol</mat-option>
                       <mat-option [value]="1">ESTUDIANTE</mat-option>
                       <mat-option [value]="2">ADMINISTRADOR</mat-option>
                       <mat-option [value]="3">ASESOR</mat-option>
@@ -95,21 +83,19 @@
         </div>
       </div>
     </form>
-  </div>
-  <div class="card-footer">
-    <div class="btn-group">
-      <div>
-        <button class="btn" (click)="handleBtnCancel()">Cancelar</button>
-      </div>
-      <div>
-        <button
-          class="btn bg-gradient-info"
-          [disabled]="personForm.invalid || loading"
-          (click)="handleBtnActionUser()"
-        >
-          {{ btnActionText }}
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+  </mat-card-content>
+  <mat-card-actions [align]="'end'">
+    <button
+      mat-button
+      (click)="handleBtnCancel()">
+      CANCELAR
+    </button>
+    <button
+      mat-flat-button
+      color="primary"
+      [disabled]="personForm.invalid || loading"
+      (click)="handleBtnActionUser()">
+      {{btnActionText | uppercase}}
+    </button>
+  </mat-card-actions>
+</mat-card>

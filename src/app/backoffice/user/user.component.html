@@ -1,6 +1,12 @@
 <div *ngIf="!activeForm && !personSelected">
-  <button class="btn bg-gradient-info" (click)="handleBtnNewPerson()">Añadir usuario <i
-    class="material-icons">add</i></button>
+  <button
+    mat-flat-button
+    color="primary"
+    class="mb-2"
+    (click)="handleBtnNewPerson()">
+    Añadir usuario
+    <mat-icon>add</mat-icon>
+  </button>
   <vs-user-table></vs-user-table>
 </div>
 

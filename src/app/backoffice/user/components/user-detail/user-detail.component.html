@@ -20,12 +20,6 @@
       </mat-card-content>
       <mat-card-actions [align]="'end'">
         <button
-          mat-button
-          [color]="person.user.deleted ? 'accent': 'warn'"
-          (click)="handleBtnActive(person.user.id)">
-          {{person.user.deleted ? 'Restaurar usuario' : 'Eliminar usuario'}}
-        </button>
-        <button
           type="button"
           mat-flat-button
           (click)="handleBtnEditUser()"

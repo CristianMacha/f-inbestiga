@@ -1,6 +1,6 @@
-<div *ngIf="!(activeForm$ | async)">
-  <button class="btn btn-info" (click)="handleBtnNewCategory()">
-    Añadir categoría <i class="material-icons">add</i>
+<div *ngIf="!(activeForm$ | async)" class="mb-2">
+  <button mat-flat-button color="primary" (click)="handleBtnNewCategory()">
+    Añadir categoría <mat-icon>add</mat-icon>
   </button>
 </div>
 <div class="card" *ngIf="!(activeForm$ | async)">

@@ -16,6 +16,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 const MATERIAL_COMPONENTS = [
   MatDialogModule,
@@ -35,6 +36,7 @@ const MATERIAL_COMPONENTS = [
   MatTableModule,
   MatPaginatorModule,
   MatProgressSpinnerModule,
+  MatCheckboxModule,
 ]
 
 @NgModule({
