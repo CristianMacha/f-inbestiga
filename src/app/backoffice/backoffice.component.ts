@@ -6,7 +6,7 @@ import {FormControl, Validators} from "@angular/forms";
 
 import {appState} from '../app.reducers';
 import {PersonRoles, ResourceModel, User} from '@core/models';
-import {loadPerson, loadPersonRoles, loadResources, loadRoleSelected, unsetUser} from '../shared/ui.actions';
+import {loadPerson, loadPersonRoles, loadResources, loadRoleSelected, logout, unsetUser} from '../shared/ui.actions';
 import {uiFeatureUser, uiPersonRoles, uiResources, uiRoleSelected} from '../shared/ui.selectors';
 import {AuthService, ResourceService} from "@core/services";
 
@@ -48,10 +48,10 @@ export class BackofficeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
   getRoleSelected(): void {
+    console.log('getResource')
     this.subscription.add(
       this.store.select(uiRoleSelected).subscribe((role) => this.dispatchResources(role.id))
     );
@@ -83,6 +83,7 @@ export class BackofficeComponent implements OnInit, OnDestroy {
   logout() {
     localStorage.removeItem('token');
     this.store.dispatch(unsetUser());
+    this.store.dispatch(logout());
     this.router.navigateByUrl('auth/login');
   }
 

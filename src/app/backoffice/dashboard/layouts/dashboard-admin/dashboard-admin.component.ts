@@ -23,7 +23,8 @@ export class DashboardAdminComponent implements OnInit, OnDestroy {
   constructor(
     private projectService: ProjectService,
     private store: Store<appState>
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.getRoleSelected();
@@ -35,13 +36,13 @@ export class DashboardAdminComponent implements OnInit, OnDestroy {
 
   getRoleSelected(): void {
     this.subscription.add(
-      this.store.select(uiRoleSelected).subscribe((role) => this.getProjects(role.id))
+      this.store.select(uiRoleSelected).subscribe((role) => role.id && this.getProjects(role.id))
     )
   }
 
   getProjects(roleId: number, take: number = 3, skip = 0): void {
     this.loading = true;
-    this.projectService.getProjects(roleId, { status: EProjectStatus.ALL, take, skip})
+    this.projectService.getProjects(roleId, {status: EProjectStatus.ALL, take, skip})
       .pipe(finalize(() => this.loading = false))
       .subscribe((resp) => {
         this.resultsLength = resp.total;

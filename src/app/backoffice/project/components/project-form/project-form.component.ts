@@ -94,6 +94,11 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   }
 
   addPersonProjects(personProject: PersonProject) {
+    const existPerson = (this.personProjectsControls.value as Array<PersonProject>).some((pp) => pp.person.id == personProject.person.id);
+    if (existPerson) {
+      return;
+    }
+
     const personProjectControl = this.formBuilder.group({
       id: new FormControl(personProject.id),
       isAdvisor: new FormControl(personProject.isAdvisor),
@@ -128,8 +133,8 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     this.store.dispatch(activeForm({active: false}));
   }
 
-  handleSearchMember(roleId: number) {
-    let isAdvisor: boolean;
+  setPerson(person: Person, roleId: number): void {
+    let isAdvisor: boolean = false;
     if (roleId === ERole.ADVISOR) {
       isAdvisor = true;
     }
@@ -137,18 +142,10 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       isAdvisor = false;
     }
 
-    this.personService
-      .getByCodeAndRole(this.codeControl.value, roleId)
-      .subscribe({
-        next: (resp) => {
-          const newPersonProject = new PersonProject();
-          newPersonProject.isAdvisor = isAdvisor;
-          newPersonProject.person = resp;
-
-          this.addPersonProjects(newPersonProject);
-          this.codeControl.reset();
-        }
-      });
+    const newPersonProject = new PersonProject();
+    newPersonProject.isAdvisor = isAdvisor;
+    newPersonProject.person = person;
+    this.addPersonProjects(newPersonProject);
   }
 
   getEditModeState() {

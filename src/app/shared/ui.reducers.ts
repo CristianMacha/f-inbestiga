@@ -2,9 +2,7 @@ import {createReducer, on} from "@ngrx/store";
 
 import {Person, PersonRoles, ResourceModel, Role, User} from "@core/models";
 import {
-  loadPerson,
-  loadPersonRoles, loadResources,
-  loadRoleSelected,
+  loadResources,
   login,
   loginError,
   personLoadedSuccess,
@@ -12,7 +10,8 @@ import {
   refreshToken,
   roleSelectedLoadedSuccess,
   setUser,
-  unsetUser
+  unsetUser,
+  logout
 } from "./ui.actions";
 
 export interface uiState {
@@ -41,6 +40,15 @@ export const uiReducer = createReducer(
   initialUiState,
   on(refreshToken, (state) => ({...state, isLoading: true})),
   on(login, (state) => ({...state, isLoading: true})),
+  on(logout, (state) => ({
+    ...state,
+    isAuthenticate: false,
+    user: new User(),
+    person: new Person(),
+    personRoles: [],
+    roleSelected: new Role(),
+    resources: [],
+  })),
   on(setUser, (state, {user}) => ({...state, user: {...user}, isLoading: true, isAuthenticate: true, error: null})),
   on(unsetUser, (state) => ({...state, isLoading: false, user: new User(), isAuthenticate: false})),
 

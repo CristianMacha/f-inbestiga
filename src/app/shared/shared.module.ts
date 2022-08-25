@@ -12,8 +12,10 @@ import {FeesComponent} from './components/fees/fees.component';
 import {DialogPayFeeComponent} from './dialogs/dialog-pay-fee/dialog-pay-fee.component';
 import {DialogVerifyPaymentComponent} from './dialogs/dialog-verify-payment/dialog-verify-payment.component';
 import {DialogRequestProjectComponent} from './dialogs/dialog-request-project/dialog-request-project.component';
-import { DialogAcceptProjectComponent } from './dialogs/dialog-accept-project/dialog-accept-project.component';
-import { DialogConfirmComponent } from './dialogs/dialog-confirm/dialog-confirm.component';
+import {DialogAcceptProjectComponent} from './dialogs/dialog-accept-project/dialog-accept-project.component';
+import {DialogConfirmComponent} from './dialogs/dialog-confirm/dialog-confirm.component';
+import {SearchPersonComponent} from './components/search-person/search-person.component';
+import { DialogPersonFormComponent } from './dialogs/dialog-person-form/dialog-person-form.component';
 
 const COMPONENTS_SHARED = [
   BackofficeNavComponent,
@@ -23,11 +25,15 @@ const COMPONENTS_SHARED = [
   FeesComponent,
   DialogPayFeeComponent,
   DialogVerifyPaymentComponent,
-  DialogRequestProjectComponent
+  DialogRequestProjectComponent,
+  DialogAcceptProjectComponent,
+  DialogConfirmComponent,
+  SearchPersonComponent,
+  DialogPersonFormComponent,
 ]
 
 @NgModule({
-  declarations: [COMPONENTS_SHARED, DialogAcceptProjectComponent, DialogConfirmComponent],
+  declarations: [COMPONENTS_SHARED],
   imports: [
     CommonModule,
     RouterModule,

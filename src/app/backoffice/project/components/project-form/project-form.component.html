@@ -60,21 +60,12 @@
             <div class="col-md-6">
               <h6>Asesor</h6>
               <div *ngIf="roleSelected.id === cRole.ADMINISTRATOR">
-                <mat-form-field appearance="outline">
-                  <mat-label>Buscar Asesor</mat-label>
-                  <input
-                    matInput
-                    placeholder="Codigo asesor"
-                    [formControl]="codeControl"
-                    (keyup.enter)="handleSearchMember(3)">
-                  <button
-                    type="button"
-                    matSuffix
-                    mat-icon-button
-                    (click)="handleSearchMember(3)">
-                    <mat-icon>search</mat-icon>
-                  </button>
-                </mat-form-field>
+                <vs-search-person
+                  [roleId]="cRole.ADVISOR"
+                  (person)="setPerson($event, cRole.ADVISOR)"
+                  [appearance]="'outline'"
+                  [roleName]="'asesor'">
+                </vs-search-person>
               </div>
 
               <div formArrayName="personProjects">
@@ -102,21 +93,12 @@
             <div class="col-md-6">
               <h6>Estudiantes</h6>
               <div *ngIf="(roleSelected.id === cRole.ADMINISTRATOR || roleSelected.id === cRole.ADVISOR)">
-                <mat-form-field appearance="outline">
-                  <mat-label>Buscar Estudiante</mat-label>
-                  <input
-                    matInput
-                    placeholder="Codigo estudiante"
-                    [formControl]="codeControl"
-                    (keyup.enter)="handleSearchMember(1)">
-                  <button
-                    type="button"
-                    matSuffix
-                    mat-icon-button
-                    (click)="handleSearchMember(1)">
-                    <mat-icon>search</mat-icon>
-                  </button>
-                </mat-form-field>
+                <vs-search-person
+                  [roleId]="cRole.STUDENT"
+                  (person)="setPerson($event, cRole.STUDENT)"
+                  [appearance]="'outline'"
+                  [roleName]="'estudiante'">
+                </vs-search-person>
               </div>
 
               <div formArrayName="personProjects">

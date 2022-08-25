@@ -17,6 +17,10 @@ export class PersonService {
     this.uri = `${environment.url}/person`;
   }
 
+  public getPersonByNameAndRole(name: string, roleId: number): Observable<Person[]> {
+    return this.http.get<Person[]>(`${this.uri}/name_and_role?name=${name}&roleId=${roleId}`);
+  }
+
   public getPersons(filter: PersonFilterInterface): Observable<ResponseListInterface<Person[]>> {
     return this.http.get<ResponseListInterface<Person[]>>(`${this.uri}?roleId=${filter.roleId}&take=${filter.take}&skip=${filter.skip}`);
   }

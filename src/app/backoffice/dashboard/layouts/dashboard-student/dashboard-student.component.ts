@@ -71,7 +71,7 @@ export class DashboardStudentComponent implements OnInit, OnDestroy {
 
   getUiRoleSelected(): void {
     this.subscription.add(
-      this.store.select(uiRoleSelected).subscribe((role) => this.getProjects(role.id))
+      this.store.select(uiRoleSelected).subscribe((role) => role.id && this.getProjects(role.id))
     );
   }
 
