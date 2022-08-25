@@ -1,51 +1,62 @@
-<div class="card-body">
-  <div class="table-responsive">
-    <table class="table align-items-center mb-0">
-      <thead>
-      <tr>
-        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Codigo</th>
-        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Projecto</th>
-        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Monto</th>
-        <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Estado</th>
-        <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cuotas</th>
-        <th class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha vencimineto
-        </th>
-        <th class="text-end text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Acciones</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let invoice of invoices$ | async">
-        <td class="align-middle">{{invoice.code}}</td>
-        <td class="align-middle">{{invoice.project.name | titlecase}}</td>
-        <td class="align-middle">{{invoice.total | currency}}</td>
-        <td class="align-middle text-end">
-          <span
-            class="badge"
-            [class.bg-gradient-danger]="invoice.status == cInvoiceStatus.PENDING"
-            [class.bg-gradient-info]="invoice.status == cInvoiceStatus.PROCESSING"
-            [class.bg-gradient-success]="invoice.status == cInvoiceStatus.PAID_OUT">
-              {{invoice.status}}
-          </span>
-        </td>
-        <td class="align-middle text-end">{{invoice.feesNumber}}</td>
-        <td class="align-middle text-start">{{invoice.expirationDate | date}}</td>
-        <td class="align-middle">
-          <div style="display: flex; gap: 2px; justify-content: end;">
-            <!--            <div>-->
-            <!--              <button-->
-            <!--                class="btn btn-icon btn-primary">-->
-            <!--                <i class="material-icons">edit</i>-->
-            <!--              </button>-->
-            <!--            </div>-->
-            <div>
+<mat-card>
+  <mat-card-content>
+    <div class="container-table">
+      <div class="table-container">
+        <table mat-table [dataSource]="invoices$" class="w-100">
+          <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef>Codigo</th>
+            <td mat-cell *matCellDef="let invoice">{{invoice.code}}</td>
+          </ng-container>
+          <ng-container matColumnDef="project">
+            <th mat-header-cell *matHeaderCellDef>Proyecto</th>
+            <td mat-cell *matCellDef="let invoice">{{invoice.project.name}}</td>
+          </ng-container>
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef>Monto</th>
+            <td mat-cell *matCellDef="let invoice">{{invoice.total}}</td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Estado</th>
+            <td mat-cell *matCellDef="let invoice">
+              <div style="display: flex;">
+                <span
+                  class="badge badge-pill"
+                  [class.bg-gradient-primary]="invoice.status == cInvoiceStatus.PENDING"
+                  [class.bg-gradient-dark]="invoice.status == cInvoiceStatus.PROCESSING"
+                  [class.bg-gradient-success]="invoice.status == cInvoiceStatus.PAID_OUT">
+                    {{invoice.status}}
+                </span>
+              </div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="feesNumber">
+            <th mat-header-cell *matHeaderCellDef>Cuotas</th>
+            <td mat-cell *matCellDef="let invoice">{{invoice.feesNumber}}</td>
+          </ng-container>
+          <ng-container matColumnDef="expirationDate">
+            <th mat-header-cell *matHeaderCellDef>Fecha de vencimiento</th>
+            <td mat-cell *matCellDef="let invoice">{{invoice.expirationDate}}</td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Acciones</th>
+            <td mat-cell *matCellDef="let invoice">
               <button
-                class="btn btn-icon btn-secondary" (click)="handleViewPayment(invoice)"><i class="material-icons">visibility</i>
+                mat-icon-button
+                (click)="handleBtnView(invoice)">
+                <mat-icon>visibility</mat-icon>
               </button>
-            </div>
-          </div>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="7">No hay resultados</td>
+          </tr>
+        </table>
+      </div>
+
+
+    </div>
+  </mat-card-content>
+</mat-card>
