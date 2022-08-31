@@ -1,0 +1,19 @@
+<div mat-dialog-title>Seleccione un rol</div>
+<div mat-dialog-content>
+  <mat-list>
+    <mat-list-item *ngFor="let personRole of data.personRoles">
+      <div mat-line>{{personRole.role.name}}</div>
+      <div>
+        <button
+          mat-button
+          color="accent"
+          (click)="selectRole(personRole)">
+          Seleccionar
+        </button>
+      </div>
+    </mat-list-item>
+  </mat-list>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="handleCancel()">Cancelar</button>
+</div>

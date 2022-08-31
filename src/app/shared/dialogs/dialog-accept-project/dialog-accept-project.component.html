@@ -4,7 +4,7 @@
   <div *ngIf="project.personProjects.length > 0">
     <p>
       <strong>Solicitado por: </strong>
-      {{project.personProjects[0].person.fullname}} {{project.personProjects[0].person.surnames}}
+      {{project.personProjects[0].person.fullName}} {{project.personProjects[0].person.surnames}}
     </p>
     <p><strong>Cel/telf: </strong>{{project.personProjects[0].person.phone}}</p>
     <p><strong>Email: </strong>{{project.personProjects[0].person.user.email}}</p>
@@ -44,7 +44,7 @@
       <mat-list>
         <mat-list-item>
           <mat-icon mat-list-icon>person</mat-icon>
-          <div mat-line>{{advisor.fullname}} {{advisor.surnames}}</div>
+          <div mat-line>{{advisor.fullName}} {{advisor.surnames}}</div>
           <div mat-line># {{advisor.code}}</div>
           <div>
             <button

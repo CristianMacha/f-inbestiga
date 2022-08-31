@@ -3,10 +3,12 @@ import {createReducer, on} from "@ngrx/store";
 import {Fee, Invoice} from "@core/models";
 import {appState} from "../../../app.reducers";
 import {
-  activeShowInvoiceDetail, feesLoadedSuccess,
-  loadError, loadFees,
+  activeShowInvoiceDetail,
+  feesLoadedSuccess,
+  loadError,
+  loadFees,
   loadPayment,
-  loadPayments, loadPaymentsByProject,
+  loadPaymentsByProject,
   paymentLoadSuccess,
   paymentsLoadedSuccess,
   selectPayment
@@ -40,7 +42,6 @@ export const initialState: paymentState = {
 
 export const _paymentReducer = createReducer(
   initialState,
-  on(loadPayments, (state) => ({...state, loading: true})),
   on(loadPaymentsByProject, (state) => ({...state, loading: true})),
   on(paymentsLoadedSuccess, (state, {invoices}) => ({...state, loaded: true, loading: false, invoices: [...invoices]})),
   on(loadError, (state, {payload}) => ({...state, loaded: true, loading: false, error: {...payload}})),

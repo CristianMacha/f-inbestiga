@@ -6,14 +6,14 @@
     <form class="my-3" [formGroup]="projectForm">
       <h6>Detalles del proyecto</h6>
       <div class="row g-2">
-        <div class="col-md-8 my-2">
+        <div class="col-md-8">
           <mat-form-field appearance="outline">
             <mat-label>Nombres</mat-label>
             <input matInput formControlName="name">
             <mat-error>El nombre es necesario.</mat-error>
           </mat-form-field>
         </div>
-        <div class="col-md-4 my-2">
+        <div class="col-md-4">
           <div formGroupName="category">
             <mat-form-field appearance="outline">
               <mat-label>Categoria</mat-label>
@@ -25,20 +25,30 @@
             </mat-form-field>
           </div>
         </div>
-        <div class="col-md-2 my-2">
+        <div class="col-md-4">
           <div formArrayName="invoices">
             <div *ngFor="let invoiceControl of invoicesControls.controls; let i = index;">
               <div [formGroupName]="i">
-                <mat-form-field appearance="outline">
-                  <mat-label>Costo</mat-label>
-                  <input matInput type="number" formControlName="total">
-                  <mat-error>El monto es necesario.</mat-error>
-                </mat-form-field>
+                <div class="row g-2">
+                  <div class="col-md-6">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Costo</mat-label>
+                      <input matInput type="number" formControlName="total" min="1">
+                      <mat-error>El monto es necesario.</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Cuotas</mat-label>
+                      <input matInput type="number" formControlName="feesNumber" min="1">
+                    </mat-form-field>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-md-2 my-2">
+        <div class="col-md-2">
           <mat-form-field appearance="outline">
             <mat-label>Fecha de finalización</mat-label>
             <input matInput [matDatepicker]="picker" formControlName="expirationDate">
@@ -47,14 +57,14 @@
             <mat-error>La fecha de finalizacion es necesaria.</mat-error>
           </mat-form-field>
         </div>
-        <div class="col-md-8 my-2">
+        <div class="col-md-6">
           <mat-form-field appearance="outline">
             <mat-label>Descripcion</mat-label>
             <textarea matInput formControlName="description" rows="1"></textarea>
             <mat-error>La descripcion es necesaria es necesaria.</mat-error>
           </mat-form-field>
         </div>
-        <div class="col-md-12 my-2">
+        <div class="col-md-12">
           <h5>Integrantes</h5>
           <div class="row g-2">
             <div class="col-md-6">
@@ -74,7 +84,7 @@
                     <div style="display: flex; align-items: center; gap: .5rem;" *ngIf="personProject.value.isAdvisor">
                       <p style="margin: 0;"
                          [ngStyle]="{'text-decoration': personProject.value.active ? 'none' : 'line-through'}">
-                        {{personProject.value.person.fullname}} {{personProject.value.person.surnames}}
+                        {{personProject.value.person.fullName}} {{personProject.value.person.surnames}}
                         <span *ngIf="personProject.value.isAdvisor" class="text-success">Asesor</span>
                       </p>
                       <i
@@ -107,7 +117,7 @@
                     <div style="display: flex; align-items: center; gap: .5rem;" *ngIf="!personProject.value.isAdvisor">
                       <p style="margin: 0;"
                          [ngStyle]="{'text-decoration': personProject.value.active ? 'none' : 'line-through'}">
-                        {{personProject.value.person.fullname}} {{personProject.value.person.surnames}}
+                        {{personProject.value.person.fullName}} {{personProject.value.person.surnames}}
                         <span *ngIf="personProject.value.isAdvisor" class="text-success">Asesor</span>
                       </p>
                       <i

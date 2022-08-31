@@ -4,7 +4,7 @@
       mat-button
       color="warn"
       (click)="handleDeleteProject()"
-      *ngIf="roleSelected.id !== cRole.STUDENT">
+      *ngIf="roleSelected.id == cRole.ADMINISTRATOR">
       Eliminar proyecto
     </button>
   </div>
@@ -21,13 +21,13 @@
     <div>
       <h6 class="text-sm">Estudiantes</h6>
       <div *ngFor="let pp of project.personProjects">
-        <p class="m-0" *ngIf="!pp.isAdvisor">{{pp.person.fullname}} {{pp.person.surnames}}</p>
+        <p class="m-0" *ngIf="!pp.isAdvisor">{{pp.person.fullName}} {{pp.person.surnames}}</p>
       </div>
     </div>
     <div>
       <h6 class="text-sm">Asesores</h6>
       <div *ngFor="let pp of project.personProjects">
-        <p class="m-0" *ngIf="pp.isAdvisor">{{pp.person.fullname}} {{pp.person.surnames}}</p>
+        <p class="m-0" *ngIf="pp.isAdvisor">{{pp.person.fullName}} {{pp.person.surnames}}</p>
       </div>
     </div>
   </div>

@@ -1,15 +1,16 @@
 import {Component, OnInit} from '@angular/core';
-import {createAction, Store} from "@ngrx/store";
-import {Observable, Subscription} from "rxjs";
+import {Store} from "@ngrx/store";
+import {Subscription} from "rxjs";
 
 import {Invoice, Role} from "@core/models";
 import {AppStatePaymentFeature} from "../../store/payment.reducers";
-import {activeShowInvoiceDetail, loadPayments, selectPayment} from "../../store/payment.actions";
-import {paymentFeatureInvoices} from "../../store/payment.selectors";
-import {CInvoiceStatus} from "../../../../core/enums/invoice.enum";
+import {CInvoiceStatus, EInvoiceStatus} from "../../../../core/enums/invoice.enum";
 import {uiRoleSelected} from "../../../../shared/ui.selectors";
-import { MatTableDataSource } from '@angular/material/table';
-import { InvoiceService } from '@core/services';
+import {InvoiceService} from "@core/services";
+import {PageEvent} from "@angular/material/paginator";
+import {ERole} from "@core/enums";
+import {InvoiceFilterInterface} from "@core/interfaces";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'vs-payment-table',
@@ -18,7 +19,8 @@ import { InvoiceService } from '@core/services';
 })
 export class PaymentTableComponent implements OnInit {
   subscription: Subscription = new Subscription();
-  invoices$: Observable<Invoice[]> = new Observable();
+  invoices: Invoice[] = [];
+  resultsLength = 0;
 
   roleSelected!: Role;
   displayedColumns: string[] = ['code', 'project', 'total', 'status', 'feesNumber', 'expirationDate', 'actions'];
@@ -27,26 +29,38 @@ export class PaymentTableComponent implements OnInit {
   constructor(
     private store: Store<AppStatePaymentFeature>,
     private invoiceService: InvoiceService,
-    ) {
+    private router: Router,
+  ) {
   }
 
   ngOnInit(): void {
     this.getUiRoleSelectedState();
-    this.invoices$ = this.store.select(paymentFeatureInvoices);
   }
 
   handleBtnView(invoice: Invoice): void {
-    this.store.dispatch(selectPayment({invoice}));
-  }
-
-  handleViewPayment(payment: Invoice) {
-    this.store.dispatch(selectPayment({invoice: payment}));
+    this.router.navigateByUrl(`backoffice/pagos/${invoice.id}`);
   }
 
   getUiRoleSelectedState(): void {
     this.subscription.add(
-      this.store.select(uiRoleSelected).subscribe((resp) => (resp.id) && this.store.dispatch(loadPayments( {roleId: resp.id})))
+      this.store.select(uiRoleSelected).subscribe((resp) => (resp.id) && this.getInvoices(resp.id, {
+        status: EInvoiceStatus.ALL,
+        take: 30,
+        skip: 0
+      }))
     )
+  }
+
+  getInvoices(roleId: number, filter: InvoiceFilterInterface): void {
+    this.invoiceService.getInvoices(roleId, filter)
+      .subscribe((resp) => {
+        this.resultsLength = resp.total;
+        this.invoices = resp.data;
+      });
+  }
+
+  pageEventInvoice(event: PageEvent) {
+    this.getInvoices(ERole.STUDENT, {status: EInvoiceStatus.ALL, take: event.pageSize, skip: event.pageIndex});
   }
 
 }

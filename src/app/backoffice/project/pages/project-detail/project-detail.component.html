@@ -32,7 +32,7 @@
     </button>
 
     <div
-      *ngIf="roleSelected.id !== cRole.STUDENT && roleSelected.id !== 0 && project.status != cProjectStatus.REQUIRED && project.status != cProjectStatus.REFUSED && project.status !== cProjectStatus.COMPLETED">
+      *ngIf="roleSelected.id == cRole.ADMINISTRATOR && roleSelected.id !== 0 && project.status != cProjectStatus.REQUIRED && project.status != cProjectStatus.REFUSED && project.status !== cProjectStatus.COMPLETED">
       <button
         mat-flat-button
         color="warn"
@@ -78,8 +78,7 @@
       <div class="col-md-12" *ngIf="invoices.length > 0">
         <div *ngFor="let invoice of invoices">
           <vs-invoice-detail
-            [invoice]="invoice"
-            [showFees]="true">
+            [invoice]="invoice">
           </vs-invoice-detail>
         </div>
       </div>

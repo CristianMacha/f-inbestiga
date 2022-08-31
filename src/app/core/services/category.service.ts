@@ -1,18 +1,22 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
 
-import { environment } from '../../../environments/environment';
-import { Category } from '@core/models';
+import {environment} from '../../../environments/environment';
+import {Category} from '@core/models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryService {
-  private uri: string;
+  private readonly uri: string;
 
   constructor(private http: HttpClient) {
     this.uri = `${environment.url}/category`;
+  }
+
+  public getActiveCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>(`${this.uri}/active`);
   }
 
   public getCategories(): Observable<Category[]> {

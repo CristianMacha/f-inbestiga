@@ -11,12 +11,14 @@ import {PaymentTableComponent} from './components/payment-table/payment-table.co
 import {InvoiceFeeComponent} from './components/invoice-fee/invoice-fee.component';
 import {SharedModule} from "../../shared/shared.module";
 import {MaterialModule} from "../../material/material.module";
+import { PaymentDetailComponent } from './pages/payment-detail/payment-detail.component';
 
 @NgModule({
   declarations: [
     PaymentComponent,
     PaymentTableComponent,
-    InvoiceFeeComponent
+    InvoiceFeeComponent,
+    PaymentDetailComponent
   ],
   exports: [
     InvoiceFeeComponent

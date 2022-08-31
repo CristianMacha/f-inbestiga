@@ -11,24 +11,12 @@ import {InvoiceService} from "@core/services";
 })
 export class InvoiceDetailComponent implements OnInit {
   @Input() invoice: Invoice = new Invoice();
-  @Input() showFees: boolean = false;
-
   cInvoiceStatus = CInvoiceStatus;
 
-  constructor(
-    private invoiceService: InvoiceService,
-  ) {
+  constructor() {
   }
 
   ngOnInit(): void {
   }
 
-  feePaidOut(paidOut: boolean) {
-    paidOut && this.getInvoice();
-  }
-
-  getInvoice(): void {
-    this.invoiceService.getInvoice(this.invoice.id)
-      .subscribe((resp) => this.invoice = resp);
-  }
 }

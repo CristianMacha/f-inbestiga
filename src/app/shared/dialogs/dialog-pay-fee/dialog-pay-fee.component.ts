@@ -1,11 +1,13 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, UntypedFormGroup, Validators} from "@angular/forms";
 
-import {EFeePaymentMethod, EStorage} from "@core/enums";
-import {FeeService, SnackBarService} from "@core/services";
-import {Fee} from "@core/models";
+import {EStorage, PaymentMethodEnum} from "@core/enums";
+import {SnackBarService} from "@core/services";
+import {Fee, PaymentModel} from "@core/models";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
+import {PaymentService} from "../../../core/services/payment.service";
+import {finalize} from "rxjs";
 
 @Component({
   selector: 'vs-dialog-pay-fee',
@@ -13,76 +15,84 @@ import {AngularFireStorage} from "@angular/fire/compat/storage";
   styleUrls: ['./dialog-pay-fee.component.scss']
 })
 export class DialogPayFeeComponent implements OnInit {
-  paymentMethods: EFeePaymentMethod[] = [
-    EFeePaymentMethod.BBVA,
-    EFeePaymentMethod.CASH_PAYMENT,
-    EFeePaymentMethod.BCP,
-    EFeePaymentMethod.INTERBANK,
-    EFeePaymentMethod.PLIN,
-    EFeePaymentMethod.YAPE,
-  ]
+  paymentMethods: PaymentMethodEnum [] = [
+    PaymentMethodEnum.BBVA,
+    PaymentMethodEnum.CASH_PAYMENT,
+    PaymentMethodEnum.BCP,
+    PaymentMethodEnum.INTERBANK,
+    PaymentMethodEnum.PLIN,
+    PaymentMethodEnum.YAPE,
+  ];
 
-  feeForm: FormGroup = new FormGroup({
-    id: new FormControl(0, Validators.required),
-    fileName: new FormControl('', Validators.required),
-    paymentMethod: new FormControl('', Validators.required),
+  paymentForm = new UntypedFormGroup({
+    conceptId: new FormControl(this.data.fee.id, [Validators.required, Validators.min(1)]),
+    amount: new FormControl(0, [Validators.required, Validators.min(1)]),
+    paymentMethod: new FormControl('', Validators.required)
   });
 
   file: File | null = null;
+  fileName!: string;
   fileSelected: boolean = false;
-  feeCode: string = '';
+  showFileMessageError = false;
   loading: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<DialogPayFeeComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { fee: Fee },
-    private feeService: FeeService,
     private storage: AngularFireStorage,
+    private paymentService: PaymentService,
     private snackBar: SnackBarService,
   ) {
   }
 
   ngOnInit(): void {
-    this.feeForm.patchValue(this.data.fee);
   }
 
   handleSelectFile(event: any): void {
-    this.file = event.target.files[0];
-
-    if (!this.file) {
+    if(event.target.files.length == 0) {
       return;
     }
 
-    this.fileSelected = true;
-    this.feeForm.controls['fileName'].patchValue(this.file.name);
-  }
+    this.file = event.target.files[0];
 
-  handleRegister() {
-    if (this.feeForm.invalid && this.file == null) {
-      this.feeForm.markAllAsTouched();
-    } else {
-      this.updateFee(this.feeForm.value);
+    if (!this.file) {
+      this.fileSelected = false;
+      return;
     }
+
+    this.showFileMessageError = false;
+    this.fileName = this.file.name;
+    this.fileSelected = true;
   }
 
-  updateFee(fee: Fee): void {
-    this.loading = true;
-    this.feeService.update(fee)
-      .subscribe((resp) => {
-        this.feeCode = resp.code;
-        this.uploadImage();
-      })
+  handleBtnRegister(): void {
+    if (!this.fileSelected) {
+      this.showFileMessageError = true;
+    }
+    this.paymentForm.invalid ? this.paymentForm.markAllAsTouched() : this.createNewPayment();
   }
 
-  uploadImage() {
+  createNewPayment(): void {
     this.loading = true;
-    const filePath = `${EStorage.REF_VOUCHER}/${this.feeCode}`;
+    this.paymentService.createPaymentFee(this.paymentForm.value)
+      .pipe(finalize(() => this.loading = false))
+      .subscribe((resp) => this.uploadImage(resp));
+  }
+
+
+  uploadImage(payment: PaymentModel) {
+    this.loading = true;
+    const filePath = `${EStorage.REF_VOUCHER}/${payment.code}`;
     const task = this.storage.upload(filePath, this.file);
     task.then((snapshot) => {
       this.snackBar.openTopEnd('Voucher registrado.');
       this.dialogRef.close(true);
+      this.loading = false;
     });
-    task.catch((error) => this.snackBar.openTopEnd(`${error.message}`));
+    task.catch((error) => {
+      this.snackBar.openTopEnd(`${error.message}`);
+      this.loading = false;
+    });
   }
 
   onNoClick(): void {

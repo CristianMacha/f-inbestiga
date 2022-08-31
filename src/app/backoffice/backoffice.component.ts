@@ -1,13 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
-import {Observable, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {FormControl, Validators} from "@angular/forms";
 
 import {appState} from '../app.reducers';
 import {PersonRoles, ResourceModel, User} from '@core/models';
 import {loadPerson, loadPersonRoles, loadResources, loadRoleSelected, logout, unsetUser} from '../shared/ui.actions';
-import {uiFeatureUser, uiPersonRoles, uiResources, uiRoleSelected} from '../shared/ui.selectors';
+import {uiFeatureUser, uiPersonRoles, uiRoleSelected} from '../shared/ui.selectors';
 import {AuthService, ResourceService} from "@core/services";
 
 declare function toggleSidenav(): any;
@@ -19,11 +19,10 @@ declare function toggleSidenav(): any;
 })
 export class BackofficeComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
-  user$: Observable<User> = new Observable();
   user: User = new User();
 
   personRoles: PersonRoles[] = [];
-  roleControl = new FormControl(0, Validators.required);
+  roleControl = new FormControl(parseInt((localStorage.getItem('rId') as string)), Validators.required);
   resources: ResourceModel[] = [];
 
   btnCloseSidenav: boolean = false;
@@ -40,11 +39,13 @@ export class BackofficeComponent implements OnInit, OnDestroy {
     this.getUser();
     this.store.dispatch(loadPersonRoles());
     this.store.dispatch(loadPerson({userId: this.authService.user.id}))
+    this.store.dispatch(loadRoleSelected({roleId: parseInt((localStorage.getItem('rId') as string))}))
     this.getPersonRoles();
-    this.roleControl.valueChanges.subscribe(resp => resp && this.store.dispatch(loadRoleSelected({roleId: resp})));
-    this.getRoleSelected();
-    this.resources = this.authService.resources;
-    // TODO: inizializar antes que se ejecute el ngOnint
+    this.roleControl.valueChanges.subscribe((resp) => {
+      console.log(resp)
+      resp && localStorage.setItem('rId', resp.toString());
+      resp && this.getResourcesByRoleId(resp);
+    })
   }
 
   ngOnDestroy(): void {
@@ -53,7 +54,10 @@ export class BackofficeComponent implements OnInit, OnDestroy {
   getRoleSelected(): void {
     console.log('getResource')
     this.subscription.add(
-      this.store.select(uiRoleSelected).subscribe((role) => this.dispatchResources(role.id))
+      this.store.select(uiRoleSelected).subscribe((role) => {
+        role.id && this.roleControl.patchValue(role.id);
+        role.id && this.dispatchResources(role.id);
+      })
     );
   }
 
@@ -66,7 +70,7 @@ export class BackofficeComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.store.select(uiPersonRoles).subscribe((resp) => {
         this.personRoles = resp;
-        (this.personRoles.length > 0) && this.roleControl.patchValue(this.personRoles[0].role.id);
+        (this.personRoles.length > 0) && this.roleControl.patchValue(parseInt(localStorage.getItem('rId') as string));
       })
     )
   }
@@ -78,6 +82,14 @@ export class BackofficeComponent implements OnInit, OnDestroy {
         this.store.dispatch(loadPerson({userId: this.user.id}));
       })
     )
+  }
+
+  getResourcesByRoleId(roleId: number): void {
+    this.resourceService.getAllByRoleId(roleId)
+      .subscribe((resp) => {
+        this.resources = resp;
+        this.authService.setResources(resp);
+      });
   }
 
   logout() {

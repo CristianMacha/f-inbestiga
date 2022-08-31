@@ -1,0 +1,12 @@
+<div class="row g-2">
+  <div class="col-md-4">
+    <vs-invoice-detail *ngIf="invoice.id" [invoice]="invoice"></vs-invoice-detail>
+  </div>
+  <div class="col-md-8">
+    <div class="row g-2">
+      <div class="col-md-12" *ngFor="let fee of fees">
+        <vs-fee-detail [fee]="fee"></vs-fee-detail>
+      </div>
+    </div>
+  </div>
+</div>

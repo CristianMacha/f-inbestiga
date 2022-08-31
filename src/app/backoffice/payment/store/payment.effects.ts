@@ -8,24 +8,13 @@ import {
   loadError,
   loadFees,
   loadPayment,
-  loadPayments, loadPaymentsByProject,
+  loadPaymentsByProject,
   paymentLoadSuccess,
   paymentsLoadedSuccess
 } from "./payment.actions";
 
 @Injectable()
 export class PaymentEffects {
-
-  getInvoices$ = createEffect(() => this.actions$.pipe(
-    ofType(loadPayments),
-    mergeMap(
-      (resp) => this.invoiceService.getInvoices(resp.roleId)
-        .pipe(
-          map((resp) => paymentsLoadedSuccess({invoices: resp})),
-          catchError((err) => of(loadError({payload: err})))
-        )
-    )
-  ));
 
   getInvoicesByProject$ = createEffect(() => this.actions$.pipe(
     ofType(loadPaymentsByProject),

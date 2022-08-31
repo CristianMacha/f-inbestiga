@@ -8,9 +8,9 @@
   <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
     <mat-option *ngIf="loading" [value]="''">Buscando...</mat-option>
     <mat-option *ngIf="!loading && loadResult && options.length == 0" [value]="''">No hay resultados para "{{searchControl.value}}"</mat-option>
-    <mat-option *ngFor="let option of options" [value]="option.fullname" (click)="handleAdd(option)">
+    <mat-option *ngFor="let option of options" [value]="option.fullName" (click)="handleAdd(option)">
       <div style="display: flex; justify-content: space-between;">
-        <p class="m-0">{{option.fullname}} {{option.surnames}}</p>
+        <p class="m-0">{{option.fullName}} {{option.surnames}}</p>
         <button type="button" mat-button color="accent">Agregar</button>
       </div>
     </mat-option>
@@ -18,6 +18,7 @@
   <button
     type="button"
     mat-icon-button
+    color="primary"
     matSuffix
     (click)="handleAddPerson()">
     <mat-icon>add</mat-icon>

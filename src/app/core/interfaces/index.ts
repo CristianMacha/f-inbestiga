@@ -5,3 +5,5 @@ export * from "./dialog-confirm.interface";
 export * from "./response.interface";
 export * from "./filter.interface";
 export * from "./person.interface";
+export * from "./invoice.interface";
+export * from "./payment.interface";

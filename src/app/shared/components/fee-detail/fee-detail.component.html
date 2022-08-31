@@ -1,0 +1,35 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{fee.paymentDate | date}}</mat-card-title>
+    <mat-card-subtitle>{{fee.total | currency}} |
+      <span class="font-weight-bold"
+        [class.text-warning]="fee.status == cFeeStatus.DEBT"
+        [class.text-info]="fee.status == cFeeStatus.PARTIAL"
+        [class.text-success]="fee.status == cFeeStatus.PAID_OUT">
+            {{fee.status}}
+          </span>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-divider></mat-divider>
+    <div class="py-2">
+      <h6>Pagos</h6>
+      <div *ngIf="payments.length == 0">
+        No tiene pagos registrados
+      </div>
+      <div class="row g-2" *ngIf="payments.length > 0">
+        <div class="col-md-12 p-3 bg-gray-100" style="border-radius: 4px;" *ngFor="let payment of payments">
+          <vs-fee-payment [payment]="payment" (approve)="approve($event)"></vs-fee-payment>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions align="end" *ngIf="fee.status !== cFeeStatus.PAID_OUT">
+    <button
+      mat-button
+      color="primary"
+      (click)="handleRegisterNewPayment()">
+      Registrar nuevo pago
+    </button>
+  </mat-card-actions>
+</mat-card>

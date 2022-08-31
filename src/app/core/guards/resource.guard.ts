@@ -27,13 +27,12 @@ export class ResourceGuard implements CanActivate, CanLoad {
   }
 
   canLoad(route: Route, segments: UrlSegment[]): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    const isAuthenticated = this.authService.refreshToken()
-      .pipe(
-        map((resp) => resp),
-        catchError((error) => of(false))
-      )
+    const stateUrl = segments[0].path;
 
-    return isAuthenticated;
+    const hasPermission = this.authService.resources.some((r) => r.url == stateUrl);
+    !hasPermission && this.router.navigateByUrl('backoffice');
+
+    return hasPermission
   }
 
   canActivate(
@@ -41,6 +40,7 @@ export class ResourceGuard implements CanActivate, CanLoad {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const stateUrl = state.url;
     const urlActive = stateUrl.split('/')[2];
+    console.log(urlActive)
 
     const hasPermission = this.authService.resources.some((r) => r.url == urlActive);
 

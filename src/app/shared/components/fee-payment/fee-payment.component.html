@@ -1,0 +1,29 @@
+<div class="vs_container_pay">
+  <div style="line-height: 4px">
+          <span
+            class="text-bold"
+            [class.text-warning]="payment.status == paymentStatus.PENDING"
+            [class.text-success]="payment.status == paymentStatus.VERIFIED"
+            [class.text-danger]="payment.status == paymentStatus.REFUSED">
+            {{payment.status}}
+          </span>
+    <p style="margin: 0; font-weight: 400; font-size: 20px; font-weight: 500;">{{payment.amount | currency}}</p>
+    <small style="margin: 0; font-weight: 200">{{payment.code}}</small>
+  </div>
+  <div style="display: flex">
+    <div *ngIf="payment.status == paymentStatus.PENDING">
+      <button mat-icon-button color="accent" (click)="handleVerify()">
+        <mat-icon>done</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="handleRefuse()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <button
+      mat-icon-button
+      (click)="openFile()"
+      [disabled]="loadingFile">
+      <mat-icon>open_in_new</mat-icon>
+    </button>
+  </div>
+</div>

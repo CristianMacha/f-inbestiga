@@ -29,7 +29,7 @@
       style="line-height: 4px;"
       class="border-radius-lg bg-gray-100 border-0 p-4"
       *ngFor="let commentary of commentaries">
-      <h6 class="m-0 font-weight-bold text-sm">{{commentary.person.fullname}} {{commentary.person.surnames}}</h6>
+      <h6 class="m-0 font-weight-bold text-sm">{{commentary.person.fullName}} {{commentary.person.surnames}}</h6>
       <small>{{commentary.content}}</small>
       <div class="text-end mt-2">
         <small>{{commentary.createdAt | time}}</small>

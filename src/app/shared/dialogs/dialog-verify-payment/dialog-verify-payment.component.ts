@@ -22,7 +22,6 @@ export class DialogVerifyPaymentComponent implements OnInit {
     public dialogRef: MatDialogRef<DialogVerifyPaymentComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IDialogVerifyPayment,
   ) {
-    this.fee.status = data.accepted ? EFeeStatus.PAID_OUT : EFeeStatus.REFUSED;
     this.subscription.add(
       this.observationControl.valueChanges.subscribe((value) => this.fee.observation = value)
     )

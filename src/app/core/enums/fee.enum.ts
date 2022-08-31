@@ -1,33 +1,11 @@
-export enum EFeePaymentMethod {
-  YAPE = 'YAPE',
-  PLIN = 'PLIN',
-  BCP = 'BCP',
-  INTERBANK = 'INTERBANK',
-  BBVA = 'BBVA',
-  SCONTIABANK = 'SCOTIABANK',
-  CASH_PAYMENT = 'EFECTIVO',
-}
-
-export const CFeePaymentMethod = {
-  YAPE: 'YAPE',
-  PLIN: 'PLIN',
-  BCP: 'BCP',
-  INTERBANK: 'INTERBANK',
-  BBVA: 'BBVA',
-  SCONTIABANK: 'SCOTIABANK',
-  CASH_PAYMENT: 'EFECTIVO',
-}
-
 export enum EFeeStatus {
-  PENDING = 'PENDIENTE',
-  PROCESSING = 'PROCESANDO',
-  REFUSED = 'RECHAZADO',
+  DEBT = 'DEUDA',
   PAID_OUT = 'PAGADO',
+  PARTIAL = 'PARCIAL',
 }
 
 export const CFeeStatus = {
-  PENDING: 'PENDIENTE',
-  PROCESSING: 'PROCESANDO',
-  REFUSED: 'RECHAZADO',
+  DEBT: 'DEUDA',
+  PARTIAL: 'PARCIAL',
   PAID_OUT: 'PAGADO',
 }

@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 
 import {environment} from "../../../environments/environment";
 import {Invoice} from "@core/models";
+import {InvoiceFilterInterface, ResponseListInterface} from "@core/interfaces";
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +20,8 @@ export class InvoiceService {
     return this.http.get<Invoice[]>(`${this.uri}/project/${projectId}`);
   }
 
-  getInvoices(roleId: number): Observable<Invoice[]> {
-    return this.http.get<Invoice[]>(`${this.uri}/role/${roleId}`);
+  getInvoices(roleId: number, filter?: InvoiceFilterInterface): Observable<ResponseListInterface<Invoice[]>> {
+    return this.http.get<ResponseListInterface<Invoice[]>>(`${this.uri}/role/${roleId}?status=${filter?.status}&take=${filter?.take}&skip=${filter?.skip}`);
   }
 
   getInvoice(invoiceId: number): Observable<Invoice> {

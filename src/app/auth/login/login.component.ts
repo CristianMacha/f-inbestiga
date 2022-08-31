@@ -4,11 +4,13 @@ import {Store} from '@ngrx/store';
 import {Observable, Subscription} from 'rxjs';
 
 import {uiFeatureIsLoading} from '../../../app/shared/ui.selectors';
-import {loadResources, login, setUser} from '../../shared/ui.actions';
+import {loadRoleSelected} from '../../shared/ui.actions';
 import {AppStateAuthFeature} from '../store/auth.reducer';
 import {AuthService} from "@core/services";
 import {Router} from "@angular/router";
-import {UserModule} from "../../backoffice/user/user.module";
+import {MatDialog} from "@angular/material/dialog";
+import {DialogRolesComponent} from "../../shared/dialogs/dialog-roles/dialog-roles.component";
+import {ILoginResponse} from "@core/interfaces";
 
 @Component({
   selector: 'vs-login',
@@ -29,6 +31,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private readonly store: Store<AppStateAuthFeature>,
     private authService: AuthService,
     private router: Router,
+    private dialog: MatDialog,
   ) {
   }
 
@@ -42,7 +45,33 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   login(): void {
     this.authService.login(this.loginForm.value)
-      .subscribe((resp) => resp && this.router.navigateByUrl('backoffice/dashboard'));
+      .subscribe((resp) => {
+        console.log(resp);
+        if (resp.personRoles && resp.personRoles.length > 0) {
+          this.openDialogRoles(resp)
+        }
+      });
+  }
+
+  openDialogRoles(respLogin: ILoginResponse): void {
+    const dialogRef = this.dialog.open(DialogRolesComponent, {
+      width: '300px',
+      data: {personRoles: respLogin.personRoles},
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe((resp) => {
+      if (resp) {
+        localStorage.setItem('rId', resp.role.id);
+        this.store.dispatch(loadRoleSelected({roleId: resp.id}))
+        this.refreshTokenAndRedirect();
+      }
+    })
+  }
+
+  refreshTokenAndRedirect(): void {
+    this.authService.refreshToken()
+      .subscribe((resp) => resp && this.router.navigateByUrl('backoffice/dashboard'))
   }
 
 }

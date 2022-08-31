@@ -3,7 +3,7 @@ import { User } from "./user.model";
 
 export class Person {
   public id: number;
-  public fullname: string;
+  public fullName: string;
   public surnames: string;
   public code: string;
   public phone: string;
@@ -15,7 +15,7 @@ export class Person {
 
   constructor() {
     this.id = 0;
-    this.fullname = '';
+    this.fullName = '';
     this.surnames = '';
     this.code = '';
     this.phone = '';

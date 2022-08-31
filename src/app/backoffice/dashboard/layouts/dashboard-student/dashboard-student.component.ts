@@ -1,17 +1,18 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {Store} from "@ngrx/store";
+import {EInvoiceStatus, EProjectStatus, ERole} from "@core/enums";
 import {finalize, Subscription} from "rxjs";
 
 import {InvoiceService, ProjectService} from "@core/services";
 import {Invoice, Person, Project} from "@core/models";
 import {appState} from "../../../../app.reducers";
-import {uiPerson, uiRoleSelected} from "../../../../shared/ui.selectors";
+import {uiRoleSelected} from "../../../../shared/ui.selectors";
 import {
   DialogRequestProjectComponent
 } from "../../../../shared/dialogs/dialog-request-project/dialog-request-project.component";
 import {PageEvent} from "@angular/material/paginator";
-import {EProjectStatus, ERole} from "@core/enums";
+import {InvoiceFilterInterface, ProjectInterfaceFilter} from "@core/interfaces";
 
 @Component({
   selector: 'vs-dashboard-student',
@@ -21,9 +22,11 @@ import {EProjectStatus, ERole} from "@core/enums";
 export class DashboardStudentComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   projects: Project[] = [];
-  invoices: Invoice[] = [];
-  person: Person = new Person();
   resultsLength = 0;
+
+  invoices: Invoice[] = [];
+  resultsInvoiceLength = 0;
+  person: Person = new Person();
   loading: boolean = false;
 
   constructor(
@@ -50,13 +53,17 @@ export class DashboardStudentComponent implements OnInit, OnDestroy {
     });
 
     this.subscription.add(
-      dialogRef.afterClosed().subscribe((resp) => resp && this.getProjects(this.person.id))
+      dialogRef.afterClosed().subscribe((resp) => resp && this.getProjects(this.person.id, {
+        status: EProjectStatus.ALL,
+        take: 3,
+        skip: 0
+      }))
     );
   }
 
-  getProjects(roleId: number, take: number = 3, skip = 0): void {
+  getProjects(roleId: number, filter: ProjectInterfaceFilter): void {
     this.loading = true;
-    this.projectService.getProjects(roleId, {status: EProjectStatus.ALL, take, skip})
+    this.projectService.getProjects(roleId, filter)
       .pipe(finalize(() => this.loading = false))
       .subscribe((resp) => {
         this.resultsLength = resp.total;
@@ -64,25 +71,40 @@ export class DashboardStudentComponent implements OnInit, OnDestroy {
       });
   }
 
-  getInvoices(personId: number): void {
-    this.invoiceService.getByPerson(personId)
-      .subscribe((resp) => this.invoices = resp);
+  getInvoices(roleId: number, filter: InvoiceFilterInterface): void {
+    this.invoiceService.getInvoices(roleId, filter)
+      .subscribe((resp) => {
+        this.resultsInvoiceLength = resp.total;
+        this.invoices = resp.data;
+      });
   }
 
   getUiRoleSelected(): void {
     this.subscription.add(
-      this.store.select(uiRoleSelected).subscribe((role) => role.id && this.getProjects(role.id))
+      this.store.select(uiRoleSelected).subscribe((role) => role.id && this.getProjects(role.id, {
+        status: EProjectStatus.ALL,
+        take: 3,
+        skip: 0
+      }))
     );
   }
 
   getPerson(): void {
     this.subscription.add(
-      this.store.select(uiPerson).subscribe((resp) => this.getInvoices(resp.id))
+      this.store.select(uiRoleSelected).subscribe((resp) => resp.id && this.getInvoices(resp.id, {
+        status: EInvoiceStatus.ALL,
+        take: 3,
+        skip: 0
+      }))
     )
   }
 
   pageEvent(event: PageEvent) {
-    this.getProjects(ERole.STUDENT, event.pageSize, event.pageIndex);
+    this.getProjects(ERole.STUDENT, {status: EProjectStatus.ALL, take: event.pageSize, skip: event.pageIndex});
+  }
+
+  pageEventInvoice(event: PageEvent) {
+    this.getInvoices(ERole.STUDENT, {status: EInvoiceStatus.ALL, take: event.pageSize, skip: event.pageIndex});
   }
 
 }

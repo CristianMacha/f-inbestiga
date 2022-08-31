@@ -6,7 +6,7 @@ import * as moment from 'moment';
 
 import {Category, Person, PersonProject, Project, Role} from '@core/models';
 import {CategoryService, PersonService, ProjectService} from '@core/services';
-import {CRole, EProjectStatus, ERole} from '@core/enums';
+import {CRole, ERole} from '@core/enums';
 import {activeForm, createProject, updateProject,} from '../../store/project.actions';
 import {AppStateProjectFeature} from '../../store/project.reducers';
 import {projectFeature} from '../../store/project.selectors';
@@ -20,7 +20,6 @@ import {uiFeature} from "../../../../shared/ui.selectors";
 export class ProjectFormComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
 
-  codeControl = new FormControl();
   editMode: boolean = false;
   title: string = 'Nuevo proyecto';
   btnActionText: string = 'Crear proyecto';
@@ -45,6 +44,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
           Validators.required
         ),
         total: new FormControl(0, [Validators.required, Validators.min(1)]),
+        feesNumber: new FormControl(1, [Validators.required, Validators.min(1)]),
       }),
     ]),
   });
@@ -65,7 +65,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.getCategories();
+    this.getActiveCategories();
     this.getEditModeState();
     this.getUiState();
   }
@@ -105,7 +105,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       active: new FormControl(personProject.active),
       person: new FormGroup({
         id: new FormControl(personProject.person.id),
-        fullname: new FormControl(personProject.person.fullname),
+        fullName: new FormControl(personProject.person.fullName),
         surnames: new FormControl(personProject.person.surnames),
       }),
     });
@@ -173,10 +173,10 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  getCategories(): void {
+  getActiveCategories(): void {
     this.loading = true;
     this.categoryService
-      .getCategories()
+      .getActiveCategories()
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((resp) => (this.categories = resp));
   }

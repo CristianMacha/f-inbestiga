@@ -69,6 +69,7 @@
               <option *ngFor="let pr of personRoles; let i = index;" [value]="pr.role.id">{{pr.role.name}}</option>
             </select>
           </div>
+          <pre>{{roleControl.value | json}}</pre>
         </div>
         <ul class="navbar-nav justify-content-end">
           <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
