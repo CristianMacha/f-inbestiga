@@ -11,7 +11,7 @@
     <small style="margin: 0; font-weight: 200">{{payment.code}}</small>
   </div>
   <div style="display: flex">
-    <div *ngIf="payment.status == paymentStatus.PENDING">
+    <div *ngIf="payment.status == paymentStatus.PENDING && roleSelected.id == cRole.ADMINISTRATOR">
       <button
         mat-icon-button
         (click)="handleEdit()">

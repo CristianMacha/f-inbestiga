@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {FeeService, InvoiceService} from "@core/services";
 import {Fee, Invoice} from "@core/models";
 
@@ -14,6 +14,7 @@ export class PaymentDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private invoiceService: InvoiceService,
     private feeService: FeeService,
   ) {
@@ -28,7 +29,13 @@ export class PaymentDetailComponent implements OnInit {
 
   getInvoice(invoiceId: number): void {
     this.invoiceService.getInvoice(invoiceId)
-      .subscribe((resp) => this.invoice = resp);
+      .subscribe((resp) => {
+        if (!resp) {
+          this.router.navigateByUrl('backoffice/pagos');
+        } else {
+          this.invoice = resp;
+        }
+      });
   }
 
   getFees(invoiceId: number): void {

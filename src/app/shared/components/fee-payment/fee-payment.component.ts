@@ -1,13 +1,16 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {PaymentModel} from "@core/models";
-import {CPaymentStatus, EStorage} from "@core/enums";
+import {AngularFireStorage} from "@angular/fire/compat/storage";
 import {MatDialog} from "@angular/material/dialog";
+import {Store} from "@ngrx/store";
+import {finalize} from "rxjs";
+import {PaymentModel, Role} from "@core/models";
+import {CPaymentStatus, CRole, EStorage} from "@core/enums";
 import {IDialogConfirm} from "@core/interfaces";
 import {DialogConfirmComponent} from "../../dialogs/dialog-confirm/dialog-confirm.component";
 import {PaymentService} from "@core/services";
-import {finalize} from "rxjs";
-import {AngularFireStorage} from "@angular/fire/compat/storage";
 import {DialogPaymentUpdateComponent} from "../../dialogs/dialog-payment-update/dialog-payment-update.component";
+import {appState} from "../../../app.reducers";
+import {uiRoleSelected} from "../../ui.selectors";
 
 @Component({
   selector: 'vs-fee-payment',
@@ -21,15 +24,19 @@ export class FeePaymentComponent implements OnInit {
   loading = false;
   loadingFile = false;
   paymentStatus = CPaymentStatus;
+  cRole = CRole;
+  roleSelected = new Role();
 
   constructor(
     private dialog: MatDialog,
     private paymentService: PaymentService,
     private storage: AngularFireStorage,
+    private store: Store<appState>,
   ) {
   }
 
   ngOnInit(): void {
+    this.getRoleSelected();
   }
 
   handleVerify(): void {
@@ -95,5 +102,13 @@ export class FeePaymentComponent implements OnInit {
     this.paymentService.update(this.payment.id, this.payment)
       .pipe(finalize(() => this.loading = false))
       .subscribe((resp) => this.updated.emit(true))
+  }
+
+  getRoleSelected(): void {
+    this.store.select(uiRoleSelected).subscribe((role) => {
+      if (role.id) {
+        this.roleSelected = role;
+      }
+    })
   }
 }

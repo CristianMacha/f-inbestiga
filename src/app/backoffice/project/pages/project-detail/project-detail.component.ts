@@ -45,9 +45,12 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.dispatchProjects();
     this.getActiveFormState();
-    this.getProject();
+    this.activatedRoute.params.subscribe((resp) => {
+      this.projectId = parseInt(resp['id']);
+      this.getInvoices(this.projectId);
+      this.getProject(this.projectId);
+    });
     this.getRoleSelectedState();
   }
 
@@ -96,15 +99,15 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
       })
   }
 
-  getProject(): void {
-    this.subscription.add(
-      this.store
-        .select(projectFeatureProject)
-        .subscribe((resp) => {
+  getProject(projectId: number): void {
+    this.projectService.getProject(projectId)
+      .subscribe({
+        next: (resp) => {
           !resp.id && this.router.navigateByUrl('backoffice/project');
           this.project = resp;
-        })
-    );
+        },
+        error: () => this.router.navigateByUrl('backoffice/project')
+      });
   }
 
   handleUploadUpdate() {
