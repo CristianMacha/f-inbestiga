@@ -1,0 +1,21 @@
+<div mat-dialog-title>Actualizar pago</div>
+<div mat-dialog-content>
+  <mat-form-field class="w-100">
+    <mat-label>Precio</mat-label>
+    <input
+      matInput
+      type="number"
+      min="0"
+      [formControl]="amountControl">
+    <mat-error>El precio es necesario</mat-error>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions [align]="'end'">
+  <button mat-button (click)="onNoClick()">CANCELAR</button>
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="handleUpdate()">
+    ACTUALIZAR
+  </button>
+</div>

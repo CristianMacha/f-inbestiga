@@ -28,4 +28,11 @@ export class PaymentService {
     return this.http.post<PaymentModel>(`${this.uri}/approve/fee`, {paymentId, approve});
   }
 
+  updateAmountFee(paymentId: number, amount: number): Observable<PaymentModel> {
+    return this.http.patch<PaymentModel>(`${this.uri}/amount/fee`, {paymentId, amount});
+  }
+
+  update(paymentId: number, payment: PaymentModel): Observable<PaymentModel> {
+    return this.http.put<PaymentModel>(`${this.uri}/${paymentId}`, payment);
+  }
 }

@@ -26,4 +26,7 @@
       </mat-list-item>
     </mat-list>
   </mat-card-content>
+  <mat-card-actions [align]="'end'" *ngIf="showDetail">
+    <button mat-button color="primary" (click)="handleViewDetails()">Ver detalles</button>
+  </mat-card-actions>
 </mat-card>

@@ -101,7 +101,6 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
     this.projectService.getProjects(this.roleSelected.id, {status: this.filterStatusSelected, take, skip})
       .pipe(finalize(() => this.isLoadingResults = false))
       .subscribe((resp) => {
-        console.log(resp)
         this.dataSource.data = resp.data
         this.resultsLength = resp.total;
       });

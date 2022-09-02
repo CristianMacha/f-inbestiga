@@ -4,7 +4,7 @@ import {Store} from '@ngrx/store';
 import {Observable, Subscription} from 'rxjs';
 
 import {uiFeatureIsLoading} from '../../../app/shared/ui.selectors';
-import {loadRoleSelected} from '../../shared/ui.actions';
+import {loadRoleSelected, logout} from '../../shared/ui.actions';
 import {AppStateAuthFeature} from '../store/auth.reducer';
 import {AuthService} from "@core/services";
 import {Router} from "@angular/router";
@@ -46,9 +46,17 @@ export class LoginComponent implements OnInit, OnDestroy {
   login(): void {
     this.authService.login(this.loginForm.value)
       .subscribe((resp) => {
-        console.log(resp);
-        if (resp.personRoles && resp.personRoles.length > 0) {
+        localStorage.setItem('token', resp.token);
+        if (resp.personRoles && resp.personRoles.length > 1) {
           this.openDialogRoles(resp)
+        }
+
+        console.log(resp)
+        if (resp.personRoles && resp.personRoles.length == 1) {
+          console.log('entry')
+          localStorage.setItem('rId', resp.personRoles[0].role.id.toString());
+          this.store.dispatch(loadRoleSelected({roleId: resp.personRoles[0].role.id}))
+          this.refreshTokenAndRedirect();
         }
       });
   }
@@ -65,6 +73,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         localStorage.setItem('rId', resp.role.id);
         this.store.dispatch(loadRoleSelected({roleId: resp.id}))
         this.refreshTokenAndRedirect();
+      } else {
+        this.store.dispatch(logout());
       }
     })
   }

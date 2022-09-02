@@ -100,7 +100,10 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.store
         .select(projectFeatureProject)
-        .subscribe((resp) => (this.project = resp))
+        .subscribe((resp) => {
+          !resp.id && this.router.navigateByUrl('backoffice/project');
+          this.project = resp;
+        })
     );
   }
 

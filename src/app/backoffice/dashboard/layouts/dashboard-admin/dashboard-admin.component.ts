@@ -1,13 +1,14 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {PageEvent} from "@angular/material/paginator";
 import {Store} from "@ngrx/store";
 import {finalize, Subscription} from "rxjs";
 
-import {ProjectService} from "@core/services";
-import {EProjectStatus, ERole} from "@core/enums";
-import {Project} from "@core/models";
+import {InvoiceService, ProjectService} from "@core/services";
+import {EInvoiceStatus, EProjectStatus, ERole} from "@core/enums";
+import {Invoice, Project} from "@core/models";
 import {appState} from "../../../../app.reducers";
 import {uiRoleSelected} from "../../../../shared/ui.selectors";
+import {InvoiceFilterInterface} from "@core/interfaces";
 
 @Component({
   selector: 'vs-dashboard-admin',
@@ -20,9 +21,13 @@ export class DashboardAdminComponent implements OnInit, OnDestroy {
   projects: Project[] = [];
   loading: boolean = false;
 
+  invoices: Invoice[] = [];
+  resultsInvoiceLength = 0;
+
   constructor(
     private projectService: ProjectService,
-    private store: Store<appState>
+    private store: Store<appState>,
+    private invoiceService: InvoiceService,
   ) {
   }
 
@@ -36,7 +41,16 @@ export class DashboardAdminComponent implements OnInit, OnDestroy {
 
   getRoleSelected(): void {
     this.subscription.add(
-      this.store.select(uiRoleSelected).subscribe((role) => role.id && this.getProjects(role.id))
+      this.store.select(uiRoleSelected).subscribe((role) => {
+        if (role.id) {
+          this.getProjects(role.id);
+          this.getInvoices(role.id, {
+            status: EInvoiceStatus.ALL,
+            take: 3,
+            skip: 0
+          })
+        }
+      })
     )
   }
 
@@ -50,8 +64,20 @@ export class DashboardAdminComponent implements OnInit, OnDestroy {
       });
   }
 
+  getInvoices(roleId: number, filter: InvoiceFilterInterface): void {
+    this.invoiceService.getInvoices(roleId, filter)
+      .subscribe((resp) => {
+        this.resultsInvoiceLength = resp.total;
+        this.invoices = resp.data;
+      });
+  }
+
   pageEvent(event: PageEvent) {
     this.getProjects(ERole.ADMINISTRATOR, event.pageSize, event.pageIndex);
+  }
+
+  pageEventInvoice(event: PageEvent) {
+    this.getInvoices(ERole.STUDENT, {status: EInvoiceStatus.ALL, take: event.pageSize, skip: event.pageIndex});
   }
 
 }

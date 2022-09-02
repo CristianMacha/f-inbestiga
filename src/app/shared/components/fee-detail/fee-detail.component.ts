@@ -47,7 +47,7 @@ export class FeeDetailComponent implements OnInit {
       .subscribe((resp) => this.payments = resp);
   }
 
-  approve(approve: boolean): void {
+  updatedPayment(updated: boolean): void {
     this.getFee();
     this.getPayments();
   }

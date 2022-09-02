@@ -7,6 +7,7 @@ import {DialogConfirmComponent} from "../../dialogs/dialog-confirm/dialog-confir
 import {PaymentService} from "@core/services";
 import {finalize} from "rxjs";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
+import {DialogPaymentUpdateComponent} from "../../dialogs/dialog-payment-update/dialog-payment-update.component";
 
 @Component({
   selector: 'vs-fee-payment',
@@ -14,7 +15,7 @@ import {AngularFireStorage} from "@angular/fire/compat/storage";
   styleUrls: ['./fee-payment.component.scss']
 })
 export class FeePaymentComponent implements OnInit {
-  @Output() approve = new EventEmitter<boolean>();
+  @Output() updated = new EventEmitter<boolean>();
   @Input() payment!: PaymentModel;
 
   loading = false;
@@ -66,7 +67,7 @@ export class FeePaymentComponent implements OnInit {
     this.loading = true;
     this.paymentService.approvePaymentFee(this.payment.id, approve)
       .pipe(finalize(() => this.loading = false))
-      .subscribe((resp) => this.approve.emit(approve));
+      .subscribe((resp) => this.updated.emit(true));
   }
 
   openFile(): void {
@@ -76,5 +77,23 @@ export class FeePaymentComponent implements OnInit {
       next: (url) => (window.open(url, '_blank')),
       complete: () => this.loadingFile = false,
     });
+  }
+
+  handleEdit(): void {
+    const dialogRef = this.dialog.open(DialogPaymentUpdateComponent, {
+      width: '500px',
+      data: {payment: this.payment},
+      autoFocus: false,
+    });
+
+    dialogRef.afterClosed().subscribe((resp) => resp && this.updatePayment(resp))
+  }
+
+  updatePayment(amount: number): void {
+    this.loading = true;
+    this.payment.amount = amount;
+    this.paymentService.update(this.payment.id, this.payment)
+      .pipe(finalize(() => this.loading = false))
+      .subscribe((resp) => this.updated.emit(true))
   }
 }

@@ -19,7 +19,7 @@
       </div>
       <div class="row g-2" *ngIf="payments.length > 0">
         <div class="col-md-12 p-3 bg-gray-100" style="border-radius: 4px;" *ngFor="let payment of payments">
-          <vs-fee-payment [payment]="payment" (approve)="approve($event)"></vs-fee-payment>
+          <vs-fee-payment [payment]="payment" (updated)="updatedPayment($event)"></vs-fee-payment>
         </div>
       </div>
     </div>

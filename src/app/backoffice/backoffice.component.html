@@ -64,12 +64,14 @@
       </nav>
       <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
         <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-          <div class="input-group input-group-outline" *ngIf="personRoles.length > 0">
-            <select [formControl]="roleControl" class="form-control">
-              <option *ngFor="let pr of personRoles; let i = index;" [value]="pr.role.id">{{pr.role.name}}</option>
-            </select>
+          <div class="input-group input-group-outline">
+            <span
+              class="badge"
+              *ngIf="roleSelected.id"
+              [class.bg-gradient-faded-primary]="roleSelected.id == cRole.ADMINISTRATOR"
+              [class.bg-gradient-faded-success]="roleSelected.id == cRole.ADVISOR"
+              [class.bg-gradient-faded-dark]="roleSelected.id == cRole.STUDENT">{{roleSelected.name}}</span>
           </div>
-          <pre>{{roleControl.value | json}}</pre>
         </div>
         <ul class="navbar-nav justify-content-end">
           <li class="nav-item d-xl-none ps-3 d-flex align-items-center">

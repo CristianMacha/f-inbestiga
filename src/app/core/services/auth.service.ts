@@ -29,7 +29,6 @@ export class AuthService {
 
   login(login: ILogin): Observable<ILoginResponse> {
     return this.http.post<ILoginResponse>(`${this.uri}/signing`, login);
-
   }
 
   refreshToken(): Observable<boolean> {
