@@ -3,6 +3,9 @@
     <mat-card-title>{{title}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
+    <div class="d-flex justify-content-end">
+      <button type="button" mat-button (click)="handleEditPriceTotal()">Editar precio total</button>
+    </div>
     <form class="my-3" [formGroup]="projectForm">
       <h6>Detalles del proyecto</h6>
       <div class="row g-2">

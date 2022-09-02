@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators,} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, UntypedFormGroup, Validators,} from '@angular/forms';
 import {Store} from '@ngrx/store';
 import {finalize, Subscription} from 'rxjs';
 import * as moment from 'moment';
@@ -11,6 +11,10 @@ import {activeForm, createProject, updateProject,} from '../../store/project.act
 import {AppStateProjectFeature} from '../../store/project.reducers';
 import {projectFeature} from '../../store/project.selectors';
 import {uiFeature} from "../../../../shared/ui.selectors";
+import {MatDialog} from "@angular/material/dialog";
+import {
+  DialogProjectEditTotalComponent
+} from "../../../../shared/dialogs/dialog-project-edit-total/dialog-project-edit-total.component";
 
 @Component({
   selector: 'vs-project-form',
@@ -24,19 +28,20 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   title: string = 'Nuevo proyecto';
   btnActionText: string = 'Crear proyecto';
   projectTemp: Project = new Project();
+  project = new Project();
 
-  projectForm: FormGroup = new FormGroup({
+  projectForm: FormGroup = new UntypedFormGroup({
     id: new FormControl(0, Validators.required),
     name: new FormControl('', Validators.required),
     description: new FormControl(''),
     expirationDate: new FormControl('', Validators.required),
     personProjects: new FormArray([], [Validators.required]),
-    category: new FormGroup({
+    category: new UntypedFormGroup({
       id: new FormControl(0, [Validators.required, Validators.min(1)]),
       name: new FormControl(''),
     }),
     invoices: new FormArray([
-      new FormGroup({
+      new UntypedFormGroup({
         id: new FormControl(0, Validators.required),
         description: new FormControl('Total', Validators.required),
         expirationDate: new FormControl(
@@ -60,7 +65,8 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private personService: PersonService,
     private projectService: ProjectService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private dialog: MatDialog,
   ) {
   }
 
@@ -83,8 +89,16 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     return this.projectForm.controls['invoices'] as FormArray;
   }
 
+  handleEditPriceTotal(): void {
+    const dialogRef = this.dialog.open(DialogProjectEditTotalComponent, {
+      width: '400px',
+      data: {invoiceId: this.project.invoices[0].id}
+    })
+  }
+
   getProject() {
     this.projectService.getProject(this.projectTemp.id).subscribe((resp) => {
+      this.project = resp;
       resp.expirationDate = moment(resp.expirationDate).format('yyyy-MM-DD');
       this.projectForm.patchValue(resp);
       resp.personProjects.forEach((pp) => {
@@ -156,6 +170,8 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
           this.editMode = true;
           this.title = 'Actualizar projecto';
           this.btnActionText = 'Guardar cambios';
+          (this.invoicesControls.controls[0] as UntypedFormGroup).controls['total'].disable();
+          (this.invoicesControls.controls[0] as UntypedFormGroup).controls['feesNumber'].disable();
           this.projectTemp = resp.project;
           this.getProject();
         }

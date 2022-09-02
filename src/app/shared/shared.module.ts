@@ -20,6 +20,7 @@ import {FeeDetailComponent} from './components/fee-detail/fee-detail.component';
 import {FeePaymentComponent} from './components/fee-payment/fee-payment.component';
 import { DialogRolesComponent } from './dialogs/dialog-roles/dialog-roles.component';
 import { DialogPaymentUpdateComponent } from './dialogs/dialog-payment-update/dialog-payment-update.component';
+import { DialogProjectEditTotalComponent } from './dialogs/dialog-project-edit-total/dialog-project-edit-total.component';
 
 const COMPONENTS_SHARED = [
   BackofficeNavComponent,
@@ -39,7 +40,7 @@ const COMPONENTS_SHARED = [
 ]
 
 @NgModule({
-  declarations: [COMPONENTS_SHARED, DialogRolesComponent, DialogPaymentUpdateComponent],
+  declarations: [COMPONENTS_SHARED, DialogRolesComponent, DialogPaymentUpdateComponent, DialogProjectEditTotalComponent],
   imports: [
     CommonModule,
     RouterModule,
