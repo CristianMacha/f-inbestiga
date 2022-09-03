@@ -1,10 +1,13 @@
 <h5 mat-dialog-title>{{project.name | titlecase}}</h5>
 <div mat-dialog-content>
   <p><strong>Descripcion: </strong>{{project.description}}</p>
-  <div *ngIf="project.personProjects.length > 0">
+  <div *ngIf="project.personProjects && project.personProjects.length > 0">
     <p>
-      <strong>Solicitado por: </strong>
+      <strong>Integrantes: </strong>
       {{project.personProjects[0].person.fullName}} {{project.personProjects[0].person.surnames}}
+    </p>
+    <p *ngFor="let personProject of project.personProjects">
+      {{personProject.person.fullName}} {{personProject.person.surnames}}
     </p>
     <p><strong>Cel/telf: </strong>{{project.personProjects[0].person.phone}}</p>
     <p><strong>Email: </strong>{{project.personProjects[0].person.user.email}}</p>
@@ -19,6 +22,11 @@
         <mat-error>El monto es necesario.</mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Coutas</mat-label>
+        <input matInput type="number" formControlName="feesNumber">
+        <mat-error>Las coutas son necesarias.</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="w-100">
         <mat-label>Fecha de finalizacion</mat-label>
         <input matInput [matDatepicker]="picker" formControlName="expirationDate">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -26,17 +34,13 @@
         <mat-error>La fecha de finalizacion es necesaria.</mat-error>
       </mat-form-field>
     </form>
-    <mat-form-field appearance="fill" class="w-100" *ngIf="!advisor.id">
-      <mat-label>Buscar asesor</mat-label>
-      <input
-        matInput
-        type="text"
-        [formControl]="searchControl"
-        (keyup.enter)="handleSearchAdvisor()">
-      <button mat-icon-button matSuffix (click)="handleSearchAdvisor()">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
+    <vs-search-person
+      [roleId]="cRole.ADVISOR"
+      (person)="setPerson($event, cRole.ADVISOR)"
+      [appearance]="'outline'"
+      *ngIf="!advisor.id"
+      [roleName]="'asesor'">
+    </vs-search-person>
     <mat-error *ngIf="requestForm.controls['advisorId'].touched && requestForm.controls['advisorId'].hasError('min')">
       El asesor es necesario
     </mat-error>

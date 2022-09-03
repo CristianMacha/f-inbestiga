@@ -54,7 +54,7 @@ export class SearchPersonComponent implements OnInit {
 
   handleAddPerson(): void {
     const dialogRef = this.dialog.open(DialogPersonFormComponent, {
-      width: '600px',
+      width: '500px',
       data: {roleId: this.roleId},
       disableClose: true
     });

@@ -61,7 +61,8 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   handleAccept(): void {
     const dialogRef = this.matDialog.open(DialogAcceptProjectComponent, {
       width: '400px',
-      data: {projectId: this.projectId}
+      data: {projectId: this.projectId},
+      autoFocus: false,
     });
 
     this.subscription.add(

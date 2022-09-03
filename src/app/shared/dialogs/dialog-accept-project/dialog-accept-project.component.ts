@@ -2,9 +2,9 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 import {PersonService, ProjectService} from "@core/services";
-import {Person, Project} from "@core/models";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {ERole} from "@core/enums";
+import {Person, PersonProject, Project} from "@core/models";
+import {UntypedFormControl, UntypedFormGroup, Validators} from "@angular/forms";
+import {CRole, ERole} from "@core/enums";
 import {finalize} from "rxjs";
 
 @Component({
@@ -16,15 +16,17 @@ export class DialogAcceptProjectComponent implements OnInit {
   project: Project = new Project();
   advisor: Person = new Person();
 
-  requestForm: FormGroup = new FormGroup({
-    projectId: new FormControl(0, Validators.required),
-    amount: new FormControl('', Validators.required),
-    expirationDate: new FormControl('', Validators.required),
-    advisorId: new FormControl(0, [Validators.required, Validators.min(1)]),
+  requestForm: UntypedFormGroup = new UntypedFormGroup({
+    projectId: new UntypedFormControl(0, Validators.required),
+    amount: new UntypedFormControl('', Validators.required),
+    feesNumber: new UntypedFormControl('', [Validators.required, Validators.min(1)]),
+    expirationDate: new UntypedFormControl('', Validators.required),
+    advisorId: new UntypedFormControl(0, [Validators.required, Validators.min(1)]),
   });
 
-  searchControl: FormControl = new FormControl('', Validators.minLength(7));
+  searchControl: UntypedFormControl = new UntypedFormControl('', Validators.minLength(7));
   loading: boolean = false;
+  cRole = CRole;
 
   constructor(
     public dialogRef: MatDialogRef<DialogAcceptProjectComponent>,
@@ -73,6 +75,11 @@ export class DialogAcceptProjectComponent implements OnInit {
 
   handleAcceptProject(): void {
     this.requestForm.invalid ? this.requestForm.markAllAsTouched() : this.acceptProject();
+  }
+
+  setPerson(person: Person, roleId: number): void {
+    this.requestForm.controls['advisorId'].patchValue(person.id);
+    this.advisor = person;
   }
 
   onNoClick(): void {

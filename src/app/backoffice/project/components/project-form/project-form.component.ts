@@ -103,9 +103,12 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       this.project = resp;
       resp.expirationDate = moment(resp.expirationDate).format('yyyy-MM-DD');
       this.projectForm.patchValue(resp);
-      resp.personProjects.forEach((pp) => {
-        this.addPersonProjects(pp);
-      });
+
+      if (resp.personProjects) {
+        resp.personProjects.forEach((pp) => {
+          this.addPersonProjects(pp);
+        });
+      }
     });
   }
 
