@@ -4,22 +4,26 @@
     [class.text-danger]="invoice.status == cInvoiceStatus.PENDING"
     [class.text-info]="invoice.status == cInvoiceStatus.PARTIAL"
     [class.text-success]="invoice.status == cInvoiceStatus.PAID_OUT">{{invoice.status}}</small>
-  <div class="my-2" *ngIf="invoice && invoice.status !== cInvoiceStatus.PAID_OUT">
-    <form>
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Ingrese nuevo costo</mat-label>
-        <input matInput type="number" min="1" autocomplete="off">
-        <mat-error>El costo es necesario.</mat-error>
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Coutas</mat-label>
-        <input matInput type="number" autocomplete="off" min="1">
-        <mat-error>Las coutas son necesarias</mat-error>
-      </mat-form-field>
-    </form>
+  <div class="my-2">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Ingrese nuevo costo</mat-label>
+      <input
+        matInput
+        type="number"
+        min="1"
+        autocomplete="off"
+        [formControl]="totalControl">
+      <mat-error>El costo es necesario.</mat-error>
+    </mat-form-field>
   </div>
 </div>
-<div mat-dialog-actions [align]="'end'" *ngIf="invoice && invoice.status !== cInvoiceStatus.PAID_OUT">
+<div mat-dialog-actions [align]="'end'">
   <button mat-button (click)="onNoClick()">CANCELAR</button>
-  <button mat-flat-button color="primary">ACTUALIZAR</button>
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="handleUpdate()"
+    [disabled]="loading">
+    ACTUALIZAR
+  </button>
 </div>

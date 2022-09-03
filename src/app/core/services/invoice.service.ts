@@ -31,4 +31,8 @@ export class InvoiceService {
   getByPerson(personId: number): Observable<Invoice[]> {
     return this.http.get<Invoice[]>(`${this.uri}/person/${personId}`);
   }
+
+  updateTotal(invoiceId: number, total: number): Observable<Invoice> {
+    return this.http.patch<Invoice>(`${this.uri}/total/${invoiceId}`, {total})
+  }
 }

@@ -3,6 +3,8 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {InvoiceService} from "@core/services";
 import {Invoice} from "@core/models";
 import {CInvoiceStatus} from "@core/enums";
+import {UntypedFormControl, Validators} from "@angular/forms";
+import {finalize} from "rxjs";
 
 @Component({
   selector: 'vs-dialog-project-edit-total',
@@ -11,8 +13,10 @@ import {CInvoiceStatus} from "@core/enums";
 })
 export class DialogProjectEditTotalComponent implements OnInit {
   invoice!: Invoice;
+  loading = false;
 
   cInvoiceStatus = CInvoiceStatus;
+  totalControl = new UntypedFormControl('', Validators.required);
 
   constructor(
     public dialogRef: MatDialogRef<DialogProjectEditTotalComponent>,
@@ -25,9 +29,23 @@ export class DialogProjectEditTotalComponent implements OnInit {
     this.getInvoice();
   }
 
+  handleUpdate(): void {
+    this.totalControl.invalid ? this.totalControl.markAsTouched() : this.updateTotal();
+  }
+
   getInvoice(): void {
     this.invoiceService.getInvoice(this.data.invoiceId)
-      .subscribe((resp) => this.invoice = resp)
+      .subscribe((resp) => {
+        this.invoice = resp;
+        this.totalControl.setValidators(Validators.min(resp.total));
+      })
+  }
+
+  updateTotal(): void {
+    this.loading = true;
+    this.invoiceService.updateTotal(this.data.invoiceId, this.totalControl.value)
+      .pipe(finalize(() => this.loading = false))
+      .subscribe((resp) => this.dialogRef.close(true))
   }
 
   onNoClick(): void {

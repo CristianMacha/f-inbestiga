@@ -93,7 +93,9 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(DialogProjectEditTotalComponent, {
       width: '400px',
       data: {invoiceId: this.project.invoices[0].id}
-    })
+    });
+
+    dialogRef.afterClosed().subscribe((resp) => resp && this.getProject());
   }
 
   getProject() {
