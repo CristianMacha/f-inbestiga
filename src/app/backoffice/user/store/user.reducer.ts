@@ -73,6 +73,7 @@ export const _userReducer = createReducer(
     activeForm: false,
     editMode: false,
     details: true,
+    loading: false,
     person: {...person}
   })),
   on(loadError, (state, {payload}) => ({...state, loaded: false, loading: false, error: {...payload}})),

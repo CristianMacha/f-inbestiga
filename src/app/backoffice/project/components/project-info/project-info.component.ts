@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Subscription} from 'rxjs';
 import {FormControl, Validators} from '@angular/forms';
@@ -21,6 +21,7 @@ import {DialogConfirmComponent} from "../../../../shared/dialogs/dialog-confirm/
   styleUrls: ['./project-info.component.scss'],
 })
 export class ProjectInfoComponent implements OnInit, OnDestroy {
+  @Input() projectId: number = 0;
   subscription: Subscription = new Subscription();
 
   progressControl: FormControl = new FormControl('', Validators.required);
@@ -92,15 +93,14 @@ export class ProjectInfoComponent implements OnInit, OnDestroy {
   }
 
   getProject(): void {
-    this.subscription.add(
-      this.store.select(projectFeatureProject).subscribe((resp) => {
+    this.projectService.getProject(this.projectId)
+      .subscribe((resp) => {
         this.project = resp;
         this.progressControl.patchValue(resp.progress);
         this.project.personProjects.forEach((pp) => {
           pp.isAdvisor ? this.advisors.push(pp.person) : this.students.push(pp.person);
         });
       })
-    );
   }
 
   handleDeleteProject(): void {

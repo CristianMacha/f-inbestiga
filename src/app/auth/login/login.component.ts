@@ -51,9 +51,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.openDialogRoles(resp)
         }
 
-        console.log(resp)
         if (resp.personRoles && resp.personRoles.length == 1) {
-          console.log('entry')
           localStorage.setItem('rId', resp.personRoles[0].role.id.toString());
           this.store.dispatch(loadRoleSelected({roleId: resp.personRoles[0].role.id}))
           this.refreshTokenAndRedirect();

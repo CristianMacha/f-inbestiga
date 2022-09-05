@@ -11,7 +11,7 @@
             <input
               type="text"
               matInput
-              formControlName="fullname"
+              formControlName="fullName"
               placeholder="Nombre"/>
             <mat-error> Ingresa el nombre</mat-error>
           </mat-form-field>
@@ -98,4 +98,6 @@
       {{btnActionText | uppercase}}
     </button>
   </mat-card-actions>
+  <pre>{{loading | json}}</pre>
+  <pre>{{personForm.invalid | json}}</pre>
 </mat-card>

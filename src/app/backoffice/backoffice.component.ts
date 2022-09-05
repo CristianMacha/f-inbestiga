@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {Subscription} from 'rxjs';
 import {FormControl, Validators} from "@angular/forms";
@@ -35,10 +35,16 @@ export class BackofficeComponent implements OnInit, OnDestroy {
     private router: Router,
     private resourceService: ResourceService,
     private authService: AuthService,
+    private route: ActivatedRoute,
   ) {
   }
 
   ngOnInit(): void {
+    this.router.events.subscribe((e) => {
+      if(e instanceof  NavigationEnd) {
+        console.log(e.url);
+      }
+    });
     this.getUser();
     this.store.dispatch(loadPersonRoles());
     this.store.dispatch(loadPerson({userId: this.authService.user.id}))

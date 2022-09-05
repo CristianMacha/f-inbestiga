@@ -4,7 +4,6 @@
   <div *ngIf="project.personProjects && project.personProjects.length > 0">
     <p>
       <strong>Integrantes: </strong>
-      {{project.personProjects[0].person.fullName}} {{project.personProjects[0].person.surnames}}
     </p>
     <p *ngFor="let personProject of project.personProjects">
       {{personProject.person.fullName}} {{personProject.person.surnames}}
@@ -68,7 +67,6 @@
   <button
     mat-flat-button
     color="primary"
-    cdkFocusInitial
     (click)="handleAcceptProject()"
     [disabled]="loading">
     Aceptar

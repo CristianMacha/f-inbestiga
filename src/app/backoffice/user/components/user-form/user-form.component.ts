@@ -16,7 +16,7 @@ import { Person } from '@core/models';
 export class UserFormComponent implements OnInit, OnDestroy {
   personForm: FormGroup = new FormGroup({
     id: new FormControl(0, Validators.required),
-    fullname: new FormControl('', Validators.required),
+    fullName: new FormControl('', Validators.required),
     surnames: new FormControl('', Validators.required),
     phone: new FormControl('', [Validators.required, Validators.minLength(7)]),
     user: new FormGroup({

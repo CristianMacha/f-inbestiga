@@ -4,7 +4,7 @@ import {Store} from "@ngrx/store";
 import {Subscription} from "rxjs";
 
 import {Commentary, Project, Requirement} from '@core/models';
-import {CommentaryService} from '@core/services';
+import {CommentaryService, ProjectService} from '@core/services';
 import {CProjectStatus, EProjectStatus} from "@core/enums";
 import {AppStateProjectFeature} from "../../store/project.reducers";
 import {projectFeatureProject} from "../../store/project.selectors";
@@ -26,7 +26,8 @@ export class ProjectCommentsComponent implements OnInit {
 
   constructor(
     private commentaryService: CommentaryService,
-    private store: Store<AppStateProjectFeature>
+    private store: Store<AppStateProjectFeature>,
+    private projectService: ProjectService,
   ) {
   }
 
@@ -90,15 +91,8 @@ export class ProjectCommentsComponent implements OnInit {
   }
 
   getProject() {
-    this.subscription.add(
-      this.store.select(projectFeatureProject).subscribe((resp) => {
-        this.project = resp;
-        if (this.project.status === this.cProjectStatus.REQUIRED || this.project.status === EProjectStatus.COMPLETED || this.project.status === EProjectStatus.REFUSED) {
-          this.commentaryControl.disable();
-        } else {
-          this.commentaryControl.enable();
-        }
+    this.projectService.getProject(this.projectId)
+      .subscribe((resp) => {
       })
-    );
   }
 }
