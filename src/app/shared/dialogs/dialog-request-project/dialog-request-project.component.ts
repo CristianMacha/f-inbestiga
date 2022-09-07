@@ -1,10 +1,10 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {UntypedFormControl, UntypedFormGroup, Validators} from "@angular/forms";
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
 
-import {CategoryService, ProjectService, SnackBarService} from "@core/services";
-import {Category} from "@core/models";
-import {finalize} from "rxjs";
+import { CategoryService, ProjectService, SnackBarService } from "@core/services";
+import { Category } from "@core/models";
+import { finalize } from "rxjs";
 
 @Component({
   selector: 'vs-request-project',
@@ -61,13 +61,18 @@ export class DialogRequestProjectComponent implements OnInit {
   verifyCategory(): void {
     const categoryIdControl = (this.projectForm.controls['category'] as UntypedFormGroup).controls['id'];
     categoryIdControl.valueChanges.subscribe((id) => {
-      if(id == 9) {
+      if (id == 9) {
         this.showOtherCategory = true;
       } else {
         this.showOtherCategory = false;
-        categoryIdControl.reset('');
       }
     });
+  }
+
+  handleCloseOtherCategory(): void {
+    this.showOtherCategory = false;
+    (this.projectForm.controls['category'] as UntypedFormGroup).controls['id'].patchValue(0);
+    this.projectForm.controls['otherCategory'].reset('');
   }
 
   onNoClick(): void {
