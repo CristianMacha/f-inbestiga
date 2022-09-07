@@ -60,6 +60,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   roleSelected: Role = new Role();
   personAuth: Person = new Person();
   cRole = CRole;
+  totalPrice = 0;
   showOtherCategory = false;
 
   constructor(
@@ -76,6 +77,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     this.getActiveCategories();
     this.getEditModeState();
     this.getUiState();
+    this.getPriceTotal();
   }
 
   ngOnDestroy(): void {
@@ -102,6 +104,11 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((resp) => resp && this.getProject());
   }
 
+  getPriceTotal(): void {
+     const totalControl = (this.projectForm.controls['invoices'] as UntypedFormArray);
+     totalControl.valueChanges.subscribe((e) => this.totalPrice = e[0].total);
+  }
+
   getProject() {
     this.projectService.getProject(this.projectTemp.id).subscribe((resp) => {
       this.project = resp;
@@ -109,7 +116,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
       resp.expirationDate = moment(resp.expirationDate).format('yyyy-MM-DD');
       this.projectForm.patchValue(resp);
-
+      this.totalPrice = resp.invoices[0].total;
       if (resp.personProjects) {
         resp.personProjects.forEach((pp) => {
           this.addPersonProjects(pp);
