@@ -3,8 +3,22 @@
     <mat-card-title>{{title}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div class="d-flex justify-content-end">
-      <button type="button" mat-button (click)="handleEditPriceTotal()">Editar precio total</button>
+    <div class="">
+      <div class="row">
+          <div class="col-lg-6">
+            <div class="price">
+              <span >
+               {{totalPrice | currency}}
+                
+
+              </span>
+            </div>
+          </div>
+          <div class="col-lg-6 d-flex justify-content-end">
+            <button type="button" mat-button (click)="handleEditPriceTotal()">Editar precio total</button>
+          </div>
+       
+      </div>
     </div>
     <form class="my-3" [formGroup]="projectForm">
       <h6>Detalles del proyecto</h6>
@@ -37,6 +51,7 @@
                     <mat-form-field appearance="outline">
                       <mat-label>Costo</mat-label>
                       <input matInput type="number" formControlName="total" min="1">
+                      
                       <mat-error>El monto es necesario.</mat-error>
                     </mat-form-field>
                   </div>

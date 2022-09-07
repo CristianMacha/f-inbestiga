@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, UntypedFormGroup, Validators,} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, UntypedFormControl, UntypedFormGroup, Validators,} from '@angular/forms';
 import {Store} from '@ngrx/store';
 import {finalize, Subscription} from 'rxjs';
 import * as moment from 'moment';
@@ -29,7 +29,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   btnActionText: string = 'Crear proyecto';
   projectTemp: Project = new Project();
   project = new Project();
-
+  e:number=0;
   projectForm: FormGroup = new UntypedFormGroup({
     id: new FormControl(0, Validators.required),
     name: new FormControl('', Validators.required),
@@ -59,6 +59,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   roleSelected: Role = new Role();
   personAuth: Person = new Person();
   cRole = CRole;
+  totalPrice = 0;
 
   constructor(
     private store: Store<AppStateProjectFeature>,
@@ -74,6 +75,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     this.getActiveCategories();
     this.getEditModeState();
     this.getUiState();
+    this.getPriceTotal();
   }
 
   ngOnDestroy(): void {
@@ -98,11 +100,19 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((resp) => resp && this.getProject());
   }
 
+  getPriceTotal(): void {
+     const totalControl = (this.projectForm.controls['invoices'] as FormArray);
+     totalControl.valueChanges.subscribe((e) => this.totalPrice = e[0].total);
+    
+
+  }
   getProject() {
     this.projectService.getProject(this.projectTemp.id).subscribe((resp) => {
       this.project = resp;
+      
       resp.expirationDate = moment(resp.expirationDate).format('yyyy-MM-DD');
       this.projectForm.patchValue(resp);
+      this.totalPrice = resp.invoices[0].total;
 
       if (resp.personProjects) {
         resp.personProjects.forEach((pp) => {
