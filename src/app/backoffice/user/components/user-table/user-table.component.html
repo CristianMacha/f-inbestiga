@@ -47,18 +47,24 @@
               <button
                 mat-icon-button
                 color="primary"
+                matTooltip="Editar"
+                matTooltipPosition="above"
                 (click)="handleBtnEdit(person)">
                 <mat-icon>edit</mat-icon>
               </button>
               <button
                 mat-icon-button
-                (click)="handleBtnView(person)">
+                (click)="handleBtnView(person)"
+                matTooltip="Ver detalles"
+                matTooltipPosition="above">
                 <mat-icon>visibility</mat-icon>
               </button>
               <button
                 mat-icon-button
                 [color]="person.user.active ? 'accent' : 'warn'"
-                (click)="handleActive(person.user)">
+                (click)="handleActive(person.user)"
+                [matTooltip]="person.user.active ? 'Desactivar': 'Activar'"
+                matTooltipPosition="above">
                 <mat-icon>{{person.user.active ? 'person' : 'person_off'}}</mat-icon>
               </button>
             </td>

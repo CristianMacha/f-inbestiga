@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, UntypedFormGroup, Validators,} from '@angular/forms';
+import {FormBuilder, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {Store} from '@ngrx/store';
 import {finalize, Subscription} from 'rxjs';
 import * as moment from 'moment';
@@ -30,26 +30,27 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   projectTemp: Project = new Project();
   project = new Project();
 
-  projectForm: FormGroup = new UntypedFormGroup({
-    id: new FormControl(0, Validators.required),
-    name: new FormControl('', Validators.required),
-    description: new FormControl(''),
-    expirationDate: new FormControl('', Validators.required),
-    personProjects: new FormArray([], [Validators.required]),
+  projectForm: UntypedFormGroup = new UntypedFormGroup({
+    id: new UntypedFormControl(0, Validators.required),
+    name: new UntypedFormControl('', Validators.required),
+    description: new UntypedFormControl(''),
+    expirationDate: new UntypedFormControl('', Validators.required),
+    personProjects: new UntypedFormArray([], [Validators.required]),
+    otherCategory: new UntypedFormControl(''),
     category: new UntypedFormGroup({
-      id: new FormControl(0, [Validators.required, Validators.min(1)]),
-      name: new FormControl(''),
+      id: new UntypedFormControl(0, [Validators.required, Validators.min(1)]),
+      name: new UntypedFormControl(''),
     }),
-    invoices: new FormArray([
+    invoices: new UntypedFormArray([
       new UntypedFormGroup({
-        id: new FormControl(0, Validators.required),
-        description: new FormControl('Total', Validators.required),
-        expirationDate: new FormControl(
+        id: new UntypedFormControl(0, Validators.required),
+        description: new UntypedFormControl('Total', Validators.required),
+        expirationDate: new UntypedFormControl(
           '2021-10-20 11:19:11',
           Validators.required
         ),
-        total: new FormControl(0, [Validators.required, Validators.min(1)]),
-        feesNumber: new FormControl(1, [Validators.required, Validators.min(1)]),
+        total: new UntypedFormControl(0, [Validators.required, Validators.min(1)]),
+        feesNumber: new UntypedFormControl(1, [Validators.required, Validators.min(1)]),
       }),
     ]),
   });
@@ -59,6 +60,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   roleSelected: Role = new Role();
   personAuth: Person = new Person();
   cRole = CRole;
+  showOtherCategory = false;
 
   constructor(
     private store: Store<AppStateProjectFeature>,
@@ -82,14 +84,16 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   }
 
   get personProjectsControls() {
-    return this.projectForm.controls['personProjects'] as FormArray;
+    return this.projectForm.controls['personProjects'] as UntypedFormArray;
   }
 
   get invoicesControls() {
-    return this.projectForm.controls['invoices'] as FormArray;
+    return this.projectForm.controls['invoices'] as UntypedFormArray;
   }
 
   handleEditPriceTotal(): void {
+    console.log(this.project.invoices);
+
     const dialogRef = this.dialog.open(DialogProjectEditTotalComponent, {
       width: '400px',
       data: {invoiceId: this.project.invoices[0].id}
@@ -101,6 +105,8 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   getProject() {
     this.projectService.getProject(this.projectTemp.id).subscribe((resp) => {
       this.project = resp;
+      console.log('project', this.project);
+
       resp.expirationDate = moment(resp.expirationDate).format('yyyy-MM-DD');
       this.projectForm.patchValue(resp);
 
@@ -119,13 +125,13 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     }
 
     const personProjectControl = this.formBuilder.group({
-      id: new FormControl(personProject.id),
-      isAdvisor: new FormControl(personProject.isAdvisor),
-      active: new FormControl(personProject.active),
-      person: new FormGroup({
-        id: new FormControl(personProject.person.id),
-        fullName: new FormControl(personProject.person.fullName),
-        surnames: new FormControl(personProject.person.surnames),
+      id: new UntypedFormControl(personProject.id),
+      isAdvisor: new UntypedFormControl(personProject.isAdvisor),
+      active: new UntypedFormControl(personProject.active),
+      person: new UntypedFormGroup({
+        id: new UntypedFormControl(personProject.person.id),
+        fullName: new UntypedFormControl(personProject.person.fullName),
+        surnames: new UntypedFormControl(personProject.person.surnames),
       }),
     });
 
@@ -135,7 +141,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   removePersonProject(personProjectIndex: number) {
     if (this.editMode) {
       (
-        this.personProjectsControls.controls[personProjectIndex] as FormGroup
+        this.personProjectsControls.controls[personProjectIndex] as UntypedFormGroup
       ).controls['active'].patchValue(false);
     } else {
       this.personProjectsControls.removeAt(personProjectIndex);
@@ -144,7 +150,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
   restorePersonProject(personProjectIndex: number) {
     (
-      this.personProjectsControls.controls[personProjectIndex] as FormGroup
+      this.personProjectsControls.controls[personProjectIndex] as UntypedFormGroup
     ).controls['active'].patchValue(true);
   }
 
@@ -177,6 +183,14 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
           this.btnActionText = 'Guardar cambios';
           (this.invoicesControls.controls[0] as UntypedFormGroup).controls['total'].disable();
           (this.invoicesControls.controls[0] as UntypedFormGroup).controls['feesNumber'].disable();
+          const categoryControl = (this.projectForm.controls['category'] as UntypedFormGroup).controls['id'];
+          categoryControl.valueChanges.subscribe((id) => {
+            if(id == 9) {
+              this.showOtherCategory = true;
+            } else {
+              this.showOtherCategory = false;
+            }
+          })
           this.projectTemp = resp.project;
           this.getProject();
         }

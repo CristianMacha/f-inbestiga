@@ -20,7 +20,7 @@ export class CategoryService {
   }
 
   public getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(`${this.uri}`);
+    return this.http.get<Category[]>(`${this.uri}/active`);
   }
 
   public create(category: Category): Observable<Category> {

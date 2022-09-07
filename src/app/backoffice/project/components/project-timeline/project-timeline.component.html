@@ -17,6 +17,7 @@
       <div class="timeline-content pt-1">
         <h6 class="text-dark font-weight-bold m-0" style="display: flex; align-items: center; gap: .5rem">
           {{requirement.name}} <i class="material-icons text-success cursor-pointer" (click)="handleEditRequirement(requirement)">edit</i></h6>
+        <p>{{requirement.description}}</p>
         <p class="text-sm mt-3 mb-2 m-0 text-info">
             {{requirement.filename}}
             <i

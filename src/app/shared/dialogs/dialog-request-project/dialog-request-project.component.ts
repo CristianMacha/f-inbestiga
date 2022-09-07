@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormControl, UntypedFormGroup, Validators} from "@angular/forms";
 
 import {CategoryService, ProjectService, SnackBarService} from "@core/services";
 import {Category} from "@core/models";
@@ -12,16 +12,18 @@ import {finalize} from "rxjs";
   styleUrls: ['./dialog-request-project.component.scss']
 })
 export class DialogRequestProjectComponent implements OnInit {
-  projectForm: FormGroup = new FormGroup({
-    name: new FormControl('', Validators.required),
-    description: new FormControl('', Validators.required),
-    category: new FormGroup({
-      id: new FormControl(0, [Validators.required, Validators.min(1)])
+  projectForm: UntypedFormGroup = new UntypedFormGroup({
+    name: new UntypedFormControl('', Validators.required),
+    description: new UntypedFormControl('', Validators.required),
+    category: new UntypedFormGroup({
+      id: new UntypedFormControl(0, [Validators.required, Validators.min(1)])
     }),
+    otherCategory: new UntypedFormControl('')
   });
 
   categories: Category[] = [];
   loading: boolean = false;
+  showOtherCategory = false;
 
   constructor(
     public dialogRef: MatDialogRef<DialogRequestProjectComponent>,
@@ -34,6 +36,7 @@ export class DialogRequestProjectComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCategories();
+    this.verifyCategory();
   }
 
   getCategories(): void {
@@ -53,6 +56,18 @@ export class DialogRequestProjectComponent implements OnInit {
         this.snackBar.openTopEnd('Solicitud enviada.');
         this.dialogRef.close(true);
       })
+  }
+
+  verifyCategory(): void {
+    const categoryIdControl = (this.projectForm.controls['category'] as UntypedFormGroup).controls['id'];
+    categoryIdControl.valueChanges.subscribe((id) => {
+      if(id == 9) {
+        this.showOtherCategory = true;
+      } else {
+        this.showOtherCategory = false;
+        categoryIdControl.reset('');
+      }
+    });
   }
 
   onNoClick(): void {
