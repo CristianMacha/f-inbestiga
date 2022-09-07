@@ -191,14 +191,6 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
           this.btnActionText = 'Guardar cambios';
           (this.invoicesControls.controls[0] as UntypedFormGroup).controls['total'].disable();
           (this.invoicesControls.controls[0] as UntypedFormGroup).controls['feesNumber'].disable();
-          //const categoryControl = (this.projectForm.controls['category'] as UntypedFormGroup).controls['id'];
-          //categoryControl.valueChanges.subscribe((id) => {
-          //  if (id == 9) {
-          //    this.showOtherCategory = true;
-          //  } else {
-          //    this.showOtherCategory = false;
-          //  }
-          //});
           this.projectTemp = resp.project;
           this.getProject();
         }

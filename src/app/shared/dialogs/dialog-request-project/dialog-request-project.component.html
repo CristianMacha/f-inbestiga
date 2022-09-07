@@ -2,12 +2,12 @@
 <div mat-dialog-content>
   <form [formGroup]="projectForm">
     <mat-form-field appearance="outline" class="w-100">
-      <mat-label>Nombre del proyecto</mat-label>
+      <mat-label>Titulo del proyecto</mat-label>
       <input
         matInput
         placeholder="Mi proyecto ..."
         formControlName="name">
-      <mat-error>El nombre del proyecto es necesario.</mat-error>
+      <mat-error>El titulo del proyecto es necesario.</mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline" class="w-100">
       <mat-label>Descripcion</mat-label>
@@ -18,7 +18,7 @@
         rows="10"></textarea>
       <mat-error>La descripcion es necesaria.</mat-error>
     </mat-form-field>
-    <div formGroupName="category">
+    <div formGroupName="category" *ngIf="!showOtherCategory">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Categoria</mat-label>
         <mat-select formControlName="id">
@@ -33,6 +33,13 @@
         matInput
         placeholder="Categoria"
         formControlName="otherCategory">
+        <button
+          mat-icon-button
+          type="button"
+          matSuffix
+          (click)="handleCloseOtherCategory()">
+          <mat-icon>close</mat-icon>
+        </button>
     </mat-form-field>
   </form>
 </div>
