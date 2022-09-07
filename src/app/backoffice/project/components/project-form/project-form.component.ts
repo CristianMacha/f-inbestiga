@@ -1,17 +1,17 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
-import {Store} from '@ngrx/store';
-import {finalize, Subscription} from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { finalize, Subscription } from 'rxjs';
 import * as moment from 'moment';
 
-import {Category, Person, PersonProject, Project, Role} from '@core/models';
-import {CategoryService, PersonService, ProjectService} from '@core/services';
-import {CRole, ERole} from '@core/enums';
-import {activeForm, createProject, updateProject,} from '../../store/project.actions';
-import {AppStateProjectFeature} from '../../store/project.reducers';
-import {projectFeature} from '../../store/project.selectors';
-import {uiFeature} from "../../../../shared/ui.selectors";
-import {MatDialog} from "@angular/material/dialog";
+import { Category, Person, PersonProject, Project, Role } from '@core/models';
+import { CategoryService, PersonService, ProjectService } from '@core/services';
+import { CRole, ERole } from '@core/enums';
+import { activeForm, createProject, updateProject, } from '../../store/project.actions';
+import { AppStateProjectFeature } from '../../store/project.reducers';
+import { projectFeature } from '../../store/project.selectors';
+import { uiFeature } from "../../../../shared/ui.selectors";
+import { MatDialog } from "@angular/material/dialog";
 import {
   DialogProjectEditTotalComponent
 } from "../../../../shared/dialogs/dialog-project-edit-total/dialog-project-edit-total.component";
@@ -78,6 +78,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     this.getEditModeState();
     this.getUiState();
     this.getPriceTotal();
+    this.valueChangesCategory();
   }
 
   ngOnDestroy(): void {
@@ -98,15 +99,15 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
     const dialogRef = this.dialog.open(DialogProjectEditTotalComponent, {
       width: '400px',
-      data: {invoiceId: this.project.invoices[0].id}
+      data: { invoiceId: this.project.invoices[0].id }
     });
 
     dialogRef.afterClosed().subscribe((resp) => resp && this.getProject());
   }
 
   getPriceTotal(): void {
-     const totalControl = (this.projectForm.controls['invoices'] as UntypedFormArray);
-     totalControl.valueChanges.subscribe((e) => this.totalPrice = e[0].total);
+    const totalControl = (this.projectForm.controls['invoices'] as UntypedFormArray);
+    totalControl.valueChanges.subscribe((e) => this.totalPrice = e[0].total);
   }
 
   getProject() {
@@ -162,7 +163,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   }
 
   handleCancel() {
-    this.store.dispatch(activeForm({active: false}));
+    this.store.dispatch(activeForm({ active: false }));
   }
 
   setPerson(person: Person, roleId: number): void {
@@ -190,14 +191,14 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
           this.btnActionText = 'Guardar cambios';
           (this.invoicesControls.controls[0] as UntypedFormGroup).controls['total'].disable();
           (this.invoicesControls.controls[0] as UntypedFormGroup).controls['feesNumber'].disable();
-          const categoryControl = (this.projectForm.controls['category'] as UntypedFormGroup).controls['id'];
-          categoryControl.valueChanges.subscribe((id) => {
-            if(id == 9) {
-              this.showOtherCategory = true;
-            } else {
-              this.showOtherCategory = false;
-            }
-          })
+          //const categoryControl = (this.projectForm.controls['category'] as UntypedFormGroup).controls['id'];
+          //categoryControl.valueChanges.subscribe((id) => {
+          //  if (id == 9) {
+          //    this.showOtherCategory = true;
+          //  } else {
+          //    this.showOtherCategory = false;
+          //  }
+          //});
           this.projectTemp = resp.project;
           this.getProject();
         }
@@ -211,8 +212,25 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       this.loading = false;
       this.projectForm.markAllAsTouched();
     } else {
-      this.editMode ? this.store.dispatch(updateProject({project: this.projectForm.value})) : this.store.dispatch(createProject({project: this.projectForm.value}));
+      this.editMode ? this.store.dispatch(updateProject({ project: this.projectForm.value })) : this.store.dispatch(createProject({ project: this.projectForm.value }));
     }
+  }
+
+  valueChangesCategory(): void {
+    const categoryControl = (this.projectForm.controls['category'] as UntypedFormGroup).controls['id'];
+    categoryControl.valueChanges.subscribe((id) => {
+      if (id == 9) {
+        this.showOtherCategory = true;
+      } else {
+        this.showOtherCategory = false;
+      }
+    });
+  }
+
+  handleCloseOtherCategory(): void {
+    this.showOtherCategory = false;
+    (this.projectForm.controls['category'] as UntypedFormGroup).controls['id'].patchValue(0);
+    this.projectForm.controls['otherCategory'].reset('');
   }
 
   getActiveCategories(): void {
