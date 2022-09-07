@@ -16,6 +16,7 @@ export class Project {
   public expirationDate: Date | string;
   public active: boolean;
   public deleted: boolean;
+  public otherCategory: string;
   public createdAt: Date;
   public updatedAt: Date;
   public invoices: Invoice[];
@@ -34,6 +35,7 @@ export class Project {
     this.expirationDate = new Date();
     this.active = false;
     this.deleted = false;
+    this.otherCategory = '';
     this.createdAt = new Date();
     this.updatedAt = new Date();
     this.invoices = [];

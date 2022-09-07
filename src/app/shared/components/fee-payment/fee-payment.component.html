@@ -8,7 +8,7 @@
             {{payment.status}}
           </span>
     <p style="margin: 0; font-weight: 400; font-size: 20px; font-weight: 500;">{{payment.amount | currency}}</p>
-    <small style="margin: 0; font-weight: 200">{{payment.code}}</small>
+    <small style="margin: 0; font-weight: 200">{{payment.updatedAt | date}}</small>
   </div>
   <div style="display: flex">
     <div *ngIf="payment.status == paymentStatus.PENDING && roleSelected.id == cRole.ADMINISTRATOR">

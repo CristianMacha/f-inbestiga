@@ -21,7 +21,7 @@
           </ng-container>
 
           <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef>PROYECTO</th>
+            <th mat-header-cell *matHeaderCellDef>TITULO</th>
             <td mat-cell *matCellDef="let project">{{project.name}}</td>
           </ng-container>
 
@@ -58,6 +58,8 @@
                   <button
                     mat-icon-button
                     color="accent"
+                    matTooltip="Ver detalles"
+                    matTooltipPosition="above"
                     (click)="handleViewProject(project.id)">
                     <mat-icon>visibility</mat-icon>
                   </button>
@@ -66,11 +68,15 @@
                   <button
                     mat-icon-button
                     color="primary"
+                    matTooltip="Editar"
+                    matTooltipPosition="above"
                     (click)="handleBtnEdit(project)">
                     <mat-icon>edit</mat-icon>
                   </button>
                   <button
                     mat-icon-button
+                    matTooltip="Archivar"
+                    matTooltipPosition="above"
                     (click)="handleDelete(project.id)">
                     <mat-icon>archive</mat-icon>
                   </button>

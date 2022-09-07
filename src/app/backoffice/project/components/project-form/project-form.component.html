@@ -22,12 +22,12 @@
       <div class="row g-2">
         <div class="col-md-8">
           <mat-form-field appearance="outline">
-            <mat-label>Nombres</mat-label>
+            <mat-label>Titulo del proyecto</mat-label>
             <input matInput formControlName="name">
-            <mat-error>El nombre es necesario.</mat-error>
+            <mat-error>El titulo es necesario.</mat-error>
           </mat-form-field>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4" *ngIf="!showOtherCategory">
           <div formGroupName="category">
             <mat-form-field appearance="outline">
               <mat-label>Categoria</mat-label>
@@ -38,6 +38,19 @@
               <mat-error>La categoria es necesaria.</mat-error>
             </mat-form-field>
           </div>
+        </div>
+        <div class="col-md-4" *ngIf="showOtherCategory">
+          <mat-form-field appearance="outline">
+            <mat-label>Otra categoria</mat-label>
+            <input type="text" matInput autocomplete="off" formControlName="otherCategory">
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              (click)="handleCloseOtherCategory()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
         </div>
         <div class="col-md-4">
           <div formArrayName="invoices">

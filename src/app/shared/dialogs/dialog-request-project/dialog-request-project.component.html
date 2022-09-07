@@ -27,6 +27,13 @@
         </mat-select>
       </mat-form-field>
     </div>
+    <mat-form-field appearance="outline" class="w-100" *ngIf="showOtherCategory">
+      <mat-label>Especificar categoria</mat-label>
+      <input
+        matInput
+        placeholder="Categoria"
+        formControlName="otherCategory">
+    </mat-form-field>
   </form>
 </div>
 <div mat-dialog-actions [align]="'end'">
