@@ -5,7 +5,7 @@ import {EInvoiceStatus, EProjectStatus, ERole} from "@core/enums";
 import {finalize, Subscription} from "rxjs";
 
 import {InvoiceService, ProjectService} from "@core/services";
-import {Invoice, Person, Project} from "@core/models";
+import {Invoice, Person, Project, Role} from "@core/models";
 import {appState} from "../../../../app.reducers";
 import {uiRoleSelected} from "../../../../shared/ui.selectors";
 import {
@@ -28,6 +28,7 @@ export class DashboardStudentComponent implements OnInit, OnDestroy {
   resultsInvoiceLength = 0;
   person: Person = new Person();
   loading: boolean = false;
+  roleSelected = new Role();
 
   constructor(
     private projectService: ProjectService,
@@ -49,21 +50,15 @@ export class DashboardStudentComponent implements OnInit, OnDestroy {
   handleRequestProject(): void {
     const dialogRef = this.matDialog.open(DialogRequestProjectComponent, {
       width: '400px',
-      data: {personId: this.person.id}
+      data: {personId: this.person}
     });
-
     this.subscription.add(
-      dialogRef.afterClosed().subscribe((resp) => resp && this.getProjects(this.person.id, {
-        status: EProjectStatus.ALL,
-        take: 3,
-        skip: 0
-      }))
-    );
+      dialogRef.afterClosed().subscribe((resp) => resp && this.getProjects({status: EProjectStatus.ALL, take: 3, skip: 0})));
   }
 
-  getProjects(roleId: number, filter: ProjectInterfaceFilter): void {
+  getProjects(filter: ProjectInterfaceFilter): void {
     this.loading = true;
-    this.projectService.getProjects(roleId, filter)
+    this.projectService.getProjects(this.roleSelected.id, filter)
       .pipe(finalize(() => this.loading = false))
       .subscribe((resp) => {
         this.resultsLength = resp.total;
@@ -81,12 +76,12 @@ export class DashboardStudentComponent implements OnInit, OnDestroy {
 
   getUiRoleSelected(): void {
     this.subscription.add(
-      this.store.select(uiRoleSelected).subscribe((role) => role.id && this.getProjects(role.id, {
-        status: EProjectStatus.ALL,
-        take: 3,
-        skip: 0
-      }))
-    );
+      this.store.select(uiRoleSelected).subscribe((role) => {
+          if(role.id) {
+            this.roleSelected = role;
+            this.getProjects({status: EProjectStatus.ALL, take: 3, skip: 0});
+          }
+      }));
   }
 
   getPerson(): void {
@@ -100,7 +95,7 @@ export class DashboardStudentComponent implements OnInit, OnDestroy {
   }
 
   pageEvent(event: PageEvent) {
-    this.getProjects(ERole.STUDENT, {status: EProjectStatus.ALL, take: event.pageSize, skip: event.pageIndex});
+    this.getProjects({status: EProjectStatus.ALL, take: event.pageSize, skip: event.pageIndex});
   }
 
   pageEventInvoice(event: PageEvent) {
