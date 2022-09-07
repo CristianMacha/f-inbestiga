@@ -103,17 +103,14 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   getPriceTotal(): void {
      const totalControl = (this.projectForm.controls['invoices'] as FormArray);
      totalControl.valueChanges.subscribe((e) => this.totalPrice = e[0].total);
-    
-
   }
+
   getProject() {
     this.projectService.getProject(this.projectTemp.id).subscribe((resp) => {
       this.project = resp;
-      
       resp.expirationDate = moment(resp.expirationDate).format('yyyy-MM-DD');
       this.projectForm.patchValue(resp);
       this.totalPrice = resp.invoices[0].total;
-
       if (resp.personProjects) {
         resp.personProjects.forEach((pp) => {
           this.addPersonProjects(pp);
