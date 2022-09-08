@@ -29,8 +29,6 @@ export class ProjectService {
   }
 
   getProject(projectId: number, withInvoice: boolean = true): Observable<Project> {
-    console.log('withInvoice', withInvoice);
-
     return this.http.get<Project>(`${this.uri}/${projectId}?withInvoice=${withInvoice}`);
   }
 
