@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {finalize, Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
@@ -15,6 +15,7 @@ import {activeFormUpdate} from '../../store/project.actions';
 import {projectFeatureFilter} from '../../store/project.selectors';
 import {uiRoleSelected} from "../../../../shared/ui.selectors";
 import {DialogConfirmComponent} from "../../../../shared/dialogs/dialog-confirm/dialog-confirm.component";
+import { DialogProjectUpdateDocComponent } from 'src/app/shared/dialogs/dialog-project-update-doc/dialog-project-update-doc.component';
 
 @Component({
   selector: 'vs-project-table',
@@ -22,6 +23,7 @@ import {DialogConfirmComponent} from "../../../../shared/dialogs/dialog-confirm/
   styleUrls: ['./project-table.component.scss']
 })
 export class ProjectTableComponent implements OnInit, OnDestroy {
+  @Input() projectId: number = 0;
   subscription: Subscription = new Subscription();
 
   projects: Project[] = [];
@@ -42,6 +44,7 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<AppStateProjectFeature>,
     private router: Router,
+    private dialog: MatDialog,
     private projectService: ProjectService,
     private matDialog: MatDialog,
   ) {
@@ -79,7 +82,11 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
   }
 
   handleBtnEdit(project: Project) {
-    this.store.dispatch(activeFormUpdate({project}));
+    console.log("project");
+    //const dialogRef = this.dialog.open(DialogProjectUpdateDocComponent, {
+    //  width: '500px',
+    //  data: {projectId:this.projectId}
+    //});
   }
 
   getFilterState(): void {

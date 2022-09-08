@@ -22,15 +22,6 @@
       </button>
     </div>
 
-    <button
-      mat-flat-button
-      color="primary"
-      (click)="handleUploadUpdate()"
-      *ngIf="project.status != cProjectStatus.REQUIRED && project.status != cProjectStatus.REFUSED && project.status !== cProjectStatus.COMPLETED">
-      <mat-icon>file_upload</mat-icon>
-      Subir Actualizacion
-    </button>
-
     <div
       *ngIf="roleSelected.id == cRole.ADMINISTRATOR && roleSelected.id !== 0 && project.status != cProjectStatus.REQUIRED && project.status != cProjectStatus.REFUSED && project.status !== cProjectStatus.COMPLETED">
       <button
@@ -88,7 +79,7 @@
             <mat-card-title>Lista de Documentos</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <vs-project-document></vs-project-document>
+            <vs-project-document [projectId]="projectId"></vs-project-document>
           </mat-card-content>
         </mat-card>
       </div>

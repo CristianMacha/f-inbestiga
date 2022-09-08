@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { projectFeaturePRequirements } from '../../store/project.selectors';
 import { EStorage } from '@core/enums';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'vs-project-document',
@@ -15,14 +16,16 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
   styleUrls: ['./project-document.component.scss']
 })
 export class ProjectDocumentComponent implements OnInit {
-  
-  fileUrl: string = '';
+  @Input() projectId: number = 0;
+
+  fileUrl: string = ''; 
   requirements: Requirement[] = [];
   subscription: Subscription = new Subscription();
 
   constructor(
-    private store: Store<AppStateProjectFeature>,
-    private storage: AngularFireStorage
+    private storage: AngularFireStorage,
+    private dialog: MatDialog,
+    private requirementService: RequirementService,
     ) { }
 
   ngOnInit(): void {
@@ -30,12 +33,9 @@ export class ProjectDocumentComponent implements OnInit {
   }
 
   getRequirements() {
-    this.subscription.add(
-      this.store
-        .select(projectFeaturePRequirements)
-        .subscribe((resp) => (this.requirements = resp))
-    );
-  }
+    this.requirementService.getByProject(this.projectId)
+    .subscribe(resp=>(this.requirements = resp))
+  } 
 
   getUrl(fileCode: string) {
     const ref = this.storage.ref(`${EStorage.REF_REQUIREMENT}/${fileCode}`);

@@ -65,13 +65,11 @@
                   </button>
                 </div>
                 <div *ngIf="roleSelected.id == cRole.ADMINISTRATOR">
-                  <button
-                    mat-icon-button
-                    color="primary"
-                    matTooltip="Editar"
-                    matTooltipPosition="above"
-                    (click)="handleBtnEdit(project)">
-                    <mat-icon>edit</mat-icon>
+                  <button 
+                  mat-flat-button
+                  color="primary"
+                  (click)="handleBtnEdit(project)">
+                  <mat-icon>edit</mat-icon>
                   </button>
                   <button
                     mat-icon-button

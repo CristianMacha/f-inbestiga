@@ -16,6 +16,7 @@ import {
 } from "../../../../shared/dialogs/dialog-accept-project/dialog-accept-project.component";
 import {DialogConfirmComponent} from "../../../../shared/dialogs/dialog-confirm/dialog-confirm.component";
 import {IDialogConfirm} from "@core/interfaces";
+import { DialogProjectUpdateDocComponent } from 'src/app/shared/dialogs/dialog-project-update-doc/dialog-project-update-doc.component';
 
 @Component({
   selector: 'vs-project-detail',
@@ -87,6 +88,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     this.subscription.add(
       dialogRef.afterClosed().subscribe((resp) => resp && this.refuseProject())
     );
+
   }
 
   refuseProject(): void {
@@ -112,7 +114,14 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   }
 
   handleUploadUpdate() {
-    this.store.dispatch(activeFormR({active: true}));
+    const dialogRef = this.matDialog.open(DialogProjectUpdateDocComponent, {
+      width: '300px',
+      data:{projectId: this.projectId},
+      disableClose: true
+    });
+    dialogRef.afterClosed().subscribe((resp) => resp && this.getProject(this.projectId));
+
+    //this.store.dispatch(activeFormR({active: true}));
   }
 
   handleBtnToggleActiveProject() {

@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EStorage } from '@core/enums';
@@ -10,17 +10,15 @@ import { AppStateProjectFeature } from 'src/app/backoffice/project/store/project
 import { projectFeature, projectFeaturePRequirements } from 'src/app/backoffice/project/store/project.selectors';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Requirement } from '@core/models';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'vs-project-requirement-form',
-  templateUrl: './project-requirement-form.component.html',
-  styleUrls: ['./project-requirement-form.component.scss'],
+  selector: 'vs-dialog-project-update-doc',
+  templateUrl: './dialog-project-update-doc.component.html',
+  styleUrls: ['./dialog-project-update-doc.component.scss']
 })
-export class ProjectRequirementFormComponent implements OnInit, OnDestroy {
-  @Input() projectId: number = 0;
-
+export class DialogProjectUpdateDocComponent implements OnInit {
   subscription: Subscription = new Subscription();
-
   file: File | null = null;
   loading: boolean = false;
   fileSelected: boolean = false;
@@ -31,6 +29,7 @@ export class ProjectRequirementFormComponent implements OnInit, OnDestroy {
   editMode: boolean = false;
   title: string = 'Subir actualizacion';
   btnActionText = 'Subir Actualizacion';
+  requirements: Requirement[] = [];
 
   requirementForm: FormGroup = new FormGroup({
     id: new FormControl(0, Validators.required),
@@ -41,39 +40,39 @@ export class ProjectRequirementFormComponent implements OnInit, OnDestroy {
       id: new FormControl(0, Validators.required),
     }),
   });
-
+  urlTree: any;
   constructor(
+    public dialogRef: MatDialogRef<DialogProjectUpdateDocComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { projectId: number },
     private requirementService: RequirementService,
-    private store: Store<AppStateProjectFeature>,
-    private storage: AngularFireStorage
-  ) {}
+    private storage: AngularFireStorage,
+  ) {
+   }
 
   ngOnInit(): void {
     this.getEditModeState();
+
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-
+  
   handleCreate() {
     this.loading = true;
     (this.requirementForm.controls['project'] as FormGroup).controls[
       'id'
-    ].patchValue(this.projectId);
-
-    console.log(this.editMode);
-
+    ].patchValue(this.data.projectId);
     this.editMode ? this.update() : this.create();
   }
 
   create() {
     this.requirementService
-      .create(this.requirementForm.value)
-      .subscribe((resp) => {
+    .create(this.requirementForm.value)
+    .subscribe((resp) => {
+        console.log(resp)
         this.projectCode = resp.code;
         this.uploadImage();
-        this.store.dispatch(loadRequirements({ projectId: resp.project.id }));
       });
   }
 
@@ -83,7 +82,7 @@ export class ProjectRequirementFormComponent implements OnInit, OnDestroy {
       .subscribe((resp) => {
         this.projectCode = resp.code;
         this.file && this.uploadImage();
-        this.store.dispatch(loadRequirements({ projectId: resp.project.id }));
+      //  this.store.dispatch(loadRequirements({ projectId: resp.project.id }));
         this.handleCancel();
       });
   }
@@ -103,12 +102,8 @@ export class ProjectRequirementFormComponent implements OnInit, OnDestroy {
     this.progressUploadFile = 0;
     this.loading = true;
     this.retryUploadFile = false;
-    console.log('xd');
-
-
     const filePath = `${EStorage.REF_REQUIREMENT}/${this.projectCode}`;
     const task = this.storage.upload(filePath, this.file);
-
     task.snapshotChanges().subscribe({
       next: (resp) => {
         if (resp) {
@@ -128,20 +123,20 @@ export class ProjectRequirementFormComponent implements OnInit, OnDestroy {
 
   getEditModeState() {
     this.subscription.add(
-      this.store.select(projectFeature).subscribe((resp) => {
-        this.loading = resp.loading;
-        if (resp.editModeR) {
-          this.editMode = true;
-          this.title = 'Actualizar';
-          this.btnActionText = 'Actualizar';
-          this.fileSelected = true;
-          this.requirementForm.patchValue(resp.requirement);
-        }
-      })
+      //this.store.select(projectFeature).subscribe((resp) => {
+      //  this.loading = resp.loading;
+      //  if (resp.editModeR) {
+      //    this.editMode = true;
+      //    this.title = 'Actualizar';
+      //    this.btnActionText = 'Actualizar';
+      //    this.fileSelected = true;
+      //    this.requirementForm.patchValue(resp.requirement);
+      //  }
+      //})
     );
   }
 
   handleCancel(): void {
-    this.store.dispatch(activeFormR({ active: false }));
+    this.dialogRef.close();
   }
 }
