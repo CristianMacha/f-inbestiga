@@ -3,13 +3,10 @@ export enum PaymentConceptEnum {
 }
 
 export enum PaymentMethodEnum {
-  YAPE = 'YAPE',
+  TRANSFER = 'TRANSFERENCIA/DEPOSITO',
+  CASH = 'EFECTIVO',
   PLIN = 'PLIN',
-  BCP = 'BCP',
-  INTERBANK = 'INTERBANK',
-  BBVA = 'BBVA',
-  SCONTIABANK = 'SCOTIABANK',
-  CASH_PAYMENT = 'EFECTIVO',
+  YAPE = 'YAPE',
 }
 
 export enum PaymentStatusEnum {
