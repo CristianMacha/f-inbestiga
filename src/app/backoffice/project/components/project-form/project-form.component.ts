@@ -102,7 +102,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       data: { invoiceId: this.project.invoices[0].id }
     });
 
-    dialogRef.afterClosed().subscribe((resp) => resp && this.getProject());
+    dialogRef.afterClosed().subscribe((resp) => resp && this.getProject(true));
   }
 
   getPriceTotal(): void {
@@ -110,11 +110,9 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     totalControl.valueChanges.subscribe((e) => this.totalPrice = e[0].total);
   }
 
-  getProject() {
-    this.projectService.getProject(this.projectTemp.id).subscribe((resp) => {
+  getProject(withInvoice: boolean) {
+    this.projectService.getProject(this.projectTemp.id, withInvoice).subscribe((resp) => {
       this.project = resp;
-      console.log('project', this.project);
-
       resp.expirationDate = moment(resp.expirationDate).format('yyyy-MM-DD');
       this.projectForm.patchValue(resp);
       this.totalPrice = resp.invoices[0].total;
@@ -192,7 +190,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
           (this.invoicesControls.controls[0] as UntypedFormGroup).controls['total'].disable();
           (this.invoicesControls.controls[0] as UntypedFormGroup).controls['feesNumber'].disable();
           this.projectTemp = resp.project;
-          this.getProject();
+          this.getProject(false);
         }
       })
     );

@@ -93,7 +93,7 @@ export class ProjectInfoComponent implements OnInit, OnDestroy {
   }
 
   getProject(): void {
-    this.projectService.getProject(this.projectId)
+    this.projectService.getProject(this.projectId, false)
       .subscribe((resp) => {
         this.project = resp;
         this.progressControl.patchValue(resp.progress);

@@ -101,7 +101,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   }
 
   getProject(projectId: number): void {
-    this.projectService.getProject(projectId)
+    this.projectService.getProject(projectId, false)
       .subscribe({
         next: (resp) => {
           !resp.id && this.router.navigateByUrl('backoffice/project');

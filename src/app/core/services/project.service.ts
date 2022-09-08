@@ -28,8 +28,10 @@ export class ProjectService {
     return this.http.post<Project>(`${this.uri}/request`, project);
   }
 
-  getProject(projectId: number): Observable<Project> {
-    return this.http.get<Project>(`${this.uri}/${projectId}`);
+  getProject(projectId: number, withInvoice: boolean = true): Observable<Project> {
+    console.log('withInvoice', withInvoice);
+
+    return this.http.get<Project>(`${this.uri}/${projectId}?withInvoice=${withInvoice}`);
   }
 
   getProjects(roleId: number, filter?: ProjectInterfaceFilter): Observable<ResponseListInterface<Project[]>> {
