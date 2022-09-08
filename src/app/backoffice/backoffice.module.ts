@@ -10,7 +10,8 @@ import {MaterialModule} from "../material/material.module";
 
 @NgModule({
   declarations: [
-    BackofficeComponent
+    BackofficeComponent,
+
   ],
   imports: [
     CommonModule,
