@@ -3,14 +3,9 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EStorage } from '@core/enums';
 import { RequirementService } from '@core/services';
-import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { activeFormR, loadRequirements } from 'src/app/backoffice/project/store/project.actions';
-import { AppStateProjectFeature } from 'src/app/backoffice/project/store/project.reducers';
-import { projectFeature, projectFeaturePRequirements } from 'src/app/backoffice/project/store/project.selectors';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Requirement } from '@core/models';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'vs-dialog-project-update-doc',
@@ -31,6 +26,7 @@ export class DialogProjectUpdateDocComponent implements OnInit {
   btnActionText = 'Subir Actualizacion';
   requirements: Requirement[] = [];
 
+
   requirementForm: FormGroup = new FormGroup({
     id: new FormControl(0, Validators.required),
     name: new FormControl('', Validators.required),
@@ -40,47 +36,54 @@ export class DialogProjectUpdateDocComponent implements OnInit {
       id: new FormControl(0, Validators.required),
     }),
   });
-  urlTree: any;
+
   constructor(
     public dialogRef: MatDialogRef<DialogProjectUpdateDocComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { projectId: number },
+    @Inject(MAT_DIALOG_DATA) public data: { requirement: Requirement, projectId: number},
     private requirementService: RequirementService,
     private storage: AngularFireStorage,
   ) {
    }
 
   ngOnInit(): void {
-    this.getEditModeState();
+    this.verifyEditMode();
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-  handleCreate() {
-    this.loading = true;
-    (this.requirementForm.controls['project'] as FormGroup).controls[
-      'id'
-    ].patchValue(this.data.projectId);
+
+  verifyEditMode() {
+    (this.requirementForm.controls['project'] as FormGroup).controls['id'].patchValue(this.data.projectId);
+    if (this.data.requirement) {
+      this.editMode = true;
+      this.title = 'Editar documento.';
+      this.btnActionText = 'Actualizar documento.' 
+       this.requirementForm.patchValue(this.data.requirement);
+    }
+  }
+
+  handleCreate(){
     this.editMode ? this.update() : this.create();
   }
 
   create() {
+    this.loading = true;
     this.requirementService
     .create(this.requirementForm.value)
     .subscribe((resp) => {
-        console.log(resp)
         this.projectCode = resp.code;
-        this.uploadImage();
+        this.file && this.uploadImage();
       });
   }
 
   update() {
+    this.loading = true;
     this.requirementService
-      .update(this.requirementForm.value)
-      .subscribe((resp) => {
+    .update(this.requirementForm.value)
+    .subscribe((resp) => {
         this.projectCode = resp.code;
-        this.file && this.uploadImage();
-        this.handleCancel();
+        this.file ? this.uploadImage() : this.handleCancel(true);
       });
   }
 
@@ -115,25 +118,10 @@ export class DialogProjectUpdateDocComponent implements OnInit {
       complete: () => (this.loading = false),
     });
 
-    task.then((resp) => this.handleCancel());
+    task.then((resp) => this.handleCancel(true));
   }
 
-  getEditModeState() {
-    this.subscription.add(
-      //this.store.select(projectFeature).subscribe((resp) => {
-      //  this.loading = resp.loading;
-      //  if (resp.editModeR) {
-      //    this.editMode = true;
-      //    this.title = 'Actualizar';
-      //    this.btnActionText = 'Actualizar';
-      //    this.fileSelected = true;
-      //    this.requirementForm.patchValue(resp.requirement);
-      //  }
-      //})
-    );
-  }
-
-  handleCancel(): void {
-    this.dialogRef.close();
+  handleCancel(resp: boolean): void {
+    this.dialogRef.close(resp);
   }
 }

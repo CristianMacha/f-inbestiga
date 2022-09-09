@@ -17,6 +17,7 @@ import { RequirementService } from '@core/services';
 import { CProjectStatus, EStorage } from '@core/enums';
 import { MatDialog } from '@angular/material/dialog';
 
+
 @Component({
   selector: 'vs-project-timeline',
   templateUrl: './project-timeline.component.html',
@@ -67,19 +68,25 @@ export class ProjectTimelineComponent implements OnInit, OnDestroy {
   }
 
   handleEditRequirement(requirement: Requirement) {
-    window.scroll(0, 0);
- 
+      const dialogRef = this.dialog.open(DialogProjectUpdateDocComponent, {
+      width: '500px',
+      data: {requirement:requirement, projectId: this.projectId},
+      disableClose:true,
+    });
+    this.subscription.add(
+      dialogRef.afterClosed().subscribe((resp) => this.getRequirements())
+    )
   }
 
   handleUploadUpdate() {
     const dialogRef = this.dialog.open(DialogProjectUpdateDocComponent, {
       width: '500px',
-      data: {projectId:this.projectId}
+      data: {requirement: null, projectId: this.projectId},
+      disableClose:true,
     });
     this.subscription.add(
-      dialogRef.afterClosed().subscribe((resp) => console.log(resp))
+      dialogRef.afterClosed().subscribe((resp) => resp && this.getRequirements())
     )
-    //this.store.dispatch(activeFormR({active: true}));
   }
   handleUploadUpdate() {
     const dialogRef = this.dialog.open(DialogProjectUpdateDocComponent, {
