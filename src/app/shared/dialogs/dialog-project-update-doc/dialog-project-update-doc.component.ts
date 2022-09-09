@@ -51,13 +51,11 @@ export class DialogProjectUpdateDocComponent implements OnInit {
 
   ngOnInit(): void {
     this.getEditModeState();
-
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-  
   handleCreate() {
     this.loading = true;
     (this.requirementForm.controls['project'] as FormGroup).controls[
@@ -82,7 +80,6 @@ export class DialogProjectUpdateDocComponent implements OnInit {
       .subscribe((resp) => {
         this.projectCode = resp.code;
         this.file && this.uploadImage();
-      //  this.store.dispatch(loadRequirements({ projectId: resp.project.id }));
         this.handleCancel();
       });
   }

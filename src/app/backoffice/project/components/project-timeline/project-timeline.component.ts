@@ -1,20 +1,21 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Requirement } from '@core/models';
+import { Project, Requirement } from '@core/models';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 
 import {
+  activeFormR,
   activeFormRUpdate,
   loadRequirements,
 } from '../../store/project.actions';
 
 import { AppStateProjectFeature } from '../../store/project.reducers';
 import { projectFeaturePRequirements } from '../../store/project.selectors';
-import { EStorage } from '@core/enums';
-import { MatDialog } from '@angular/material/dialog';
 import { DialogProjectUpdateDocComponent } from 'src/app/shared/dialogs/dialog-project-update-doc/dialog-project-update-doc.component';
 import { RequirementService } from '@core/services';
+import { CProjectStatus, EStorage } from '@core/enums';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'vs-project-timeline',
@@ -26,9 +27,11 @@ export class ProjectTimelineComponent implements OnInit, OnDestroy {
 
   subscription: Subscription = new Subscription();
   requirements: Requirement[] = [];
-
+  project: Project = new Project();
+  cProjectStatus = CProjectStatus;
   requirementShowCommentariesId: number = 0;
   fileUrl: string = '';
+  person: any;
 
   constructor(
     private storage: AngularFireStorage,
@@ -68,6 +71,16 @@ export class ProjectTimelineComponent implements OnInit, OnDestroy {
  
   }
 
+  handleUploadUpdate() {
+    const dialogRef = this.dialog.open(DialogProjectUpdateDocComponent, {
+      width: '500px',
+      data: {projectId:this.projectId}
+    });
+    this.subscription.add(
+      dialogRef.afterClosed().subscribe((resp) => console.log(resp))
+    )
+    //this.store.dispatch(activeFormR({active: true}));
+  }
   handleUploadUpdate() {
     const dialogRef = this.dialog.open(DialogProjectUpdateDocComponent, {
       width: '500px',

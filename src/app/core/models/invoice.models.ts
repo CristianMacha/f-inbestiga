@@ -1,4 +1,5 @@
 import { EInvoiceStatus } from "../enums/invoice.enum";
+import { Fee } from "./fee.model";
 import { Project } from "./project.model";
 
 export class Invoice {
@@ -13,6 +14,7 @@ export class Invoice {
   public createdAt: Date;
   public updatedAt: Date;
   public project: Project;
+  public fees: Fee[];
 
   constructor() {
     this.id = 0;
@@ -26,5 +28,6 @@ export class Invoice {
     this.createdAt = new Date();
     this.updatedAt = new Date();
     this.project = new Project();
+    this.fees = [];
   }
 }

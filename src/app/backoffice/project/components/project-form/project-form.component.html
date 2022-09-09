@@ -13,7 +13,13 @@
             </div>
           </div>
           <div class="col-lg-6 d-flex justify-content-end">
-            <button type="button" mat-button (click)="handleEditPriceTotal()">Editar precio total</button>
+            <button
+              type="button"
+              mat-button
+              (click)="handleEditPriceTotal()"
+              *ngIf="project.status == cProjectStatus.ACCEPTED">
+              Editar precio total
+            </button>
           </div>
       </div>
     </div>

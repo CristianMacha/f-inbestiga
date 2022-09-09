@@ -47,16 +47,6 @@ export class ProjectEffects {
     )
   ));
 
-  createProject$ = createEffect(() => this.actions$.pipe(
-    ofType(createProject),
-    mergeMap((resp) =>
-      this.projectService.create(resp.project).pipe(
-        map((resp) => setProject({project: resp})),
-        catchError((err) => of(setError({payload: err})))
-      )
-    )
-  ));
-
   updateProject$ = createEffect(() => this.actions$.pipe(
     ofType(updateProject),
     mergeMap((resp) =>

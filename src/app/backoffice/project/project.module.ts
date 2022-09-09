@@ -21,6 +21,7 @@ import {ProjectInfoComponent} from './components/project-info/project-info.compo
 import {ProjectFilterComponent} from './components/project-filter/project-filter.component';
 import {SharedModule} from "../../shared/shared.module";
 import {MaterialModule} from "../../material/material.module";
+import { ProjectRegistrationComponent } from './pages/project-registration/project-registration.component';
 import { ProjectDocumentComponent } from './components/project-document/project-document.component';
 
 @NgModule({
@@ -34,6 +35,7 @@ import { ProjectDocumentComponent } from './components/project-document/project-
     ProjectRequirementFormComponent,
     ProjectInfoComponent,
     ProjectFilterComponent,
+    ProjectRegistrationComponent,
     ProjectDocumentComponent
   ],
   exports: [
