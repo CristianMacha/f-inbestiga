@@ -41,7 +41,7 @@ const COMPONENTS_SHARED = [
 ]
 
 @NgModule({
-  declarations: [COMPONENTS_SHARED, DialogRolesComponent, DialogPaymentUpdateComponent, DialogProjectEditTotalComponent, DialogProjectUpdateDocComponent],
+  declarations: [COMPONENTS_SHARED, DialogRolesComponent, DialogPaymentUpdateComponent, DialogProjectEditTotalComponent,DialogProjectUpdateDocComponent ],
   imports: [
     CommonModule,
     RouterModule,

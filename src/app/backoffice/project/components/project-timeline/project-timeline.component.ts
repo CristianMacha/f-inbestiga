@@ -12,9 +12,10 @@ import {
 
 import { AppStateProjectFeature } from '../../store/project.reducers';
 import { projectFeaturePRequirements } from '../../store/project.selectors';
+import { DialogProjectUpdateDocComponent } from 'src/app/shared/dialogs/dialog-project-update-doc/dialog-project-update-doc.component';
+import { RequirementService } from '@core/services';
 import { CProjectStatus, EStorage } from '@core/enums';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogProjectUpdateDocComponent } from 'src/app/shared/dialogs/dialog-project-update-doc/dialog-project-update-doc.component';
 
 @Component({
   selector: 'vs-project-timeline',
@@ -33,13 +34,12 @@ export class ProjectTimelineComponent implements OnInit, OnDestroy {
   person: any;
 
   constructor(
-    private store: Store<AppStateProjectFeature>,
     private storage: AngularFireStorage,
     private dialog: MatDialog,
+    private requirementService: RequirementService,
   ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(loadRequirements({ projectId: this.projectId }));
     this.getRequirements();
   }
 
@@ -48,11 +48,8 @@ export class ProjectTimelineComponent implements OnInit, OnDestroy {
   }
 
   getRequirements() {
-    this.subscription.add(
-      this.store
-        .select(projectFeaturePRequirements)
-        .subscribe((resp) => (this.requirements = resp))
-    );
+    this.requirementService.getByProject(this.projectId)
+    .subscribe(resp=>(this.requirements = resp))
   }
 
   handleViewCommentaries(requirementId: number) {
@@ -71,7 +68,18 @@ export class ProjectTimelineComponent implements OnInit, OnDestroy {
 
   handleEditRequirement(requirement: Requirement) {
     window.scroll(0, 0);
-    this.store.dispatch(activeFormRUpdate({ requirement }));
+ 
+  }
+
+  handleUploadUpdate() {
+    const dialogRef = this.dialog.open(DialogProjectUpdateDocComponent, {
+      width: '500px',
+      data: {projectId:this.projectId}
+    });
+    this.subscription.add(
+      dialogRef.afterClosed().subscribe((resp) => console.log(resp))
+    )
+    //this.store.dispatch(activeFormR({active: true}));
   }
   handleUploadUpdate() {
     const dialogRef = this.dialog.open(DialogProjectUpdateDocComponent, {

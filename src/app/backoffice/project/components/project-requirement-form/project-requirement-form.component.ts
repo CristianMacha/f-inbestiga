@@ -1,14 +1,15 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-
-import { RequirementService } from '@core/services';
-import { AppStateProjectFeature } from '../../store/project.reducers';
-import { activeFormR, loadRequirements } from '../../store/project.actions';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EStorage } from '@core/enums';
+import { RequirementService } from '@core/services';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { projectFeature } from '../../store/project.selectors';
+import { activeFormR, loadRequirements } from 'src/app/backoffice/project/store/project.actions';
+import { AppStateProjectFeature } from 'src/app/backoffice/project/store/project.reducers';
+import { projectFeature, projectFeaturePRequirements } from 'src/app/backoffice/project/store/project.selectors';
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { Requirement } from '@core/models';
 
 @Component({
   selector: 'vs-project-requirement-form',
