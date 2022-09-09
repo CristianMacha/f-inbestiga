@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProjectDetailComponent } from './pages/project-detail/project-detail.component';
-import { ProjectEditComponent } from './pages/project-edit/project-edit.component';
 import { ProjectRegistrationComponent } from './pages/project-registration/project-registration.component';
 
 import { ProjectComponent } from './project.component';
@@ -25,11 +24,6 @@ const routes: Routes = [
         component: ProjectRegistrationComponent,
         title: 'Registro de proyecto',
       },
-      {
-        path: 'edit/:id',
-        component: ProjectEditComponent,
-        title: 'Editar proyecto'
-      }
     ]
   }
 ]
