@@ -36,7 +36,6 @@ import { ProjectEditComponent } from './pages/project-edit/project-edit.componen
     ProjectInfoComponent,
     ProjectFilterComponent,
     ProjectRegistrationComponent,
-    ProjectEditComponent
   ],
   exports: [
     ProjectDetailComponent
