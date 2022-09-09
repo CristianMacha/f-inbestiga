@@ -29,7 +29,7 @@
         </div>
         <div class="col-md-2">
           <div class="d-flex align-items-center justify-content-center">
-            <button mat-mini-fab color="primary" (click)="files.click()">
+            <button mat-mini-fab color="primary" type="button" (click)="files.click()">
               <mat-icon>upload_file</mat-icon>
             </button>
           </div>
@@ -70,9 +70,9 @@
     </div>
     <p class="m-0 text-danger" *ngIf="retryUploadFile">Algo salio mal</p>
   </mat-card-content>
-</div>
+
   <mat-card-actions [align]="'end'">
-    <button mat-button (click)="handleCancel()">Cancelar</button>
+    <button mat-button (click)="handleCancel(false)">Cancelar</button>
 
     <button
       mat-flat-button
@@ -86,10 +86,18 @@
     <button
       mat-flat-button
       color="primary"
+      [disabled]="requirementForm.invalid || loading"
+      *ngIf="editMode"
+      (click)="update()">
+    Actualizar documento
+    </button>
+    <button
+      mat-flat-button
+      color="primary"
       [disabled]="requirementForm.invalid || !fileSelected || loading"
-      *ngIf="!retryUploadFile"
-      (click)="handleCreate()"
-    >
-      {{ btnActionText }}
+      *ngIf="!editMode"
+      (click)="create()">
+    Subir documento
     </button>
   </mat-card-actions>
+</div>

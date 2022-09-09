@@ -10,9 +10,9 @@ import { UserTableComponent } from './components/user-table/user-table.component
 import { UserFormComponent } from './components/user-form/user-form.component';
 import { UserEffects } from './store/user.effects';
 import { userFeatureKey, _userReducer } from './store/user.reducer';
-import { SharedModule } from '../../shared/shared.module';
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
 import { MaterialModule } from 'src/app/material/material.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({

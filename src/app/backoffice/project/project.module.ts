@@ -19,9 +19,9 @@ import {projectFeatureKey, _projectReducer} from './store/project.reducers';
 import {ProjectEffects} from './store/project.effects';
 import {ProjectInfoComponent} from './components/project-info/project-info.component';
 import {ProjectFilterComponent} from './components/project-filter/project-filter.component';
-import {SharedModule} from "../../shared/shared.module";
 import {MaterialModule} from "../../material/material.module";
 import { ProjectDocumentComponent } from './components/project-document/project-document.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [

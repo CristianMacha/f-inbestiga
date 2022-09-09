@@ -23,6 +23,7 @@ import { DialogPaymentUpdateComponent } from './dialogs/dialog-payment-update/di
 import { DialogProjectEditTotalComponent } from './dialogs/dialog-project-edit-total/dialog-project-edit-total.component';
 import { DialogProjectUpdateDocComponent } from './dialogs/dialog-project-update-doc/dialog-project-update-doc.component';
 
+
 const COMPONENTS_SHARED = [
   BackofficeNavComponent,
   ProjectDetailComponent,

@@ -9,9 +9,9 @@ import {_paymentReducer, paymentFeatureKey} from "./store/payment.reducers";
 import {PaymentEffects} from "./store/payment.effects";
 import {PaymentTableComponent} from './components/payment-table/payment-table.component';
 import {InvoiceFeeComponent} from './components/invoice-fee/invoice-fee.component';
-import {SharedModule} from "../../shared/shared.module";
 import {MaterialModule} from "../../material/material.module";
 import { PaymentDetailComponent } from './pages/payment-detail/payment-detail.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
