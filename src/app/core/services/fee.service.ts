@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import { Injectable } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
 
-import {environment} from "../../../environments/environment";
-import {Fee} from "@core/models";
+import { environment } from "../../../environments/environment";
+import { Fee } from "@core/models";
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +25,9 @@ export class FeeService {
 
   getByInvoice(invoiceId: number): Observable<Fee[]> {
     return this.http.get<Fee[]>(`${this.uri}/invoice/${invoiceId}`);
+  }
+
+  getByProject(projectId: number): Observable<Fee[]> {
+    return this.http.get<Fee[]>(`${this.uri}/project/${projectId}`);
   }
 }

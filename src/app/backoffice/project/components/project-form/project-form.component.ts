@@ -6,7 +6,7 @@ import * as moment from 'moment';
 
 import { Category, Person, PersonProject, Project, Role } from '@core/models';
 import { CategoryService, PersonService, ProjectService } from '@core/services';
-import { CRole, ERole } from '@core/enums';
+import { CProjectStatus, CRole, EProjectStatus, ERole } from '@core/enums';
 import { activeForm, createProject, updateProject, } from '../../store/project.actions';
 import { AppStateProjectFeature } from '../../store/project.reducers';
 import { projectFeature } from '../../store/project.selectors';
@@ -60,6 +60,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   roleSelected: Role = new Role();
   personAuth: Person = new Person();
   cRole = CRole;
+  cProjectStatus = CProjectStatus;
   totalPrice = 0;
   showOtherCategory = false;
 
@@ -115,7 +116,9 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       this.project = resp;
       resp.expirationDate = moment(resp.expirationDate).format('yyyy-MM-DD');
       this.projectForm.patchValue(resp);
-      this.totalPrice = resp.invoices[0].total;
+      if(this.project.status == EProjectStatus.ACCEPTED || this.project.status == EProjectStatus.COMPLETED) {
+        this.totalPrice = resp.invoices[0].total;
+      }
       if (resp.personProjects) {
         resp.personProjects.forEach((pp) => {
           this.addPersonProjects(pp);
@@ -190,7 +193,12 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
           (this.invoicesControls.controls[0] as UntypedFormGroup).controls['total'].disable();
           (this.invoicesControls.controls[0] as UntypedFormGroup).controls['feesNumber'].disable();
           this.projectTemp = resp.project;
-          this.getProject(false);
+          console.log(resp.project);
+          if(resp.project.status == EProjectStatus.ACCEPTED || resp.project.status == EProjectStatus.COMPLETED) {
+            this.getProject(true);
+          } else {
+            this.getProject(false);
+          }
         }
       })
     );

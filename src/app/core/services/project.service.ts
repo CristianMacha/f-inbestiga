@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {environment} from '../../../environments/environment';
-import {ProjectAcceptInterface, ProjectInterfaceFilter, ResponseListInterface} from "@core/interfaces";
+import {CreateProjectInterface, ProjectAcceptInterface, ProjectInterfaceFilter, ResponseListInterface} from "@core/interfaces";
 import {Project} from "@core/models";
 
 @Injectable({
@@ -29,8 +29,6 @@ export class ProjectService {
   }
 
   getProject(projectId: number, withInvoice: boolean = true): Observable<Project> {
-    console.log('withInvoice', withInvoice);
-
     return this.http.get<Project>(`${this.uri}/${projectId}?withInvoice=${withInvoice}`);
   }
 
@@ -38,8 +36,8 @@ export class ProjectService {
     return this.http.get<ResponseListInterface<Project[]>>(`${this.uri}/role/${roleId}?status=${filter?.status}&take=${filter?.take}&skip=${filter?.skip}`);
   }
 
-  create(project: Project): Observable<Project> {
-    return this.http.post<Project>(`${this.uri}`, project);
+  create(projectCreate: CreateProjectInterface): Observable<Project> {
+    return this.http.post<Project>(`${this.uri}`, projectCreate);
   }
 
   update(project: Project): Observable<Project> {
