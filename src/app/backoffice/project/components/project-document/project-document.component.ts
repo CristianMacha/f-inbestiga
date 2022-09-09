@@ -9,6 +9,7 @@ import { projectFeaturePRequirements } from '../../store/project.selectors';
 import { EStorage } from '@core/enums';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { MatDialog } from '@angular/material/dialog';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Component({
   selector: 'vs-project-document',
