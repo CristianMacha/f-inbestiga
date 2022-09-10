@@ -24,8 +24,18 @@
       color="primary"
       type="accent"
       [disabled]="loading$ | async"
-      (click)="handleBtnActionCategory()">
+      *ngIf="!editMode"
+      (click)="create()">
       {{btnActionText | uppercase}}
     </button>
+    <button
+    mat-flat-button
+    color="primary"
+    type="accent"
+    *ngIf="editMode"
+    [disabled]="loading$ | async"
+    (click)="update()">
+    {{btnActionText | uppercase}}
+  </button>
   </mat-card-actions>
 </mat-card>

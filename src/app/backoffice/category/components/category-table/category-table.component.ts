@@ -8,6 +8,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {Store} from "@ngrx/store";
 import {AppStateCategoryFeature} from "../../store/category.reducer";
 import {activeFormUpdate} from "../../store/category.actions";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'vs-category-table',
@@ -25,6 +26,8 @@ export class CategoryTableComponent implements OnInit {
   constructor(
     private store: Store<AppStateCategoryFeature>,
     private categoryService: CategoryService,
+    private router: Router,
+
   ) {
   }
 
@@ -40,7 +43,7 @@ export class CategoryTableComponent implements OnInit {
       });
   }
 
-  handleBtnEdit(category: Category) {
-    this.store.dispatch(activeFormUpdate({category}));
+  handleBtnEdit(categoryId: number) {
+    this.router.navigateByUrl(`backoffice/category/${categoryId}`).then();
   }
 }

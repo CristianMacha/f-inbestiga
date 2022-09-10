@@ -49,8 +49,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     this.getActiveFormState();
     this.activatedRoute.params.subscribe((resp) => {
       this.projectId = parseInt(resp['id']);
-      this.getInvoices(this.projectId);
-      this.getProject(this.projectId);
     });
     this.getRoleSelectedState();
   }

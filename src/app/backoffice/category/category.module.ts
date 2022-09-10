@@ -16,7 +16,7 @@ import { MaterialModule } from 'src/app/material/material.module';
   declarations: [
     CategoryComponent,
     CategoryTableComponent,
-    CategoryFormComponent
+    CategoryFormComponent,
   ],
   imports: [
     CommonModule,

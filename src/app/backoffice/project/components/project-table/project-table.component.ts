@@ -83,10 +83,7 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
 
   handleBtnEdit(project: Project) {
     console.log("project");
-    //const dialogRef = this.dialog.open(DialogProjectUpdateDocComponent, {
-    //  width: '500px',
-    //  data: {projectId:this.projectId}
-    //});
+
   }
 
   getFilterState(): void {
