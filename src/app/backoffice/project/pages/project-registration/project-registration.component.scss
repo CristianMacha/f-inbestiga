@@ -1,0 +1,59 @@
+.vs_title {
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  color: #000000DE;
+}
+
+.buttons_actions {
+  display: flex;
+  justify-content: end;
+  gap: 5px;
+}
+
+.vs_persons_content {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.vs_person {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: .5rem;
+  border: 1px solid #8219F3;
+  border-radius: 5px;
+  background-color: #fff;
+
+  &.vs_disabled {
+    border: 2px solid #f44336;
+    background-color: #ff7961;
+  }
+}
+
+.vs_content_fee {
+  padding: .5rem;
+  border: 1px solid #8219F3;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.vs_content_fee_add {
+  padding: .5rem;
+  border: 1px solid #b7b7b7de;
+  border-radius: 5px;
+  border-style: dashed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 131px;
+
+  &:hover {
+    cursor: pointer;
+    color: #000000DE;
+    color: #8219F3;
+    border: 1px solid #8219F3;
+    border-style: dashed;
+  }
+}

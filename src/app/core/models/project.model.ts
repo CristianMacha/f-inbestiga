@@ -1,8 +1,9 @@
-import {Invoice} from "./invoice.models";
-import {PersonProject} from "./personProject.model";
-import {Requirement} from "./requirement.model";
-import {EInvoiceStatus} from "../enums/invoice.enum";
-import {EProjectStatus} from "../enums/project.enum";
+import { Invoice } from "./invoice.models";
+import { PersonProject } from "./personProject.model";
+import { Requirement } from "./requirement.model";
+import { EInvoiceStatus } from "../enums/invoice.enum";
+import { EProjectStatus } from "../enums/project.enum";
+import { Category } from "./category.model";
 
 export class Project {
   public id: number;
@@ -13,6 +14,7 @@ export class Project {
   public inProgress: boolean;
   public statusPay: EInvoiceStatus;
   public status: EProjectStatus;
+  public startDate: Date | string;
   public expirationDate: Date | string;
   public active: boolean;
   public deleted: boolean;
@@ -22,6 +24,7 @@ export class Project {
   public invoices: Invoice[];
   public personProjects: PersonProject[];
   public requirements: Requirement[];
+  public category: Category[];
 
   constructor() {
     this.id = 0;
@@ -32,6 +35,7 @@ export class Project {
     this.inProgress = false;
     this.statusPay = EInvoiceStatus.PENDING;
     this.status = EProjectStatus.REQUIRED;
+    this.startDate = new Date();
     this.expirationDate = new Date();
     this.active = false;
     this.deleted = false;
@@ -41,5 +45,6 @@ export class Project {
     this.invoices = [];
     this.personProjects = [];
     this.requirements = [];
+    this.category = [];
   }
 }

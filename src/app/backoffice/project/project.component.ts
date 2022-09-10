@@ -8,6 +8,7 @@ import {projectFeatureActiveForm} from './store/project.selectors';
 import {uiRoleSelected} from "../../shared/ui.selectors";
 import {Role} from "@core/models";
 import {CRole} from "@core/enums";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'vs-project',
@@ -23,6 +24,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<AppStateProjectFeature>,
+    private router: Router,
   ) {
   }
 
@@ -36,7 +38,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
   }
 
   handleBtnNewProject(): void {
-    this.store.dispatch(activeForm({active: true}));
+    this.router.navigateByUrl(`backoffice/project/new`);
   }
 
   getActiveFormState(): void {

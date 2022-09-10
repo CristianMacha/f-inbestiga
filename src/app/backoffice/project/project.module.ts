@@ -20,6 +20,7 @@ import {ProjectEffects} from './store/project.effects';
 import {ProjectInfoComponent} from './components/project-info/project-info.component';
 import {ProjectFilterComponent} from './components/project-filter/project-filter.component';
 import {MaterialModule} from "../../material/material.module";
+import { ProjectRegistrationComponent } from './pages/project-registration/project-registration.component';
 import { ProjectDocumentComponent } from './components/project-document/project-document.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
@@ -34,6 +35,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     ProjectRequirementFormComponent,
     ProjectInfoComponent,
     ProjectFilterComponent,
+    ProjectRegistrationComponent,
     ProjectDocumentComponent
   ],
   exports: [

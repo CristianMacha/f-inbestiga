@@ -82,8 +82,7 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
   }
 
   handleBtnEdit(project: Project) {
-    console.log("project");
-
+    this.router.navigateByUrl(`backoffice/project/${project.id}`);
   }
 
   getFilterState(): void {
