@@ -23,6 +23,10 @@ export class CategoryService {
     return this.http.get<Category[]>(`${this.uri}/active`);
   }
 
+  public getCategory(categoryId: number): Observable<Category> {
+    return this.http.get<Category>(`${this.uri}/one/${categoryId}`);
+  }
+
   public create(category: Category): Observable<Category> {
     return this.http.post<Category>(`${this.uri}`, category);
   }

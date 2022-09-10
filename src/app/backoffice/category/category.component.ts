@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -17,6 +18,7 @@ export class CategoryComponent implements OnInit {
 
   constructor(
     private store: Store<AppStateCategoryFeature>,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -25,7 +27,8 @@ export class CategoryComponent implements OnInit {
   }
 
   handleBtnNewCategory(): void {
-    this.store.dispatch(activeForm({ active: true }));
+    this.router.navigateByUrl(`backoffice/category/new`).then();
+
   }
 
 }

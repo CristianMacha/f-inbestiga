@@ -15,13 +15,18 @@ import {
   categoryFeature,
   categoryFeatureLoading,
 } from '../../store/category.selectors';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CategoryService } from '@core/services';
+import {Category} from '@core/models';
 
 @Component({
   selector: 'vs-category-form',
   templateUrl: './category-form.component.html',
   styleUrls: ['./category-form.component.scss'],
 })
-export class CategoryFormComponent implements OnInit, OnDestroy {
+export class CategoryFormComponent implements OnInit {
+  categoryId:number=0;
+
   categoryForm: FormGroup = new FormGroup({
     id: new FormControl(0, Validators.required),
     name: new FormControl('', Validators.required),
@@ -31,46 +36,50 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
   title: string = 'Nueva Categoria';
   btnActionText: string = 'Crear categoria';
 
-  subcription: Subscription = new Subscription();
   loading$: Observable<boolean> = new Observable();
 
   editMode: boolean = false;
 
-  constructor(private store: Store<AppStateCategoryFeature>) {}
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private categoryService: CategoryService,) {}
 
   ngOnInit(): void {
-    //loadInputs();
-    this.loading$ = this.store.select(categoryFeatureLoading);
-    this.checkFormStatus();
-  }
+    this.activatedRoute.params.subscribe(resp=>{
+      this.categoryId=parseInt(resp['id']);
+      if(this.categoryId){
+        this.title = 'Actualizar categoria';
+        this.btnActionText = 'Actualizar categoria';
+        this.checkFormStatus(this.categoryId);
+      }
 
-  ngOnDestroy(): void {
-    this.subcription.unsubscribe();
+    })
   }
 
   handleBtnCancel() {
-    this.store.dispatch(activeForm({ active: false }));
+    this.router.navigateByUrl(`backoffice/category`).then();
+  }
+  
+  create() {
+    this.categoryService.create(this.categoryForm.value).subscribe(resp=>{
+      this.router.navigateByUrl(`backoffice/category`).then();
+    });
+
+  }
+  update() {
+    this.categoryService.update(this.categoryForm.value).subscribe(resp=>{
+      this.router.navigateByUrl(`backoffice/category`).then();
+    });
+
   }
 
-  handleBtnActionCategory() {
-    if (this.editMode) {
-      this.categoryForm.invalid ? this.categoryForm.markAllAsTouched() : this.store.dispatch(updateCategory({ category: this.categoryForm.value }));
-    } else {
-      this.categoryForm.invalid ? this.categoryForm.markAllAsTouched() : this.store.dispatch(createCategory({ category: this.categoryForm.value }));
-    }
-  }
-
-  checkFormStatus() {
-    this.subcription.add(
-      this.store.select(categoryFeature).subscribe((resp) => {
-        if (resp.editMode) {
-          this.editMode = true;
-          this.title = 'Actualizar categoria';
-          this.btnActionText = 'Actualizar categoria';
-          this.categoryForm.patchValue(resp.category);
-          this.categoryForm.markAllAsTouched();
-        }
+  checkFormStatus(categoryId: number): void {
+    this.categoryService.getCategory(this.categoryId)
+    .subscribe((resp)=>{
+        this.editMode = true;
+        this.categoryForm.patchValue(resp);
+        this.categoryForm.markAllAsTouched();
       })
-    );
-  }
+    }
 }

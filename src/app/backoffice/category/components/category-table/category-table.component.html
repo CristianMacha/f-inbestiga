@@ -25,11 +25,14 @@
           <button
             mat-icon-button
             color="primary"
-            (click)="handleBtnEdit(category)"
-            matTooltip="Editar"
-            matTooltipPosition="above">
+            mat-icon-button
+            color="accent"
+            matTooltip="Ver detalles"
+            matTooltipPosition="above"
+            (click)="handleBtnEdit(category.id)">
             <mat-icon>edit</mat-icon>
           </button>
+          
         </td>
       </ng-container>
 
@@ -42,4 +45,3 @@
     <mat-paginator [pageSizeOptions]="[10, 30, 50]"></mat-paginator>
   </mat-card-content>
 </mat-card>
-
