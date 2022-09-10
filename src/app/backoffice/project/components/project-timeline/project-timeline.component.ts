@@ -88,14 +88,4 @@ export class ProjectTimelineComponent implements OnInit, OnDestroy {
       dialogRef.afterClosed().subscribe((resp) => resp && this.getRequirements())
     )
   }
-  handleUploadUpdate() {
-    const dialogRef = this.dialog.open(DialogProjectUpdateDocComponent, {
-      width: '500px',
-      data: {projectId:this.projectId}
-    });
-    this.subscription.add(
-      dialogRef.afterClosed().subscribe((resp) => console.log(resp))
-    )
-    //this.store.dispatch(activeFormR({active: true}));
-  }
 }
