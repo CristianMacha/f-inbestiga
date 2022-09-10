@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CRole } from '@core/enums';
 import { Category, Fee, Person, PersonProject } from '@core/models';
@@ -99,8 +99,17 @@ export class ProjectRegistrationComponent implements OnInit {
     this.feesFormArray.push(newFee);
   }
 
-  removeFee(index: number) {
-    this.feesFormArray.removeAt(index);
+  removeFee(index: number, fee: AbstractControl) {
+    let feeFormGrouop = (fee as FormGroup);
+    if (this.editMode && feeFormGrouop.controls['id'].value > 0) {
+      console.log(fee);
+      feeFormGrouop.controls['active'].patchValue(false)
+    } else {
+      console.log('xd');
+
+      this.feesFormArray.removeAt(index);
+    }
+
     const feeNumbers = this.feesNumberInvoice - 1;
     this.invoiceForm.controls['feesNumber'].patchValue(feeNumbers);
   }
@@ -137,7 +146,7 @@ export class ProjectRegistrationComponent implements OnInit {
   }
 
   removeAdvisor(index: number, advisor: PersonProject): void {
-    if(this.editMode && advisor.id > 0) {
+    if (this.editMode && advisor.id > 0) {
       advisor.active = !advisor.active;
     } else {
       this.advisors.splice(index, 1);
@@ -145,7 +154,7 @@ export class ProjectRegistrationComponent implements OnInit {
   }
 
   removeStudent(index: number, student: PersonProject): void {
-    if(this.editMode && student.id > 0) {
+    if (this.editMode && student.id > 0) {
       student.active = !student.active;
     } else {
       this.students.splice(index, 1);
@@ -222,7 +231,7 @@ export class ProjectRegistrationComponent implements OnInit {
 
   verifyEditMode(): void {
     this.route.params.subscribe((resp) => {
-      if(resp['id'] !== 'new') {
+      if (resp['id'] !== 'new') {
         this.editMode = true;
         this.btnText = 'ACTUALZIAR PROYECTO';
         this.getProject(+resp['id']);

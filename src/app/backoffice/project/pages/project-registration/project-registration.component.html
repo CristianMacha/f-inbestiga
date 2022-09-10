@@ -172,7 +172,7 @@
           <div class="vs_content_fee">
             <div [formGroupName]="i" class="row g-2">
               <div class="col-md-12 text-end">
-                <button mat-icon-button (click)="removeFee(i)">
+                <button mat-icon-button type="button" (click)="removeFee(i, fee)">
                   <mat-icon>close</mat-icon>
                 </button>
               </div>
@@ -213,3 +213,5 @@
     [disabled]="feeForm.invalid || projectForm.invalid || students.length == 0"
     (click)="handleRegisterProject()">{{btnText | uppercase}}</button>
 </div>
+
+<pre>{{feeForm.value| json}}</pre>
