@@ -34,7 +34,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     id: new UntypedFormControl(0, Validators.required),
     name: new UntypedFormControl('', Validators.required),
     description: new UntypedFormControl(''),
-    expirationDate: new UntypedFormControl('', Validators.required),
+    expirationDate: new UntypedFormControl({value: '', disabled: true}, Validators.required),
     personProjects: new UntypedFormArray([], [Validators.required]),
     otherCategory: new UntypedFormControl(''),
     category: new UntypedFormGroup({

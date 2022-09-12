@@ -40,12 +40,12 @@
             </button>
           </mat-form-field>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2" >
           <mat-form-field appearance="legacy" class="w-100">
-            <mat-label>Fecha de inicio</mat-label>
-            <input matInput [matDatepicker]="pickerStart" formControlName="startDate">
-            <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
-            <mat-datepicker #pickerStart></mat-datepicker>
+            <mat-label >Fecha de inicio</mat-label>
+            <input matInput [matDatepicker]="pickerStart"  formControlName="startDate" >
+            <mat-datepicker-toggle matSuffix [for]="pickerStart" ></mat-datepicker-toggle >
+            <mat-datepicker #pickerStart disabled="false"></mat-datepicker>
             <mat-error>La fecha de finalizacion es necesaria.</mat-error>
           </mat-form-field>
         </div>
@@ -54,7 +54,7 @@
             <mat-label>Fecha de finalización</mat-label>
             <input matInput [matDatepicker]="pickerEnd" formControlName="expirationDate">
             <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
-            <mat-datepicker #pickerEnd></mat-datepicker>
+            <mat-datepicker #pickerEnd disabled="false"></mat-datepicker>
             <mat-error>La fecha de finalizacion es necesaria.</mat-error>
           </mat-form-field>
         </div>
@@ -179,9 +179,9 @@
               <div class="col-md-6">
                 <mat-form-field appearance="legacy" class="w-100">
                   <mat-label>Fecha de pago</mat-label>
-                  <input matInput [matDatepicker]="pickerPayDate" formControlName="paymentDate">
+                  <input matInput [matDatepicker]="pickerPayDate" formControlName="paymentDate" >
                   <mat-datepicker-toggle matSuffix [for]="pickerPayDate"></mat-datepicker-toggle>
-                  <mat-datepicker #pickerPayDate></mat-datepicker>
+                  <mat-datepicker #pickerPayDate disabled="false"></mat-datepicker>
                   <mat-error>La fecha de pago es necesaria.</mat-error>
                 </mat-form-field>
               </div>
