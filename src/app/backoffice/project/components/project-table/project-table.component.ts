@@ -96,7 +96,7 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
   }
 
   handleViewProject(projectId: number): void {
-    this.router.navigateByUrl(`backoffice/project/${projectId}`).then();
+    this.router.navigateByUrl(`backoffice/project/detalles/${projectId}`).then();
   }
 
   getProjects(take: number, skip: number): void {
