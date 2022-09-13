@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Store} from '@ngrx/store';
-import {Observable, Subscription} from 'rxjs';
+import {debounceTime, finalize, Observable, Subscription, takeUntil} from 'rxjs';
 
 import {uiFeatureIsLoading} from '../../../app/shared/ui.selectors';
 import {loadRoleSelected, logout} from '../../shared/ui.actions';
@@ -25,8 +25,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   });
 
   subscription: Subscription = new Subscription();
-  isLoading$: Observable<boolean> = new Observable();
-
+  loading = false;
   constructor(
     private readonly store: Store<AppStateAuthFeature>,
     private authService: AuthService,
@@ -36,27 +35,27 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.isLoading$ = this.store.select(uiFeatureIsLoading);
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-
+  
   login(): void {
+    this.loading=true;
     this.authService.login(this.loginForm.value)
-      .subscribe((resp) => {
-        localStorage.setItem('token', resp.token);
-        if (resp.personRoles && resp.personRoles.length > 1) {
-          this.openDialogRoles(resp)
-        }
-
-        if (resp.personRoles && resp.personRoles.length == 1) {
-          localStorage.setItem('rId', resp.personRoles[0].role.id.toString());
-          this.store.dispatch(loadRoleSelected({roleId: resp.personRoles[0].role.id}))
-          this.refreshTokenAndRedirect();
-        }
-      });
+    .subscribe((resp) => {
+      localStorage.setItem('token', resp.token);
+      if (resp.personRoles && resp.personRoles.length > 1) {
+        this.openDialogRoles(resp);   
+      }
+      
+      if (resp.personRoles && resp.personRoles.length == 1) {
+        localStorage.setItem('rId', resp.personRoles[0].role.id.toString());
+        this.store.dispatch(loadRoleSelected({roleId: resp.personRoles[0].role.id}))
+        this.refreshTokenAndRedirect();
+      }
+    });
   }
 
   openDialogRoles(respLogin: ILoginResponse): void {
@@ -74,12 +73,14 @@ export class LoginComponent implements OnInit, OnDestroy {
       } else {
         this.store.dispatch(logout());
       }
+      this.loading=false;
     })
   }
 
   refreshTokenAndRedirect(): void {
+    this.loading=true;
     this.authService.refreshToken()
-      .subscribe((resp) => resp && this.router.navigateByUrl('backoffice/dashboard'))
+    .pipe(finalize(()=>this.loading=false))
+    .subscribe((resp) => resp && this.router.navigateByUrl('backoffice/dashboard'))
   }
-
 }

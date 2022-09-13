@@ -93,7 +93,7 @@
                         <i class="fa fa-facebook-square text-white text-lg"></i>
                       </a>
                     </div>
-                    <div class="col-2 text-center px-1">
+                    <div class="col-2 text-center mb-2">
                       <a
                         class="btn btn-link px-3 mb-1"
                         href="https://www.instagram.com/tesisunasemana/?hl=es-la"
@@ -144,8 +144,8 @@
                     <button
                       type="button"
                       class="btn bg-gradient-info w-100 my-4 mb-2"
-                      (click)="login()"
-                      [disabled]="isLoading$ | async">
+                      (click)="login()" 
+                      [disabled]="loading">
                       Ingresar
                     </button>
                   </div>
