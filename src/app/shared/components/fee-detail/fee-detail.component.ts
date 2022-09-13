@@ -51,7 +51,9 @@ export class FeeDetailComponent implements OnInit {
   updatedPayment(updated: boolean): void {
     this.getFee();
     this.getPayments();
+    this.getPaymentPendient();
   }
+
   getPaymentPendient():void{
     let sum = 0;
     this.paymentService.getByConcept(this.fee.id, PaymentConceptEnum.FEE)
@@ -61,8 +63,7 @@ export class FeeDetailComponent implements OnInit {
           if (element.conceptId=element.conceptId) {
             this.paymentStatus = sum+=element.amount;    
           }
-        }
-        
+        }        
       });
     });
     
