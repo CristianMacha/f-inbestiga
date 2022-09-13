@@ -41,6 +41,7 @@ export class PaymentDetailComponent implements OnInit {
       });
   }
 
+
   getFees(invoiceId: number): void {
     this.feeService.getByInvoice(invoiceId)
       .subscribe((resp) => this.fees = resp);
