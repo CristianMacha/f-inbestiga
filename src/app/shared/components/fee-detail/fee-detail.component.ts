@@ -12,10 +12,10 @@ import {FeeService, PaymentService} from "@core/services";
 })
 export class FeeDetailComponent implements OnInit {
   @Input() fee!: Fee;
-
+  title:string="PENDIENTE";
   cFeeStatus = CFeeStatus;
   payments: PaymentModel[] = [];
-
+  paymentStatus:any;
   constructor(
     private dialog: MatDialog,
     private paymentService: PaymentService,
@@ -25,6 +25,7 @@ export class FeeDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPayments();
+    this.getPaymentPendient();
   }
 
   handleRegisterNewPayment(): void {
@@ -50,5 +51,20 @@ export class FeeDetailComponent implements OnInit {
   updatedPayment(updated: boolean): void {
     this.getFee();
     this.getPayments();
+  }
+  getPaymentPendient():void{
+    let sum = 0;
+    this.paymentService.getByConcept(this.fee.id, PaymentConceptEnum.FEE)
+    .subscribe((resp) => {
+      resp.forEach((element) => {
+        if (element.status=="VERIFICADO" ) {
+          if (element.conceptId=element.conceptId) {
+            this.paymentStatus = sum+=element.amount;    
+          }
+        }
+        
+      });
+    });
+    
   }
 }

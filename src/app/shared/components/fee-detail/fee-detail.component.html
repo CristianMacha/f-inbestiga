@@ -7,7 +7,12 @@
         [class.text-info]="fee.status == cFeeStatus.PARTIAL"
         [class.text-success]="fee.status == cFeeStatus.PAID_OUT">
             {{fee.status}}
-          </span>
+          </span>          
+    </mat-card-subtitle>
+    <mat-card-subtitle class="titlePayment" *ngIf="fee.status == cFeeStatus.PARTIAL ||fee.status == cFeeStatus.DEBT ">{{(fee.total-paymentStatus) | currency}} |
+      <span>
+            POR PAGAR 
+      </span>          
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>

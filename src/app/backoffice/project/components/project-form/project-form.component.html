@@ -82,11 +82,14 @@
           </div>
         </div>
         <div class="col-md-2">
-          <mat-form-field appearance="outline">
+    
+
+
+          <mat-form-field appearance="fill">
             <mat-label>Fecha de finalización</mat-label>
-            <input matInput [matDatepicker]="picker" formControlName="expirationDate">
+            <input matInput [matDatepicker]="picker" formControlName="expirationDate" >
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+            <mat-datepicker #picker disabled="false"></mat-datepicker>
             <mat-error>La fecha de finalizacion es necesaria.</mat-error>
           </mat-form-field>
         </div>
