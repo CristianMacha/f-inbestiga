@@ -24,7 +24,6 @@ export class FeeDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPayments();
-    this.getPaymentPending();
   }
 
   handleRegisterNewPayment(): void {
@@ -44,25 +43,23 @@ export class FeeDetailComponent implements OnInit {
   getPayments(): void {
     this.paymentService
       .getByConcept(this.fee.id, PaymentConceptEnum.FEE)
-      .subscribe((resp) => (this.payments = resp));
+      .subscribe((resp) => {
+        this.payments = resp;
+        this.calculateDebt(this.payments);
+      });
   }
 
   afterUpdatePayment(updated: boolean): void {
     this.getFee();
     this.getPayments();
-    this.getPaymentPending();
   }
 
-  getPaymentPending(): void {
+  calculateDebt(payments: PaymentModel[]): void {
     let sum = 0;
-    this.paymentService
-      .getByConcept(this.fee.id, PaymentConceptEnum.FEE)
-      .subscribe((resp) => {
-        resp.forEach((payment) => {
-          if (payment.status == 'VERIFICADO') {
-            this.paymentStatus = sum += payment.amount;
-          }
-        });
-      });
+    payments.forEach((payment) => {
+      if (payment.status == 'VERIFICADO') {
+        this.paymentStatus = sum += payment.amount;
+      }
+    });
   }
 }

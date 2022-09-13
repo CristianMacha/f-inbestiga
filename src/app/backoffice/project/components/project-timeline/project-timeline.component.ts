@@ -1,18 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Project, Requirement } from '@core/models';
-import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 
-import {
-  activeFormR,
-  activeFormRUpdate,
-  loadRequirements,
-} from '../../store/project.actions';
-
-import { AppStateProjectFeature } from '../../store/project.reducers';
-import { projectFeaturePRequirements } from '../../store/project.selectors';
-import { DialogProjectUpdateDocComponent } from 'src/app/shared/dialogs/dialog-project-update-doc/dialog-project-update-doc.component';
+import { DialogProjectUpdateDocComponent } from '../../../../shared/dialogs/dialog-project-update-doc/dialog-project-update-doc.component';
 import { RequirementService } from '@core/services';
 import { CProjectStatus, EStorage } from '@core/enums';
 import { MatDialog } from '@angular/material/dialog';
@@ -74,7 +65,7 @@ export class ProjectTimelineComponent implements OnInit, OnDestroy {
       disableClose:true,
     });
     this.subscription.add(
-      dialogRef.afterClosed().subscribe((resp) => this.getRequirements())
+      dialogRef.afterClosed().subscribe((resp) => resp && this.getRequirements())
     )
   }
 
