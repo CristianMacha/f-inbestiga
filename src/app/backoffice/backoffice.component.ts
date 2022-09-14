@@ -42,6 +42,10 @@ export class BackofficeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.router.events.subscribe((e) => {
       if(e instanceof  NavigationEnd) {
+        let dato=localStorage.getItem('token');  
+        if (!dato) {
+          this.router.navigateByUrl('auth/login');
+        }
         console.log(e.url);
       }
     });
