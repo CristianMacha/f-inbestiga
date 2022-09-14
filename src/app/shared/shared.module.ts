@@ -22,6 +22,7 @@ import { DialogRolesComponent } from './dialogs/dialog-roles/dialog-roles.compon
 import { DialogPaymentUpdateComponent } from './dialogs/dialog-payment-update/dialog-payment-update.component';
 import { DialogProjectEditTotalComponent } from './dialogs/dialog-project-edit-total/dialog-project-edit-total.component';
 import { DialogProjectUpdateDocComponent } from './dialogs/dialog-project-update-doc/dialog-project-update-doc.component';
+import { Error404Component } from './components/error404/error404.component';
 
 
 const COMPONENTS_SHARED = [
@@ -42,14 +43,14 @@ const COMPONENTS_SHARED = [
 ]
 
 @NgModule({
-  declarations: [COMPONENTS_SHARED, DialogRolesComponent, DialogPaymentUpdateComponent, DialogProjectEditTotalComponent,DialogProjectUpdateDocComponent ],
+  declarations: [COMPONENTS_SHARED, DialogRolesComponent, DialogPaymentUpdateComponent, DialogProjectEditTotalComponent,DialogProjectUpdateDocComponent, Error404Component ],
   imports: [
     CommonModule,
     RouterModule,
     MaterialModule,
     ReactiveFormsModule
   ],
-  exports: [COMPONENTS_SHARED, FeeDetailComponent]
+  exports: [COMPONENTS_SHARED, FeeDetailComponent,Error404Component]
 })
 export class SharedModule {
 }
