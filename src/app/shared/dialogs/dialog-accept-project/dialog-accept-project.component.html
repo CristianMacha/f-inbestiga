@@ -20,9 +20,10 @@
         <mat-error>El monto es necesario.</mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill" class="w-100">
-        <mat-label>Coutas</mat-label>
-        <input matInput type="number" formControlName="feesNumber">
-        <mat-error>Las coutas son necesarias.</mat-error>
+        <mat-label>Cuotas</mat-label>
+        <input matInput type="number" min="1"
+        max="6" formControlName="feesNumber">
+        <mat-error>Las cuotas son necesarias.</mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill" class="w-100">
         <mat-label>Fecha de finalizacion</mat-label>

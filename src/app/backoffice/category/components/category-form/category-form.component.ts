@@ -53,7 +53,6 @@ export class CategoryFormComponent implements OnInit {
         this.btnActionText = 'Actualizar categoria';
         this.checkFormStatus(this.categoryId);
       }
-
     })
   }
 
@@ -62,15 +61,18 @@ export class CategoryFormComponent implements OnInit {
   }
   
   create() {
-    this.categoryService.create(this.categoryForm.value).subscribe(resp=>{
-      this.router.navigateByUrl(`backoffice/category`).then();
-    });
-
+    if (this.categoryForm.value.name!="") {
+      this.categoryService.create(this.categoryForm.value).subscribe(resp=>{
+        this.router.navigateByUrl(`backoffice/category`).then();
+      });
+    }
   }
   update() {
-    this.categoryService.update(this.categoryForm.value).subscribe(resp=>{
-      this.router.navigateByUrl(`backoffice/category`).then();
-    });
+    if (this.categoryForm.value.name!="") {
+      this.categoryService.update(this.categoryForm.value).subscribe(resp=>{
+        this.router.navigateByUrl(`backoffice/category`).then();
+      });
+    }
 
   }
 

@@ -32,14 +32,14 @@
           <mat-label>Metodos de pago</mat-label>
           <mat-select formControlName="paymentMethod">
             <mat-option
-              *ngFor="let paymentMethod of paymentMethods"
-              [value]="paymentMethod">
-              {{paymentMethod}}
-            </mat-option>
-          </mat-select>
-          <mat-error>Este campo es necesario</mat-error>
-        </mat-form-field>
-      </div>
+            *ngFor="let paymentMethod of paymentMethods"
+            [value]="paymentMethod">
+            {{paymentMethod}}
+          </mat-option>
+        </mat-select>
+        <mat-error>Este campo es necesario</mat-error>
+      </mat-form-field>
+    </div>
     </div>
   </form>
 </div>
