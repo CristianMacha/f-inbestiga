@@ -22,9 +22,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     email: new FormControl('', [Validators.email, Validators.required]),
     password: new FormControl('', Validators.required)
   });
-
+  
   subscription: Subscription = new Subscription();
   loading = false;
+  checkSeleccionado=false;
   constructor(
     private readonly store: Store<AppStateAuthFeature>,
     private authService: AuthService,
@@ -34,6 +35,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.remenberLogin();
   }
 
   ngOnDestroy(): void {
@@ -44,6 +46,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loading=true;
     this.authService.login(this.loginForm.value)
     .subscribe((resp) => {
+      this.remenberLogin();
+      this.checkSeleccionado=true;
       localStorage.setItem('token', resp.token);
       if (resp.personRoles && resp.personRoles.length > 1) {
         this.openDialogRoles(resp);   
@@ -63,7 +67,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       data: {personRoles: respLogin.personRoles},
       disableClose: true
     });
-
+    this.loading=false;
     dialogRef.afterClosed().subscribe((resp) => {
       if (resp) {
         localStorage.setItem('rId', resp.role.id);
@@ -81,5 +85,22 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authService.refreshToken()
     .pipe(finalize(()=>this.loading=false))
     .subscribe((resp) => resp && this.router.navigateByUrl('backoffice/dashboard'))
+  }
+
+  remenberLogin():void{
+    let dato=localStorage.getItem('email');  
+    if (!dato ) {
+      localStorage.setItem('email',this.loginForm.value.email);  
+      this.loginForm.value.email=dato;
+    }else{
+      (this.loginForm.controls['email'].patchValue(localStorage.getItem('email')))
+      this.checkSeleccionado=true;
+    }
+    if(this.checkSeleccionado){
+      localStorage.getItem('email');    
+      this.checkSeleccionado=true;
+    }else{
+      this.checkSeleccionado=false;
+    }
   }
 }
