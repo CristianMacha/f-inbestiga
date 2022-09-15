@@ -24,6 +24,15 @@
         <div mat-line>ESTADO</div>
         <div mat-line>{{invoice.status}}</div>
       </mat-list-item>
+      <mat-list-item *ngIf="countOut">
+        <mat-icon mat-list-icon
+                  [class.text-danger]="invoice.status == cInvoiceStatus.PENDING"
+                  [class.text-info]="invoice.status == cInvoiceStatus.PARTIAL"
+                  [class.text-success]="invoice.status == cInvoiceStatus.PAID_OUT">payments
+        </mat-icon>
+        <div mat-line>CUOTAS PAGADAS</div>
+        <div mat-line>{{(countOut)}}</div>
+      </mat-list-item>
     </mat-list>
   </mat-card-content>
   <mat-card-actions [align]="'end'" *ngIf="showDetail">
