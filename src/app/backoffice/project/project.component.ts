@@ -38,7 +38,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
   }
 
   handleBtnNewProject(): void {
-    this.router.navigateByUrl(`backoffice/project/new`);
+    this.router.navigateByUrl(`backoffice/project/register`);
   }
 
   getActiveFormState(): void {

@@ -3,10 +3,11 @@ export enum PaymentConceptEnum {
 }
 
 export enum PaymentMethodEnum {
-  TRANSFER = 'TRANSFERENCIA/DEPOSITO',
-  CASH = 'EFECTIVO',
-  PLIN = 'PLIN',
+  TRANSFER_OR_DEPOSIT = 'TRANSFERENCIA/DEPOSITO',
   YAPE = 'YAPE',
+  PLIN = 'PLIN',
+  BCP = 'BCP',
+  CASH_PAYMENT = 'EFECTIVO',
 }
 
 export enum PaymentStatusEnum {

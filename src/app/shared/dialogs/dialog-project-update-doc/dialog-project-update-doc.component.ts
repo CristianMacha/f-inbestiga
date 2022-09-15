@@ -1,9 +1,8 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, UntypedFormGroup, Validators } from '@angular/forms';
 import { EStorage } from '@core/enums';
 import { RequirementService } from '@core/services';
-import { Subscription } from 'rxjs';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Requirement } from '@core/models';
 
@@ -13,7 +12,6 @@ import { Requirement } from '@core/models';
   styleUrls: ['./dialog-project-update-doc.component.scss']
 })
 export class DialogProjectUpdateDocComponent implements OnInit {
-  subscription: Subscription = new Subscription();
   file: File | null = null;
   loading: boolean = false;
   fileSelected: boolean = false;
@@ -27,7 +25,7 @@ export class DialogProjectUpdateDocComponent implements OnInit {
   requirements: Requirement[] = [];
 
 
-  requirementForm: FormGroup = new FormGroup({
+  requirementForm: FormGroup = new UntypedFormGroup({
     id: new FormControl(0, Validators.required),
     name: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
@@ -50,7 +48,6 @@ export class DialogProjectUpdateDocComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
   verifyEditMode() {
@@ -58,8 +55,8 @@ export class DialogProjectUpdateDocComponent implements OnInit {
     if (this.data.requirement) {
       this.editMode = true;
       this.title = 'Editar documento.';
-      this.btnActionText = 'Actualizar documento.' 
-       this.requirementForm.patchValue(this.data.requirement);
+      this.btnActionText = 'Actualizar documento.'
+      this.requirementForm.patchValue(this.data.requirement);
     }
   }
 
