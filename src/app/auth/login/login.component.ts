@@ -1,9 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Store} from '@ngrx/store';
-import {Observable, Subscription} from 'rxjs';
+import { finalize, Subscription} from 'rxjs';
 
-import {uiFeatureIsLoading} from '../../../app/shared/ui.selectors';
 import {loadRoleSelected, logout} from '../../shared/ui.actions';
 import {AppStateAuthFeature} from '../store/auth.reducer';
 import {AuthService} from "@core/services";
@@ -23,10 +22,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     email: new FormControl('', [Validators.email, Validators.required]),
     password: new FormControl('', Validators.required)
   });
-
+  
   subscription: Subscription = new Subscription();
-  isLoading$: Observable<boolean> = new Observable();
-
+  loading = false;
+  checkSeleccionado=false;
   constructor(
     private readonly store: Store<AppStateAuthFeature>,
     private authService: AuthService,
@@ -36,27 +35,30 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.isLoading$ = this.store.select(uiFeatureIsLoading);
+    this.remenberLogin();
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-
+  
   login(): void {
+    this.loading=true;
     this.authService.login(this.loginForm.value)
-      .subscribe((resp) => {
-        localStorage.setItem('token', resp.token);
-        if (resp.personRoles && resp.personRoles.length > 1) {
-          this.openDialogRoles(resp)
-        }
-
-        if (resp.personRoles && resp.personRoles.length == 1) {
-          localStorage.setItem('rId', resp.personRoles[0].role.id.toString());
-          this.store.dispatch(loadRoleSelected({roleId: resp.personRoles[0].role.id}))
-          this.refreshTokenAndRedirect();
-        }
-      });
+    .subscribe((resp) => {
+      this.remenberLogin();
+      this.checkSeleccionado=true;
+      localStorage.setItem('token', resp.token);
+      if (resp.personRoles && resp.personRoles.length > 1) {
+        this.openDialogRoles(resp);   
+      }
+      
+      if (resp.personRoles && resp.personRoles.length == 1) {
+        localStorage.setItem('rId', resp.personRoles[0].role.id.toString());
+        this.store.dispatch(loadRoleSelected({roleId: resp.personRoles[0].role.id}))
+        this.refreshTokenAndRedirect();
+      }
+    });
   }
 
   openDialogRoles(respLogin: ILoginResponse): void {
@@ -65,7 +67,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       data: {personRoles: respLogin.personRoles},
       disableClose: true
     });
-
+    this.loading=false;
     dialogRef.afterClosed().subscribe((resp) => {
       if (resp) {
         localStorage.setItem('rId', resp.role.id);
@@ -74,12 +76,31 @@ export class LoginComponent implements OnInit, OnDestroy {
       } else {
         this.store.dispatch(logout());
       }
+      this.loading=false;
     })
   }
 
   refreshTokenAndRedirect(): void {
+    this.loading=true;
     this.authService.refreshToken()
-      .subscribe((resp) => resp && this.router.navigateByUrl('backoffice/dashboard'))
+    .pipe(finalize(()=>this.loading=false))
+    .subscribe((resp) => resp && this.router.navigateByUrl('backoffice/dashboard'))
   }
 
+  remenberLogin():void{
+    let dato=localStorage.getItem('email');  
+    if (!dato ) {
+      localStorage.setItem('email',this.loginForm.value.email);  
+      this.loginForm.value.email=dato;
+    }else{
+      (this.loginForm.controls['email'].patchValue(localStorage.getItem('email')))
+      this.checkSeleccionado=true;
+    }
+    if(this.checkSeleccionado){
+      localStorage.getItem('email');    
+      this.checkSeleccionado=true;
+    }else{
+      this.checkSeleccionado=false;
+    }
+  }
 }

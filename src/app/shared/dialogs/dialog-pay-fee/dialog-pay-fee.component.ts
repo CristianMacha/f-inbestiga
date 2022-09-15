@@ -33,6 +33,7 @@ export class DialogPayFeeComponent implements OnInit {
   fileSelected: boolean = false;
   showFileMessageError = false;
   loading: boolean = false;
+  paymentStatus:  any;
 
   constructor(
     public dialogRef: MatDialogRef<DialogPayFeeComponent>,
@@ -96,5 +97,13 @@ export class DialogPayFeeComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close();
   }
-
+  calculateDebt(payments: PaymentModel[]): void {
+    let sum = 0;
+    payments.forEach((payment) => {
+      if (payment.status == 'VERIFICADO') {
+        this.paymentStatus = sum += payment.amount;
+        console.log(this.paymentStatus)
+      }
+    });
+  }
 }

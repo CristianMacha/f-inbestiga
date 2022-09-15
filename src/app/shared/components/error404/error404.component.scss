@@ -1,0 +1,233 @@
+p {
+  font-size: 18px;
+  line-height: 28px;
+  padding: 0;
+  margin: 0;
+}
+.back-button{
+  margin: auto;
+  padding: auto;
+  color: #eee !important;
+  font-size: 20px;
+}
+
+.wrapper {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 576px) {
+  .wrapper {
+      max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .wrapper {
+      max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .wrapper {
+      max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .wrapper {
+      max-width: 1140px;
+  }
+}
+
+.d-grid {
+  display: grid;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.signinform {
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  -ms-background-size: cover;
+  min-height: calc(100vh - 0px);
+  position: relative;
+  z-index: 0;
+  display: grid;
+  align-items: center;
+  padding:  20px;
+}
+
+.signinform:before {
+  content: "";
+  background: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+}
+
+.footer {
+  text-align: center;
+}
+
+.logo {
+  text-align: center;
+}
+
+a.brand-logo {
+  color: #fff;
+  font-size: 40px;
+  line-height: 50px;
+  font-weight: 600;
+}
+
+h4.cover-para.inbes {
+  letter-spacing: 2px;
+  font-size: 170px;
+  line-height: 1;
+  text-align: center;
+  flex-basis: 100%;
+  color: transparent;
+  display: inline-block;
+  font-weight: 700;
+  text-decoration: none;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: #fcc752;
+}
+
+h5.error {
+  font-size: 26px;
+  font-weight: 600;
+  text-transform: capitalize;
+  line-height: 36px;
+  margin: 20px 0;
+  color: #fff;
+}
+
+.main-cover {
+  max-width: 500px;
+  margin: 30px auto;
+}
+
+.main-cover.inbes3 p,
+.footer p {
+  color: #eee;
+}
+
+.footer p a {
+  color: #fcc752;
+}
+
+.footer p a:hover {
+  color: #fff;
+}
+
+.form-control {
+  max-width: 600px;
+  width: 345px;
+  margin-right: 5px;
+  color: #666;
+  background: #f8f9fa;
+  padding: 12px 25px;
+  font-size: 18px;
+  line-height: 28px;
+  height: 55px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  display: block;
+  font-weight: 500;
+}
+
+@media (max-width: 991px) {
+  a.brand-logo {
+      font-size: 30px;
+      line-height: 40px;
+  }
+  h4.cover-para.inbes {
+      font-size: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  h4.cover-para.inbes {
+      font-size: 140px;
+  }
+}
+
+@media (max-width: 568px) {
+  h4.cover-para.inbes {
+      font-size: 120px;
+  }
+
+  h5.error {
+      font-size: 22px;
+      line-height: 34px;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-control {
+      width: 100%;
+      margin-right: 0px;
+  }
+
+
+  .form-inline.search-form {
+      flex-direction: column;
+  }
+}
+
+@media (max-width: 415px) {
+  h4.cover-para.inbes {
+      font-size: 100px;
+  }
+  .signinform {
+      padding: 30px 15px;
+  }
+
+  .main-cover {
+      margin: 40px auto;
+  }
+}
+
+@media screen and (max-width: 384px) {
+  p {
+      font-size: 17px;
+  }
+
+  a.brand-logo {
+      font-size: 26px;
+      line-height: 36px;
+  }
+}
+
+@media (max-width: 375px) {
+  h4.cover-para.inbes {
+      font-size: 90px;
+      letter-spacing: 0px;
+  }
+
+  h5.error {
+      font-size: 20px;
+      line-height: 32px;
+      margin: 5px 0 20px;
+  }
+}

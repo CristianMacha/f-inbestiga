@@ -82,14 +82,16 @@ export class ProjectInfoComponent implements OnInit, OnDestroy {
   }
 
   updateProgressProject(): void {
-    this.projectService
+    if (this.progressControl.value<100 && this.progressControl.value>0) {
+      this.projectService
       .updateProgress(this.project.id, this.progressControl.value)
       .subscribe((resp) => {
-        this.students = [];
-        this.advisors = [];
-        this.progressControl.reset(resp.progress);
-        this.store.dispatch(loadProject({projectId: resp.id}));
-      });
+          this.students = [];
+          this.advisors = [];
+          this.progressControl.reset(resp.progress);
+          this.store.dispatch(loadProject({projectId: resp.id}));
+        });
+    }
   }
 
   getProject(): void {

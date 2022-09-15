@@ -1,0 +1,38 @@
+<div class="inbes-loginblock signinform" style="background-image: url(../../../assets/img/inbestiga-fondo-1.webp)">
+  <div class="logo">
+      <a class="brand-logo" [routerLink]="['']">
+        <img  src="../assets/img/logo-ct.png" alt="" width="60px" style="margin-top:-38px !important;padding:5px;">
+        <span class="inbesZona">Zona Inbestiga</span>
+      </a>
+  </div>
+
+  <section class="inbes-errorblock text-center"style="margin-top:-250px !important">
+      <div class="container">
+          <div class="main-cover inbes3">
+              <h4 class="cover-para  inbes">404</h4>
+              <h5 class="error">¡Lo Sentimos, No Podemos Encontrar Esa Página!</h5>
+              <p>
+                La página que está buscando fue movida, eliminada, renombrada o nunca existió. ¿Tal vez intentar una búsqueda?
+              </p>             
+              <a [routerLink]="['']" class="btn back-button">
+                <mat-icon style="color:#ffffff;font-size: 20px">home</mat-icon> <span>Inicio</span>
+              </a>
+          </div>
+      </div>
+  </section>
+ 
+  <footer class="footer position-absolute bottom-2 py-2 w-100">
+    <div class="container">
+      <div class="row align-items-center justify-content-lg-between">
+        <div class="col-12 col-md-6 my-auto">
+          <div class="copyright text-center text-sm text-white text-lg-start">
+            © <span> {{ year }} </span>, Desarrollado por
+            <a href="https://360virtualsol.com/" class="font-weight-bold text-white" target="_blank">360 Virtual Solutions</a>
+          </div>
+        </div>
+        <div class="col-12 col-md-6"></div>
+      </div>
+    </div>
+  </footer>
+    
+</div>
