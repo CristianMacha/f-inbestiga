@@ -4,6 +4,7 @@ import { CFeeStatus, PaymentConceptEnum } from '@core/enums';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogPayFeeComponent } from '../../dialogs/dialog-pay-fee/dialog-pay-fee.component';
 import { FeeService, PaymentService } from '@core/services';
+import { DialogFeeEditComponent } from '../../dialogs/dialog-fee-edit/dialog-fee-edit.component';
 
 @Component({
   selector: 'vs-fee-detail',
@@ -24,6 +25,15 @@ export class FeeDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPayments();
+  }
+
+  handleBtnEditFee():void {
+    const dialogRef = this.dialog.open(DialogFeeEditComponent, {
+      width: '500px',
+      data: this.fee,
+      autoFocus: false,
+      disableClose: true,
+    });
   }
 
   handleRegisterNewPayment(): void {

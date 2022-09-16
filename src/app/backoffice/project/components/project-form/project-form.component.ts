@@ -188,12 +188,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl('backoffice/project');
   }
 
-  handleEditInvoice(): void {
-    const dialogRef = this.dialog.open(DialogInvoiceEditComponent, {
-      width: '400px',
-      data: this.invoice,
-      autoFocus: false,
-      disableClose: true,
-    });
+  handleViewInvoice(): void {
+    this.router.navigateByUrl(`backoffice/pagos/${this.invoice.id}`);
   }
 }

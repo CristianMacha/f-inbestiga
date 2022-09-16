@@ -15,19 +15,27 @@
       </mat-form-field>
       <div class="table-container">
         <table mat-table [dataSource]="dataSource" class="w-100">
-          <ng-container matColumnDef="code">
-            <th mat-header-cell *matHeaderCellDef># CODIGO</th>
-            <td mat-cell *matCellDef="let project">{{project.code}}</td>
-          </ng-container>
-
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>TITULO</th>
             <td mat-cell *matCellDef="let project">{{project.name}}</td>
           </ng-container>
 
-          <ng-container matColumnDef="description">
-            <th mat-header-cell *matHeaderCellDef>DESCRIPCION</th>
-            <td mat-cell *matCellDef="let project">{{project.description}}</td>
+          <ng-container matColumnDef="advisor">
+            <th mat-header-cell *matHeaderCellDef>ASESOR</th>
+            <td mat-cell *matCellDef="let project">
+              <div *ngFor="let personProject of project.personProjects">
+                <span *ngIf="personProject.isAdvisor">{{personProject.person.fullName}} {{personProject.person.surnames}}</span>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="student">
+            <th mat-header-cell *matHeaderCellDef>ESTUDIANTE</th>
+            <td mat-cell *matCellDef="let project">
+              <div *ngFor="let personProject of project.personProjects">
+                <span *ngIf="!personProject.isAdvisor">{{personProject.person.fullName}} {{personProject.person.surnames}}</span>
+              </div>
+            </td>
           </ng-container>
 
           <ng-container matColumnDef="expirationDate">
@@ -39,7 +47,7 @@
             <th mat-header-cell *matHeaderCellDef>ESTADO</th>
             <td mat-cell *matCellDef="let project">
               <span
-                class="badge"
+                class="badge mb-2"
                 [class.bg-gradient-warning]="project.status == cProjectStatus.REQUIRED"
                 [class.bg-gradient-info]="project.status == cProjectStatus.ACCEPTED"
                 [class.bg-gradient-danger]="project.status == cProjectStatus.REFUSED"
@@ -47,11 +55,13 @@
                 [class.bg-gradient-success]="project.status == cProjectStatus.COMPLETED">
                 {{project.status}}
               </span>
+              <mat-progress-bar mode="determinate" [value]="project.progress"></mat-progress-bar>
+              <small>{{project.progress}}%</small>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef>ACCIONES</th>
+            <th mat-header-cell *matHeaderCellDef style="text-align: end;">ACCIONES</th>
             <td mat-cell *matCellDef="let project">
               <div style="display: flex; gap: 2px; justify-content: end;">
                 <div>

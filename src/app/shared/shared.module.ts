@@ -24,7 +24,7 @@ import { DialogProjectEditTotalComponent } from './dialogs/dialog-project-edit-t
 import { DialogProjectUpdateDocComponent } from './dialogs/dialog-project-update-doc/dialog-project-update-doc.component';
 import { Error404Component } from './components/error404/error404.component';
 import { DialogInvoiceEditComponent } from './dialogs/dialog-invoice-edit/dialog-invoice-edit.component';
-
+import { DialogFeeEditComponent } from './dialogs/dialog-fee-edit/dialog-fee-edit.component';
 
 const COMPONENTS_SHARED = [
   BackofficeNavComponent,
@@ -47,6 +47,7 @@ const COMPONENTS_SHARED = [
   DialogProjectUpdateDocComponent,
   Error404Component,
   DialogInvoiceEditComponent,
+  DialogFeeEditComponent,
 ]
 
 @NgModule({
