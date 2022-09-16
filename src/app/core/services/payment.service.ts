@@ -35,4 +35,8 @@ export class PaymentService {
   update(paymentId: number, payment: PaymentModel): Observable<PaymentModel> {
     return this.http.put<PaymentModel>(`${this.uri}/${paymentId}`, payment);
   }
+
+  getByInvoice(invoiceid: number): Observable<PaymentModel[]> {
+    return this.http.get<PaymentModel[]>(`${this.uri}/invoice/${invoiceid}`);
+  }
 }

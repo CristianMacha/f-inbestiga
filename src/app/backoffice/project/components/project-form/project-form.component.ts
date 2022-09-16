@@ -10,6 +10,7 @@ import { CProjectStatus, CRole, ERole } from '@core/enums';
 import { Store } from '@ngrx/store';
 import { appState } from '../../../../app.reducers';
 import { uiRoleSelected } from '../../../../../app/shared/ui.selectors';
+import { DialogInvoiceEditComponent } from '../../../../../app/shared/dialogs/dialog-invoice-edit/dialog-invoice-edit.component';
 
 @Component({
   selector: 'vs-project-form',
@@ -188,6 +189,11 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   }
 
   handleEditInvoice(): void {
-    this.router.navigateByUrl(`backoffice/pagos/${this.invoice.id}`);
+    const dialogRef = this.dialog.open(DialogInvoiceEditComponent, {
+      width: '400px',
+      data: this.invoice,
+      autoFocus: false,
+      disableClose: true,
+    });
   }
 }

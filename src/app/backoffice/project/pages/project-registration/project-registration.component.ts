@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CRole } from '@core/enums';
-import { Category, Fee, Person, PersonProject } from '@core/models';
+import { Category, Fee, PaymentModel, Person, PersonProject } from '@core/models';
 import { CategoryService, FeeService, InvoiceService, PersonProjectService, ProjectService } from '@core/services';
 import * as moment from 'moment';
 import { finalize } from 'rxjs';
@@ -180,7 +180,7 @@ export class ProjectRegistrationComponent implements OnInit {
     this.feesFormArray.clear();
     const totalFee = invoiceTotal / feesNumber;
     const newFee = new Fee();
-    newFee.total = totalFee;
+    newFee.total = Math.round(totalFee);
     console.log(feesNumber);
 
     const currentDate = moment();
