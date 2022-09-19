@@ -90,12 +90,24 @@
       (click)="handleBtnCancel()">
       CANCELAR
     </button>
+
     <button
-      mat-flat-button
-      color="primary"
-      [disabled]="personForm.invalid || loading"
-      (click)="handleBtnActionUser()">
-      {{btnActionText | uppercase}}
-    </button>
+    mat-flat-button
+    color="primary"
+    type="accent"
+    [disabled]="personForm.invalid || loading"
+    *ngIf="!editMode"
+    (click)="create()">
+    {{btnActionText | uppercase}}
+  </button>
+    <button
+    mat-flat-button
+    color="primary"
+    type="accent"
+    *ngIf="editMode"
+    [disabled]="personForm.invalid || loading"
+    (click)="update()">
+    {{btnActionText | uppercase}}
+  </button>
   </mat-card-actions>
 </mat-card>
