@@ -11,6 +11,7 @@ import {CRole} from "@core/enums";
 import {PersonService, UserService} from "@core/services";
 import {DialogConfirmComponent} from "../../../../shared/dialogs/dialog-confirm/dialog-confirm.component";
 import {IDialogConfirm} from "@core/interfaces";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'vs-user-table',
@@ -33,6 +34,8 @@ export class UserTableComponent implements OnInit {
     private personService: PersonService,
     private matDialog: MatDialog,
     private userService: UserService,
+    private router: Router,
+
   ) {
   }
 
@@ -50,12 +53,12 @@ export class UserTableComponent implements OnInit {
       });
   }
 
-  handleBtnEdit(person: Person) {
-    this.store.dispatch(activeFormUpdate({person}));
+  handleBtnEdit(personId: Person) {
+    this.router.navigateByUrl(`backoffice/user/${personId}`).then();
   }
 
   handleBtnView(person: Person): void {
-    this.store.dispatch(activeDetails({person}));
+    this.router.navigateByUrl(`backoffice/user/detalle/${person.user.id}`).then();
   }
 
   paginatorEvent(event: PageEvent): void {
