@@ -19,7 +19,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatStepperModule } from '@angular/material/stepper';
-
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const MATERIAL_COMPONENTS = [
   MatDialogModule,
@@ -41,7 +41,8 @@ const MATERIAL_COMPONENTS = [
   MatProgressSpinnerModule,
   MatCheckboxModule,
   MatAutocompleteModule,
-  MatStepperModule
+  MatStepperModule,
+  MatSlideToggleModule
 ]
 
 @NgModule({

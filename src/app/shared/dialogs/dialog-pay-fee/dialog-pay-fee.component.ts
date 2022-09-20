@@ -16,8 +16,8 @@ import {finalize} from "rxjs";
 })
 export class DialogPayFeeComponent implements OnInit {
   paymentMethods: PaymentMethodEnum [] = [
-    PaymentMethodEnum.TRANSFER,
-    PaymentMethodEnum.CASH,
+    PaymentMethodEnum.TRANSFER_OR_DEPOSIT,
+    PaymentMethodEnum.CASH_PAYMENT,
     PaymentMethodEnum.PLIN,
     PaymentMethodEnum.YAPE,
   ];

@@ -11,11 +11,9 @@ import {IDialogConfirm} from "@core/interfaces";
 import {ProjectService} from "@core/services";
 import {Project, Role} from '@core/models';
 import {AppStateProjectFeature} from '../../store/project.reducers';
-import {activeFormUpdate} from '../../store/project.actions';
 import {projectFeatureFilter} from '../../store/project.selectors';
 import {uiRoleSelected} from "../../../../shared/ui.selectors";
 import {DialogConfirmComponent} from "../../../../shared/dialogs/dialog-confirm/dialog-confirm.component";
-import { DialogProjectUpdateDocComponent } from 'src/app/shared/dialogs/dialog-project-update-doc/dialog-project-update-doc.component';
 
 @Component({
   selector: 'vs-project-table',
@@ -27,7 +25,7 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
 
   projects: Project[] = [];
-  displayedColumns: string[] = ['code', 'name', 'description', 'expirationDate', 'status', 'actions'];
+  displayedColumns: string[] = ['name', 'advisor', 'student', 'expirationDate', 'status', 'actions'];
   resultsLength = 0;
   pageSize = 30;
   pageIndex = 0;
@@ -82,7 +80,7 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
   }
 
   handleBtnEdit(project: Project) {
-    this.router.navigateByUrl(`backoffice/project/${project.id}`);
+    this.router.navigateByUrl(`backoffice/project/edit/${project.id}`);
   }
 
   getFilterState(): void {

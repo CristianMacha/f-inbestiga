@@ -1,16 +1,16 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AngularFireStorage} from "@angular/fire/compat/storage";
-import {MatDialog} from "@angular/material/dialog";
-import {Store} from "@ngrx/store";
-import {finalize} from "rxjs";
-import {PaymentModel, Role} from "@core/models";
-import {CPaymentStatus, CRole, EStorage} from "@core/enums";
-import {IDialogConfirm} from "@core/interfaces";
-import {DialogConfirmComponent} from "../../dialogs/dialog-confirm/dialog-confirm.component";
-import {PaymentService} from "@core/services";
-import {DialogPaymentUpdateComponent} from "../../dialogs/dialog-payment-update/dialog-payment-update.component";
-import {appState} from "../../../app.reducers";
-import {uiRoleSelected} from "../../ui.selectors";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AngularFireStorage } from "@angular/fire/compat/storage";
+import { MatDialog } from "@angular/material/dialog";
+import { Store } from "@ngrx/store";
+import { finalize } from "rxjs";
+import { PaymentModel, Role } from "@core/models";
+import { CPaymentStatus, CRole, EStorage } from "@core/enums";
+import { IDialogConfirm } from "@core/interfaces";
+import { DialogConfirmComponent } from "../../dialogs/dialog-confirm/dialog-confirm.component";
+import { PaymentService } from "@core/services";
+import { DialogPaymentUpdateComponent } from "../../dialogs/dialog-payment-update/dialog-payment-update.component";
+import { appState } from "../../../app.reducers";
+import { uiRoleSelected } from "../../ui.selectors";
 
 @Component({
   selector: 'vs-fee-payment',
@@ -89,7 +89,7 @@ export class FeePaymentComponent implements OnInit {
   handleEdit(): void {
     const dialogRef = this.dialog.open(DialogPaymentUpdateComponent, {
       width: '500px',
-      data: {payment: this.payment},
+      data: { payment: this.payment },
       autoFocus: false,
     });
 

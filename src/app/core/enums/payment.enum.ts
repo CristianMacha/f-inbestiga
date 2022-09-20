@@ -3,20 +3,21 @@ export enum PaymentConceptEnum {
 }
 
 export enum PaymentMethodEnum {
-  TRANSFER = 'TRANSFERENCIA/DEPOSITO',
-  CASH = 'EFECTIVO',
-  PLIN = 'PLIN',
+  TRANSFER_OR_DEPOSIT = 'TRANSFERENCIA/DEPOSITO',
   YAPE = 'YAPE',
+  PLIN = 'PLIN',
+  BCP = 'BCP',
+  CASH_PAYMENT = 'EFECTIVO',
 }
 
 export enum PaymentStatusEnum {
-  PENDING = 'PENDIENTE',
+  PROCESSING = 'PROCESANDO',
   VERIFIED = 'VERIFICADO',
   REFUSED = 'RECHAZADO',
 }
 
 export const CPaymentStatus = {
-  PENDING: PaymentStatusEnum.PENDING,
+  PENDING: PaymentStatusEnum.PROCESSING,
   VERIFIED: PaymentStatusEnum.VERIFIED,
   REFUSED: PaymentStatusEnum.REFUSED,
 }

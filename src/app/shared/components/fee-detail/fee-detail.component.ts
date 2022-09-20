@@ -1,9 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Fee, PaymentModel } from '@core/models';
-import { CFeeStatus, PaymentConceptEnum } from '@core/enums';
+import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogPayFeeComponent } from '../../dialogs/dialog-pay-fee/dialog-pay-fee.component';
+
+import { CFeeStatus, PaymentConceptEnum } from '@core/enums';
 import { FeeService, PaymentService } from '@core/services';
+import { DialogPayFeeComponent } from '../../dialogs/dialog-pay-fee/dialog-pay-fee.component';
+import { DialogFeeEditComponent } from '../../dialogs/dialog-fee-edit/dialog-fee-edit.component';
 
 @Component({
   selector: 'vs-fee-detail',
@@ -11,19 +14,41 @@ import { FeeService, PaymentService } from '@core/services';
   styleUrls: ['./fee-detail.component.scss'],
 })
 export class FeeDetailComponent implements OnInit {
+  @Output() invoiceId: EventEmitter<number> = new EventEmitter();
   @Input() fee!: Fee;
+
   title: string = 'PENDIENTE';
   cFeeStatus = CFeeStatus;
   payments: PaymentModel[] = [];
   paymentStatus: any;
+  invoiceIdActive!: number;
+
   constructor(
     private dialog: MatDialog,
     private paymentService: PaymentService,
-    private feeService: FeeService
-  ) {}
+    private feeService: FeeService,
+    private route: ActivatedRoute,
+  ) { }
 
   ngOnInit(): void {
+    this.route.params.subscribe((resp) => this.invoiceIdActive = resp['id']);
     this.getPayments();
+  }
+
+  handleBtnEditFee(): void {
+    const dialogRef = this.dialog.open(DialogFeeEditComponent, {
+      width: '500px',
+      data: { feeId: this.fee.id },
+      autoFocus: false,
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe((resp) => {
+      if(resp) {
+        this.getFee();
+        this.invoiceId.emit(resp.id);
+      }
+    })
   }
 
   handleRegisterNewPayment(): void {
@@ -52,6 +77,7 @@ export class FeeDetailComponent implements OnInit {
   afterUpdatePayment(updated: boolean): void {
     this.getFee();
     this.getPayments();
+    this.invoiceId.emit(this.invoiceIdActive);
   }
 
   calculateDebt(payments: PaymentModel[]): void {

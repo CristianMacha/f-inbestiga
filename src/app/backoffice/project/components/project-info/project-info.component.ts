@@ -60,6 +60,8 @@ export class ProjectInfoComponent implements OnInit, OnDestroy {
   }
 
   handleUpdateProgress(): void {
+    console.log('here', this.progressControl.value);
+
     (this.progressControl.value == 100) ? this.openDialogConfirm() : this.updateProgressProject();
   }
 
@@ -89,7 +91,7 @@ export class ProjectInfoComponent implements OnInit, OnDestroy {
           this.students = [];
           this.advisors = [];
           this.progressControl.reset(resp.progress);
-          this.store.dispatch(loadProject({projectId: resp.id}));
+          this.getProject();
         });
     }
   }

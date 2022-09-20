@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { CRole } from '@core/enums';
-import { Category, Fee, Person, PersonProject } from '@core/models';
+import { Category, Fee, PaymentModel, Person, PersonProject } from '@core/models';
 import { CategoryService, FeeService, InvoiceService, PersonProjectService, ProjectService } from '@core/services';
+import * as moment from 'moment';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -18,8 +19,8 @@ export class ProjectRegistrationComponent implements OnInit {
     category: new UntypedFormGroup({
       id: new FormControl(0, [Validators.required, Validators.min(1)]),
     }, Validators.required),
-    startDate: new FormControl({value: '', disabled: true}),
-    expirationDate: new FormControl({value: '', disabled: true},Validators.required),
+    startDate: new FormControl(),
+    expirationDate: new FormControl('', Validators.required),
     description: new FormControl(''),
     otherCategory: new FormControl(''),
   });
@@ -27,22 +28,21 @@ export class ProjectRegistrationComponent implements OnInit {
 
   invoiceForm = new UntypedFormGroup({
     id: new FormControl(0),
-    total: new FormControl(0),
-    feesNumber: new FormControl(0),
+    total: new FormControl(0, [Validators.required, Validators.min(6)]),
+    feesNumber: new FormControl(1),
   });
 
   feeForm = new UntypedFormGroup({
     fees: new UntypedFormArray([])
-  })
+  });
 
-
+  fees: FormControl[] = [];
   cRole = CRole;
 
   advisors: PersonProject[] = [];
   students: PersonProject[] = [];
   categories: Category[] = [];
   loading = false;
-  editMode = false;
   btnText = 'registrar proyecto';
 
   constructor(
@@ -52,14 +52,13 @@ export class ProjectRegistrationComponent implements OnInit {
     private personProjectService: PersonProjectService,
     private invoiceService: InvoiceService,
     private feeService: FeeService,
-    private route: ActivatedRoute,
     private router: Router,
   ) { }
 
   ngOnInit(): void {
-    this.verifyEditMode();
     this.getCategories();
     this.valueChangesCategory();
+    this.valueChangeInvoice();
   }
 
   get feesFormArray(): UntypedFormArray {
@@ -84,7 +83,7 @@ export class ProjectRegistrationComponent implements OnInit {
       fees: this.feeForm.controls['fees'].value
     })
       .pipe(finalize(() => this.loading = false))
-      .subscribe((resp) => console.log(resp))
+      .subscribe((resp) => this.router.navigateByUrl('backoffice/project'))
   }
 
   getCategories(): void {
@@ -100,16 +99,7 @@ export class ProjectRegistrationComponent implements OnInit {
   }
 
   removeFee(index: number, fee: AbstractControl) {
-    let feeFormGrouop = (fee as FormGroup);
-    if (this.editMode && feeFormGrouop.controls['id'].value > 0) {
-      console.log(fee);
-      feeFormGrouop.controls['active'].patchValue(false)
-    } else {
-      console.log('xd');
-
-      this.feesFormArray.removeAt(index);
-    }
-
+    this.feesFormArray.removeAt(index);
     const feeNumbers = this.feesNumberInvoice - 1;
     this.invoiceForm.controls['feesNumber'].patchValue(feeNumbers);
   }
@@ -118,7 +108,7 @@ export class ProjectRegistrationComponent implements OnInit {
     const fee = this.builder.group({
       id: new FormControl((feeValue?.id || 0)),
       total: new UntypedFormControl((feeValue?.total || ''), Validators.required),
-      paymentDate: new UntypedFormControl((feeValue?.paymentDate || ''), Validators.required ),
+      paymentDate: new UntypedFormControl((feeValue?.paymentDate || ''), [Validators.required]),
       active: new FormControl((feeValue?.active || true))
     });
 
@@ -146,19 +136,11 @@ export class ProjectRegistrationComponent implements OnInit {
   }
 
   removeAdvisor(index: number, advisor: PersonProject): void {
-    if (this.editMode && advisor.id > 0) {
-      advisor.active = !advisor.active;
-    } else {
-      this.advisors.splice(index, 1);
-    }
+    this.advisors.splice(index, 1);
   }
 
   removeStudent(index: number, student: PersonProject): void {
-    if (this.editMode && student.id > 0) {
-      student.active = !student.active;
-    } else {
-      this.students.splice(index, 1);
-    }
+    this.students.splice(index, 1);
   }
 
   addStudent(student: PersonProject): void {
@@ -188,17 +170,30 @@ export class ProjectRegistrationComponent implements OnInit {
     });
   }
 
+  valueChangeInvoice(): void {
+    this.invoiceForm.valueChanges.subscribe((resp) => {
+      this.invoiceForm.invalid ? this.feesFormArray.clear() : this.calculateFee(resp.total, resp.feesNumber);
+    });
+  }
+
+  private calculateFee(invoiceTotal: number, feesNumber: number): void {
+    this.feesFormArray.clear();
+    const totalFee = invoiceTotal / feesNumber;
+    const newFee = new Fee();
+    newFee.total = Math.round(totalFee);
+    console.log(feesNumber);
+
+    const currentDate = moment();
+    for (let index = 0; index < feesNumber; index++) {
+      newFee.paymentDate = currentDate.clone().add(index, 'month').toDate();
+      this.feesFormArray.push(this.createFeeForm(newFee));
+    }
+  }
+
   handleCloseOtherCategory(): void {
     this.showOtherCategory = false;
     (this.projectForm.controls['category'] as UntypedFormGroup).controls['id'].patchValue(0);
     this.projectForm.controls['otherCategory'].reset('');
-  }
-
-  getProject(projectId: number): void {
-    this.loading = true;
-    this.projectService.getProject(projectId)
-      .pipe(finalize(() => this.loading = false))
-      .subscribe((resp) => this.projectForm.patchValue(resp));
   }
 
   getPersonProject(projectId: number): void {
@@ -229,18 +224,6 @@ export class ProjectRegistrationComponent implements OnInit {
       })
   }
 
-  verifyEditMode(): void {
-    this.route.params.subscribe((resp) => {
-      if (resp['id'] !== 'new') {
-        this.editMode = true;
-        this.btnText = 'ACTUALZIAR PROYECTO';
-        this.getProject(+resp['id']);
-        this.getInvoice(+resp['id']);
-        this.getPersonProject(+resp['id']);
-        this.getFees(+resp['id'])
-      }
-    })
-  }
 
   gotToProject(): void {
     this.router.navigateByUrl('backoffice/project');

@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {FeeService, InvoiceService} from "@core/services";
-import {Fee, Invoice} from "@core/models";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from "@angular/router";
+import { FeeService, InvoiceService } from "@core/services";
+import { Fee, Invoice } from "@core/models";
 import { MatDialog } from '@angular/material/dialog';
 import { DialogPaymentMethodsComponent } from 'src/app/shared/dialogs/dialog-payment-methods/dialog-payment-methods.component';
 
@@ -41,6 +41,9 @@ export class PaymentDetailComponent implements OnInit {
       });
   }
 
+  getInvoiceIdUpdated(invoiceId: number): void {
+    this.getInvoice(invoiceId)
+  }
 
   getFees(invoiceId: number): void {
     this.feeService.getByInvoice(invoiceId)

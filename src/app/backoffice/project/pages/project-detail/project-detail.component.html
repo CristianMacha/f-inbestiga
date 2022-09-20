@@ -7,7 +7,7 @@
   </h2>
   <div class="list-button">
     <div class="list-button"
-         *ngIf="roleSelected.id == cRole.ADMINISTRATOR && project.status != cProjectStatus.ACCEPTED && project.status != cProjectStatus.REFUSED && project.status !== cProjectStatus.COMPLETED">
+         *ngIf="roleSelected.id == cRole.ADMINISTRATOR && project.status === cProjectStatus.REQUIRED">
       <button
         mat-flat-button
         color="warn"

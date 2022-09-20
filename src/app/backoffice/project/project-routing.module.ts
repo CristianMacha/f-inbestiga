@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ProjectFormComponent } from './components/project-form/project-form.component';
 import { ProjectDetailComponent } from './pages/project-detail/project-detail.component';
 import { ProjectRegistrationComponent } from './pages/project-registration/project-registration.component';
 
@@ -20,10 +21,15 @@ const routes: Routes = [
         title: 'Detalles del proyecto'
       },
       {
-        path: ':id',
+        path: 'register',
         component: ProjectRegistrationComponent,
         title: 'Registro de proyecto',
       },
+      {
+        path: 'edit/:id',
+        component: ProjectFormComponent,
+        title: 'Editar proyecto'
+      }
     ]
   }
 ]

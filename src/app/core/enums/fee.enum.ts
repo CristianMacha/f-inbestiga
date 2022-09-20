@@ -1,11 +1,11 @@
 export enum EFeeStatus {
-  DEBT = 'DEUDA',
+  PENDING = 'PENDIENTE',
   PAID_OUT = 'PAGADO',
   PARTIAL = 'PARCIAL',
 }
 
 export const CFeeStatus = {
-  DEBT: 'DEUDA',
+  PENDING: 'PENDIENTE',
   PARTIAL: 'PARCIAL',
   PAID_OUT: 'PAGADO',
 }

@@ -3,15 +3,20 @@
     <mat-card-title>{{fee.paymentDate | date}}</mat-card-title>
     <mat-card-subtitle>{{fee.total | currency}} |
       <span class="font-weight-bold"
-        [class.text-warning]="fee.status == cFeeStatus.DEBT"
+        [class.text-warning]="fee.status == cFeeStatus.PENDING"
         [class.text-info]="fee.status == cFeeStatus.PARTIAL"
         [class.text-success]="fee.status == cFeeStatus.PAID_OUT">
             {{fee.status }}
-          </span>          
+          </span>
     </mat-card-subtitle>
     <mat-card-subtitle class="titlePayment" *ngIf="fee.status == cFeeStatus.PARTIAL">
-      {{(fee.total-paymentStatus) | currency}} | POR PAGAR 
+      {{(fee.total-paymentStatus) | currency}} | POR PAGAR
     </mat-card-subtitle>
+    <div style="position: absolute; top: 16px; right: 32px;">
+      <button mat-icon-button color="primary" (click)="handleBtnEditFee()">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
   </mat-card-header>
   <mat-card-content>
     <mat-divider></mat-divider>

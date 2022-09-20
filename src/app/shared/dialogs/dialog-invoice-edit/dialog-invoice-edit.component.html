@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Editar costo total</h1>
+<div mat-dialog-content>
+  <h5>Costo: {{data.total | currency}} <small>en {{data.feesNumber}} cuotas.</small></h5>
+  <h6>Pagado: {{totalPaidOut | currency}}</h6>
+  <div>
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Nuevo costo</mat-label>
+      <input type="number" matInput autocomplete="off" [formControl]="totalControl">
+      <mat-error>El costo es necesario (min.{{totalPaidOut | currency}})</mat-error>
+    </mat-form-field>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button type="button" mat-button (click)="onNoClick()">CANCELAR</button>
+</div>

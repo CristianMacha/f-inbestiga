@@ -1,0 +1,27 @@
+.content-info {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.info-content {
+  text-align: center;
+}
+
+.info-item-primary {
+  font-weight: normal;
+  font-size: inherit;
+}
+
+.info-item-seconday {
+  font-weight: normal;
+  font-size: 14px;
+}

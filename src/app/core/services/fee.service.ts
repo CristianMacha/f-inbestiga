@@ -19,6 +19,10 @@ export class FeeService {
     return this.http.get<Fee>(`${this.uri}/${feeId}`);
   }
 
+  updateTotal(feeId: number, total: number): Observable<Fee> {
+    return this.http.patch<Fee>(`${this.uri}/total/${feeId}`, { total });
+  }
+
   create(fee: Fee): Observable<Fee> {
     return this.http.post<Fee>(`${this.uri}`, fee);
   }

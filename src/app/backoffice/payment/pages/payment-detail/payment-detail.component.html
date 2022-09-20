@@ -9,12 +9,12 @@
           mat-button
           color="primary"
           (click)="handlePaymentMethods()">
-          ¿A DONDE PAGO?
+          ¿COMO PAGAR?
       </button>
       </div>
-      
+
       <div class="col-md-12" *ngFor="let fee of fees">
-        <vs-fee-detail [fee]="fee"></vs-fee-detail>
+        <vs-fee-detail [fee]="fee" (invoiceId)="getInvoiceIdUpdated($event)"></vs-fee-detail>
       </div>
     </div>
   </div>

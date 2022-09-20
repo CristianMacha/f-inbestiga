@@ -31,14 +31,14 @@ export class InvoiceDetailComponent implements OnInit {
   handleViewDetails(): void {
     this.router.navigateByUrl(`backoffice/pagos/${this.invoice.id}`);
   }
-  
+
 
   addFeePaidOut(invoiceId: number): void {
     this.feeService.getByInvoice(invoiceId)
       .subscribe((resp) => {
         resp.forEach(feed=>{
           if (feed.status==CFeeStatus.PAID_OUT) {
-            this.countOut +=1;             
+            this.countOut +=1;
           }
         })
       });
