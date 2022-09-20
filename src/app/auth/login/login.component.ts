@@ -89,15 +89,17 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   remenberLogin():void{
     let dato=localStorage.getItem('email');  
-    if (!dato ) {
+    console.log(localStorage.getItem('email'));
+    if (!dato) {
       localStorage.setItem('email',this.loginForm.value.email);  
       this.loginForm.value.email=dato;
     }else{
-      (this.loginForm.controls['email'].patchValue(localStorage.getItem('email')))
+      (this.loginForm.controls['email'].patchValue(localStorage.getItem('email')));
+      console.log(this.loginForm.controls['email']);
       this.checkSeleccionado=true;
     }
     if(this.checkSeleccionado){
-      localStorage.getItem('email');    
+        
       this.checkSeleccionado=true;
     }else{
       this.checkSeleccionado=false;

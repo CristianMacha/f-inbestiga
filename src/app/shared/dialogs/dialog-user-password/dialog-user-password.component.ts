@@ -23,7 +23,6 @@ export class DialogUserPasswordComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<DialogUserPasswordComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { personId: number},
-    private router: Router,
     private userService:UserService,
   ) { }
 

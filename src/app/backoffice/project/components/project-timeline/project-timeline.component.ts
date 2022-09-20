@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 
 import { DialogProjectUpdateDocComponent } from '../../../../shared/dialogs/dialog-project-update-doc/dialog-project-update-doc.component';
-import { RequirementService } from '@core/services';
+import { ProjectService, RequirementService } from '@core/services';
 import { CProjectStatus, EStorage } from '@core/enums';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -24,15 +24,17 @@ export class ProjectTimelineComponent implements OnInit, OnDestroy {
   requirementShowCommentariesId: number = 0;
   fileUrl: string = '';
   person: any;
-
+  status: string="";
   constructor(
     private storage: AngularFireStorage,
     private dialog: MatDialog,
     private requirementService: RequirementService,
+    private projectService: ProjectService,
   ) {}
 
   ngOnInit(): void {
     this.getRequirements();
+    this.getProject();
   }
 
   ngOnDestroy(): void {
@@ -41,7 +43,7 @@ export class ProjectTimelineComponent implements OnInit, OnDestroy {
 
   getRequirements() {
     this.requirementService.getByProject(this.projectId)
-    .subscribe(resp=>(this.requirements = resp))
+    .subscribe(resp=>{this.requirements = resp})
   }
 
   handleViewCommentaries(requirementId: number) {
@@ -78,5 +80,9 @@ export class ProjectTimelineComponent implements OnInit, OnDestroy {
     this.subscription.add(
       dialogRef.afterClosed().subscribe((resp) => resp && this.getRequirements())
     )
+  }
+  getProject(): void {
+    this.projectService.getProject(this.projectId, false)
+      .subscribe((resp) => (this.status=resp.status))
   }
 }

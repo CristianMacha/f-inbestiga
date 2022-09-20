@@ -54,7 +54,6 @@ const COMPONENTS_SHARED = [
 
 @NgModule({
   declarations: [COMPONENTS_SHARED],
-  declarations: [COMPONENTS_SHARED],
   imports: [
     CommonModule,
     RouterModule,
