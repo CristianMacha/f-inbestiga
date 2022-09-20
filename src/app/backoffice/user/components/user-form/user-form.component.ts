@@ -1,12 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import {  Subscription } from 'rxjs';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { AppStateUserFeature } from '../../store/user.reducer';
-import { activeDetails, activeForm, createPerson, updatePerson } from '../../store/user.actions';
-import { userFeature, userFeatureLoading } from '../../store/user.selectors';
 import { Person } from '@core/models';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PersonService } from '@core/services';
 
 @Component({
   selector: 'vs-user-form',
@@ -32,24 +30,31 @@ export class UserFormComponent implements OnInit, OnDestroy {
       })
     ], Validators.required)
   });
-
+  
+  personId:number=0;
   title: string = 'Nuevo usuario';
   btnActionText: string = 'Crear usuario';
 
   subscription: Subscription = new Subscription();
   loading: boolean = false;
-
   editMode: boolean = false;
-  fromDetail: boolean = false;
-  personSelected: boolean = false;
   person: Person = new Person();
 
   constructor(
-    private store: Store<AppStateUserFeature>,
+    private activatedRoute: ActivatedRoute,
+    private  personService:PersonService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
-    this.checkFormStatus();
+    this.activatedRoute.params.subscribe(resp=>{
+      this.personId=parseInt(resp['id']);
+      if(this.personId){
+        this.title = 'Actualizar Usuario';
+        this.btnActionText = 'Actualizar Usuario';
+        this.checkFormStatus(this.personId);
+      }
+    })
   }
 
   ngOnDestroy(): void {
@@ -61,36 +66,32 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   handleBtnCancel() {
-    this.personSelected ? this.store.dispatch(activeDetails({ person: this.person })) : this.store.dispatch(activeForm({ active: false }));
-  }
+    this.router.navigateByUrl(`backoffice/user`).then();
 
-  handleBtnActionUser() {
-    if (this.editMode) {
-      this.personForm.invalid ? this.personForm.markAllAsTouched() : this.store.dispatch(updatePerson({ person: this.personForm.value }));
-    } else {
-      this.personForm.invalid ? this.personForm.markAllAsTouched() : this.store.dispatch(createPerson({ person: this.personForm.value }));
+  }
+  create() {
+    if (this.personForm.value.name!="") {
+      this.personService.create(this.personForm.value).subscribe(resp=>{
+        this.router.navigateByUrl(`backoffice/user`).then();
+      });
+    }
+  }
+  update() {
+    if (this.personForm.value.name!="") {
+      this.personService.update(this.personForm.value).subscribe(resp=>{
+        this.router.navigateByUrl(`backoffice/user`).then();
+      });
     }
   }
 
-  checkFormStatus() {
-    this.subscription.add(
-      this.store.select(userFeature).subscribe(
-        (resp) => {
-          this.loading = resp.loading;
-          if (resp.editMode) {
-            (this.personForm.controls['user'] as FormGroup).controls['email'].disable();
-            (this.personForm.controls['user'] as FormGroup).controls['password'].disable();
-            this.editMode = true;
-            this.fromDetail = resp.details;
-            this.personSelected = resp.personSelected;
-            this.title = 'Actualizar usuario';
-            this.btnActionText = 'Actualizar usuario';
-            this.person= resp.person;
-            this.personForm.patchValue(this.person);
-            this.personForm.markAllAsTouched();
-          }
-        })
-    )
+  checkFormStatus(personId:number) {
+    this.personService.getByUser(personId)
+    .subscribe((resp)=>{
+      this.editMode = true;
+      this.personForm.patchValue(resp);
+      (this.personForm.controls['user'] as FormGroup).controls['email'].disable();
+      (this.personForm.controls['user'] as FormGroup).controls['password'].disable();
+    })
   }
 
 }

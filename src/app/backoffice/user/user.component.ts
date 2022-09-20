@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
@@ -23,6 +24,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<AppStateUserFeature>,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -35,7 +37,7 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   handleBtnNewPerson(): void {
-    this.store.dispatch(activeForm({ active: true }));
+    this.router.navigateByUrl(`backoffice/user/new`).then();
   }
 
   getUserState() {

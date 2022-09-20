@@ -2,9 +2,8 @@
   <button mat-icon-button (click)="handleBtnBack()">
     <mat-icon>arrow_back</mat-icon>
   </button>
-  <h2 style="margin: 0">{{person.fullName | titlecase}} {{person.surnames | titlecase}}</h2>
+  <h2 style="margin: 0">{{userPerson.fullName | titlecase}} {{userPerson.surnames | titlecase}}</h2>
 </div>
-
 <div class="row g-3">
   <div class="col-md-4">
     <mat-card>
@@ -13,16 +12,16 @@
       </mat-card-header>
       <mat-card-content>
         <div>
-          <p><strong>Email: </strong>{{person.user.email}}</p>
-          <p><strong>Telefono: </strong>{{person.phone}}</p>
-          <p><strong>Rol: </strong>{{person.personRoles[0].role.name}}</p>
+          <p><strong>Email: </strong>{{userPerson.user.email}}</p>
+          <p><strong>Telefono: </strong>{{userPerson.phone}}</p>
+          <p><strong>Rol: </strong>{{userPerson.personRoles[0].role.name}}</p>
         </div>
       </mat-card-content>
       <mat-card-actions [align]="'end'">
         <button
           type="button"
           mat-flat-button
-          (click)="handleBtnEditUser()"
+          (click)="handleBtnEditUser(userPerson.user.id)"
           color="primary">
           Editar Usuario
         </button>
