@@ -23,6 +23,7 @@ import { DialogPaymentUpdateComponent } from './dialogs/dialog-payment-update/di
 import { DialogProjectEditTotalComponent } from './dialogs/dialog-project-edit-total/dialog-project-edit-total.component';
 import { DialogProjectUpdateDocComponent } from './dialogs/dialog-project-update-doc/dialog-project-update-doc.component';
 import { Error404Component } from './components/error404/error404.component';
+import { DialogUserPasswordComponent } from './dialogs/dialog-user-password/dialog-user-password.component';
 import { DialogInvoiceEditComponent } from './dialogs/dialog-invoice-edit/dialog-invoice-edit.component';
 import { DialogFeeEditComponent } from './dialogs/dialog-fee-edit/dialog-fee-edit.component';
 
@@ -48,9 +49,11 @@ const COMPONENTS_SHARED = [
   Error404Component,
   DialogInvoiceEditComponent,
   DialogFeeEditComponent,
+  DialogUserPasswordComponent
 ]
 
 @NgModule({
+  declarations: [COMPONENTS_SHARED],
   declarations: [COMPONENTS_SHARED],
   imports: [
     CommonModule,

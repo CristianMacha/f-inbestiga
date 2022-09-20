@@ -1,7 +1,23 @@
 <mat-card>
-  <mat-card-header>
-    <mat-card-title>{{title | uppercase}}</mat-card-title>
-  </mat-card-header>
+  <div class="card-header pb-0">
+
+    <div class="row">
+      <div class="col-lg-6">
+        <mat-card-title>{{title | uppercase}}</mat-card-title>
+      </div>
+      <div class="col-lg-6 buttonEditPass">
+        <button
+        mat-button
+        *ngIf="editMode"
+        color="primary"
+        [disabled]="personForm.invalid || loading"
+        (click)="updatePassword()">
+        Cambio password
+      </button>
+      </div>
+    </div>
+  </div>
+  <br>
   <mat-card-content>
     <form [formGroup]="personForm">
       <div class="row g-2">
@@ -27,30 +43,7 @@
             <mat-error> Ingresa los apellidos</mat-error>
           </mat-form-field>
         </div>
-        <div class="col-md-12">
-          <div formGroupName="user">
-            <div class="row g-2">
-              <div class="col-md-6">
-                <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Correo</mat-label>
-                  <input
-                    type="email"
-                    matInput
-                    formControlName="email"
-                    placeholder="Correo electrónico"/>
-                  <mat-error> Ingresa un correo válido</mat-error>
-                </mat-form-field>
-              </div>
-              <div class="col-md-6">
-                <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Contraseña</mat-label>
-                  <input type="password" matInput formControlName="password"/>
-                  <mat-error>Ingresa una contraseña válida</mat-error>
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
-        </div>
+      
         <div class="col-md-6">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Celular</mat-label>
@@ -77,6 +70,30 @@
                     </mat-select>
                   </mat-form-field>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div formGroupName="user">
+            <div class="row g-2">
+              <div class="col-md-6"   >
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Correo</mat-label>
+                  <input
+                    type="email"
+                    matInput
+                    formControlName="email"
+                    placeholder="Correo electrónico"/>
+                  <mat-error> Ingresa un correo válido</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="personForm.invalid ">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Contraseña</mat-label>
+                  <input type="password"  matInput formControlName="password"/>
+                  <mat-error>Ingresa una contraseña válida</mat-error>
+                </mat-form-field>
               </div>
             </div>
           </div>
