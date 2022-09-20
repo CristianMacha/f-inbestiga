@@ -12,6 +12,12 @@ export interface IRegister {
   phone: string;
 }
 
+export interface IPassword {
+  password: string;
+  newPassword: string;
+  passwordNewVerify: string;
+}
+
 export interface ILoginResponse {
   token: string;
   userDb: User;

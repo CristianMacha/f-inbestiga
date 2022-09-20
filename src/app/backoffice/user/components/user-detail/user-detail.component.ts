@@ -48,7 +48,6 @@ export class UserDetailComponent implements OnInit, OnDestroy {
       console.log(resp)
       this.getProjects(resp.id)
     })
-
   }
 
   getProjects(personId: number): void {

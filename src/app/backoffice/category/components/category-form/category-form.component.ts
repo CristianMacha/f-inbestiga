@@ -73,7 +73,6 @@ export class CategoryFormComponent implements OnInit {
         this.router.navigateByUrl(`backoffice/category`).then();
       });
     }
-
   }
 
   checkFormStatus(categoryId: number): void {

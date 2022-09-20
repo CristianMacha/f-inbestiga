@@ -2,9 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import {  Subscription } from 'rxjs';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { Person } from '@core/models';
+import { Person, User } from '@core/models';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PersonService } from '@core/services';
+import { PersonService, RequirementService } from '@core/services';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogUserPasswordComponent } from 'src/app/shared/dialogs/dialog-user-password/dialog-user-password.component';
 
 @Component({
   selector: 'vs-user-form',
@@ -12,6 +14,7 @@ import { PersonService } from '@core/services';
   styleUrls: ['./user-form.component.scss']
 })
 export class UserFormComponent implements OnInit, OnDestroy {
+  
   personForm: FormGroup = new FormGroup({
     id: new FormControl(0, Validators.required),
     fullName: new FormControl('', Validators.required),
@@ -30,7 +33,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
       })
     ], Validators.required)
   });
-  
+
+  requirements: User[] = [];
   personId:number=0;
   title: string = 'Nuevo usuario';
   btnActionText: string = 'Crear usuario';
@@ -44,6 +48,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private  personService:PersonService,
     private router: Router,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -52,7 +57,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
       if(this.personId){
         this.title = 'Actualizar Usuario';
         this.btnActionText = 'Actualizar Usuario';
-        this.checkFormStatus(this.personId);
+        this.checkFormStatus(this.personId);      
       }
     })
   }
@@ -67,7 +72,6 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
   handleBtnCancel() {
     this.router.navigateByUrl(`backoffice/user`).then();
-
   }
   create() {
     if (this.personForm.value.name!="") {
@@ -92,6 +96,14 @@ export class UserFormComponent implements OnInit, OnDestroy {
       (this.personForm.controls['user'] as FormGroup).controls['email'].disable();
       (this.personForm.controls['user'] as FormGroup).controls['password'].disable();
     })
+  }
+
+  updatePassword(){
+    const dialogRef = this.dialog.open(DialogUserPasswordComponent, {
+      width: '500px',
+      data: { personId: this.personId},
+      disableClose:true,
+    });
   }
 
 }
