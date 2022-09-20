@@ -3,7 +3,7 @@
     <mat-card-title>{{fee.paymentDate | date}}</mat-card-title>
     <mat-card-subtitle>{{fee.total | currency}} |
       <span class="font-weight-bold"
-        [class.text-warning]="fee.status == cFeeStatus.DEBT"
+        [class.text-warning]="fee.status == cFeeStatus.PENDING"
         [class.text-info]="fee.status == cFeeStatus.PARTIAL"
         [class.text-success]="fee.status == cFeeStatus.PAID_OUT">
             {{fee.status }}

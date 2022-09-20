@@ -77,7 +77,7 @@ export class DashboardAdminComponent implements OnInit, OnDestroy {
   }
 
   pageEventInvoice(event: PageEvent) {
-    this.getInvoices(ERole.STUDENT, {status: EInvoiceStatus.ALL, take: event.pageSize, skip: event.pageIndex});
+    this.getInvoices(ERole.ADMINISTRATOR, {status: EInvoiceStatus.ALL, take: event.pageSize, skip: event.pageIndex});
   }
 
 }

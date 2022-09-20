@@ -4,6 +4,14 @@
     <mat-card-subtitle>{{invoice.project.description}}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
+    <div>
+      <h6>Asesores</h6>
+      <ul>
+        <div *ngFor="let personProject of invoice.project.personProjects">
+          <li *ngIf="personProject.isAdvisor">{{personProject.person.fullName}} {{personProject.person.surnames}}</li>
+        </div>
+      </ul>
+    </div>
     <mat-list>
       <mat-list-item>
         <mat-icon mat-list-icon color="accent">payments</mat-icon>

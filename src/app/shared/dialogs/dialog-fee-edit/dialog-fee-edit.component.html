@@ -1,1 +1,72 @@
-<p>dialog-fee-edit works!</p>
+<div mat-dialog-content>
+  <div class="content-info">
+    <div class="info">
+      <div>
+        <mat-icon color="accent">payments</mat-icon>
+      </div>
+      <div class="info-content">
+        <div class="info-item-primary">TOTAL</div>
+        <div class="info-item-secondary">{{invoice.total | currency}}</div>
+      </div>
+    </div>
+    <div class="info">
+      <div>
+        <mat-icon color="primary">wallet</mat-icon>
+      </div>
+      <div class="info-content">
+        <div class="info-item-primary">CUOTAS</div>
+        <div class="info-item-secondary">{{invoice.feesNumber}}</div>
+      </div>
+    </div>
+    <div class="info">
+      <div>
+        <mat-icon color="primary" style="color: #1A73E8;">sell</mat-icon>
+      </div>
+      <div class="info-content">
+        <div class="info-item-primary">ESTADO</div>
+        <div class="info-item-secondary">{{invoice.status}}</div>
+      </div>
+    </div>
+  </div>
+  <mat-divider style="margin-top: 24px; margin-bottom: 24px;"></mat-divider>
+  <div style="text-align: center;">
+    <div style="font: 500 20px / 32px Roboto, 'Helvetica Neue', sans-serif; line-height: initial;">{{fee.paymentDate | date }}</div>
+    <span style="color: #4CAF50; line-height: 2px;">{{fee.total | currency}}</span>
+  </div>
+
+  <div class="row g-2 mt-2">
+    <div class="content-info">
+      <div class="info">
+        <div class="info-content">
+          <div class="info-item-primary">PAGADO</div>
+          <div class="info-item-secondary">{{totalPaidOut | currency}}</div>
+        </div>
+      </div>
+
+      <div class="info">
+        <div class="info-content">
+          <div class="info-item-primary">ESTADO</div>
+          <div class="info-item-secondary">{{fee.status}}</div>
+        </div>
+      </div>
+    </div>
+
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Nuevo costo de la cuota</mat-label>
+        <input type="number" matInput autocomplete="off" [formControl]="amountControl">
+        <mat-error>El costo es necesesario (min. {{totalPaidOut | currency}})</mat-error>
+      </mat-form-field>
+
+    </div>
+</div>
+<div mat-dialog-actions [align]="'end'">
+  <button type="button" mat-button (click)="onNoClick()">CANCELAR</button>
+  <button
+    type="button"
+    mat-flat-button
+    color="primary"
+    (click)="handleUpdateFee()"
+    [disabled]="loading">
+    ACTUALIZAR COSTO
+  </button>
+</div>

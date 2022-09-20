@@ -214,6 +214,6 @@
   <button
     mat-flat-button
     color="primary"
-    [disabled]="feeForm.invalid || projectForm.invalid || students.length == 0"
+    [disabled]="feeForm.invalid || projectForm.invalid || students.length == 0 || loading"
     (click)="handleRegisterProject()">{{btnText | uppercase}}</button>
 </div>

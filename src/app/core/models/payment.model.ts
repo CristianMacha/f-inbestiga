@@ -20,7 +20,7 @@ export class PaymentModel {
     this.code = '';
     this.concept = PaymentConceptEnum.FEE;
     this.conceptId = 0;
-    this.status = PaymentStatusEnum.PENDING;
+    this.status = PaymentStatusEnum.PROCESSING;
     this.active = false;
     this.deleted = true;
     this.person = new Person();

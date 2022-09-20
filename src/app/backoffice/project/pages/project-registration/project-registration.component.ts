@@ -83,7 +83,7 @@ export class ProjectRegistrationComponent implements OnInit {
       fees: this.feeForm.controls['fees'].value
     })
       .pipe(finalize(() => this.loading = false))
-      .subscribe((resp) => console.log(resp))
+      .subscribe((resp) => this.router.navigateByUrl('backoffice/project'))
   }
 
   getCategories(): void {

@@ -31,6 +31,6 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   seeProject(): void {
-    this.router.navigateByUrl(`backoffice/project/${this.project.id}`)
+    this.router.navigateByUrl(`backoffice/project/detalles/${this.project.id}`)
   }
 }

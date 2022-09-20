@@ -1,22 +1,20 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {finalize, Subscription} from 'rxjs';
-import {Store} from '@ngrx/store';
-import {MatDialog} from "@angular/material/dialog";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { MatDialog } from "@angular/material/dialog";
 
-import {Invoice, Project, Role} from '@core/models';
-import {AppStateProjectFeature} from '../../store/project.reducers';
-import {activeFormR, loadProject, updateProjectActive} from '../../store/project.actions';
-import {projectFeatureActiveFormR, projectFeatureProject} from '../../store/project.selectors';
-import {CProjectStatus, CRole} from "@core/enums";
-import {uiRoleSelected} from "../../../../shared/ui.selectors";
-import {InvoiceService, ProjectService, SnackBarService} from "@core/services";
-import {
-  DialogAcceptProjectComponent
-} from "../../../../shared/dialogs/dialog-accept-project/dialog-accept-project.component";
-import {DialogConfirmComponent} from "../../../../shared/dialogs/dialog-confirm/dialog-confirm.component";
-import {IDialogConfirm} from "@core/interfaces";
-import { DialogProjectUpdateDocComponent } from 'src/app/shared/dialogs/dialog-project-update-doc/dialog-project-update-doc.component';
+import { Invoice, Project, Role } from '@core/models';
+import { CProjectStatus, CRole } from "@core/enums";
+import { IDialogConfirm } from "@core/interfaces";
+import { AppStateProjectFeature } from '../../store/project.reducers';
+import { loadProject, updateProjectActive } from '../../store/project.actions';
+import { projectFeatureActiveFormR } from '../../store/project.selectors';
+import { uiRoleSelected } from "../../../../shared/ui.selectors";
+import { InvoiceService, ProjectService, SnackBarService } from "@core/services";
+import { DialogAcceptProjectComponent } from "../../../../shared/dialogs/dialog-accept-project/dialog-accept-project.component";
+import { DialogConfirmComponent } from "../../../../shared/dialogs/dialog-confirm/dialog-confirm.component";
+import { DialogProjectUpdateDocComponent } from '../../../../../app/shared/dialogs/dialog-project-update-doc/dialog-project-update-doc.component';
 
 @Component({
   selector: 'vs-project-detail',
@@ -49,6 +47,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     this.getActiveFormState();
     this.activatedRoute.params.subscribe((resp) => {
       this.projectId = parseInt(resp['id']);
+      this.getProject(this.projectId);
     });
     this.getRoleSelectedState();
   }
@@ -60,14 +59,14 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   handleAccept(): void {
     const dialogRef = this.matDialog.open(DialogAcceptProjectComponent, {
       width: '400px',
-      data: {projectId: this.projectId},
+      data: { projectId: this.projectId },
       autoFocus: false,
     });
 
     this.subscription.add(
       dialogRef.afterClosed().subscribe((resp) => {
         if (resp) {
-          this.store.dispatch(loadProject({projectId: this.projectId}))
+          this.store.dispatch(loadProject({ projectId: this.projectId }))
           this.getInvoices(this.projectId);
         }
       })
@@ -82,7 +81,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
       accept: false
     };
 
-    const dialogRef = this.matDialog.open(DialogConfirmComponent, {width: '300px', data, autoFocus: false});
+    const dialogRef = this.matDialog.open(DialogConfirmComponent, { width: '300px', data, autoFocus: false });
     this.subscription.add(
       dialogRef.afterClosed().subscribe((resp) => resp && this.refuseProject())
     );
@@ -93,7 +92,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     this.projectService.refuse(this.projectId)
       .subscribe({
         next: (resp) => {
-          this.store.dispatch(loadProject({projectId: resp.id}))
+          this.store.dispatch(loadProject({ projectId: resp.id }))
           this.snackBar.openTopEnd('Proyecto rechazdo');
         },
         error: (e) => this.snackBar.openTopEnd('Algo salio mal.')
@@ -114,7 +113,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   handleUploadUpdate() {
     const dialogRef = this.matDialog.open(DialogProjectUpdateDocComponent, {
       width: '300px',
-      data:{projectId: this.projectId},
+      data: { projectId: this.projectId },
       disableClose: true
     });
     dialogRef.afterClosed().subscribe((resp) => resp && this.getProject(this.projectId));
@@ -123,7 +122,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   }
 
   handleBtnToggleActiveProject() {
-    this.store.dispatch(updateProjectActive({projectId: this.projectId}));
+    this.store.dispatch(updateProjectActive({ projectId: this.projectId }));
   }
 
   handleBtnArrowBack() {
@@ -135,7 +134,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
       this.activatedRoute.params.subscribe((resp) => {
         this.projectId = parseInt(resp['id']);
         this.getInvoices(this.projectId);
-        this.store.dispatch(loadProject({projectId: this.projectId}));
+        this.store.dispatch(loadProject({ projectId: this.projectId }));
       })
     );
   }
