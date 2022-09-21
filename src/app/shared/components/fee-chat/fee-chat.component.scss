@@ -1,6 +1,7 @@
 #chatview{
   background-color: rgba(0, 0, 0, 0.025);
   border-radius: 15px;
+  height: 370px;
 }
 #profile {
   height: 160px;
@@ -87,7 +88,7 @@
 #chat-messages div.message.right .bubble {
   float: right;
   border-radius: 5px 5px 0px 5px ;
-  background-color: #0bd4c0bb;
+  background-color: #0BD4C1;
 }
 
 .bubble span {
