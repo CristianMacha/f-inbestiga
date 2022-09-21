@@ -26,6 +26,7 @@ import { Error404Component } from './components/error404/error404.component';
 import { DialogUserPasswordComponent } from './dialogs/dialog-user-password/dialog-user-password.component';
 import { DialogInvoiceEditComponent } from './dialogs/dialog-invoice-edit/dialog-invoice-edit.component';
 import { DialogFeeEditComponent } from './dialogs/dialog-fee-edit/dialog-fee-edit.component';
+import { FeeChatComponent } from './components/fee-chat/fee-chat.component';
 
 const COMPONENTS_SHARED = [
   BackofficeNavComponent,
@@ -41,6 +42,7 @@ const COMPONENTS_SHARED = [
   DialogPersonFormComponent,
   DialogPaymentComponent,
   FeeDetailComponent,
+  FeeChatComponent,
   FeePaymentComponent,
   DialogRolesComponent,
   DialogPaymentUpdateComponent,

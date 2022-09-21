@@ -1,0 +1,137 @@
+#chatview{
+  background-color: rgba(0, 0, 0, 0.025);
+  border-radius: 15px;
+}
+#profile {
+  height: 160px;
+  overflow: hidden;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.444);
+  background-image: linear-gradient(178deg, #0BD4C1, #8219f3ab);
+  border-radius: 15px 15px 0 0;
+
+}
+#profile img{
+  width: 80px;
+  height: 80px;
+  border: 3px solid #fff;
+  margin: 15px 0 0;
+  border-radius: 50%;
+}
+#profile p{
+  font-weight: 600;
+  padding: 0;
+  margin: 0;
+}
+#profile span{
+  padding-bottom: 10px;
+}
+
+/*--chats--*/
+#chat-messages {
+  opacity: 1;
+  height: 280px;
+  overflow-y: scroll;  
+  overflow-x: hidden;
+}
+
+#chat-messages label {
+  color: #777;
+  font-weight: 600;
+  font-size: 12px;
+  text-align: center;
+  margin: 15px 0;
+  width: 290px;
+  display: block;  
+}
+
+#chat-messages div.message {
+  padding: 0 0 28px 39px;
+  clear: both;
+  margin-bottom: 45px;
+}
+
+#chat-messages div.message.right {
+  padding: 0 58px 30px 0;
+  margin-right: -19px;
+  margin-left: 19px;
+}
+
+#chat-messages .message img {
+  float: left;
+  margin-left: -38px;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  margin-top: 12px;
+}
+
+#chat-messages div.message.right img {
+  float: right;
+  margin-left: 0;
+  margin-right: -38px;
+}
+
+.message .bubble {
+  background: rgb(75, 195, 255);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 12px 13px;
+  border-radius: 5px;
+  color: rgb(255, 255, 255);
+
+  position: relative;
+  float: left;
+}
+
+#chat-messages div.message.right .bubble {
+  float: right;
+  border-radius: 5px 5px 0px 5px ;
+}
+
+.bubble span {
+  color: #777;
+  font-size: 11px;
+  position: absolute;
+  right: 0;
+  bottom: -22px;
+}
+
+@media (max-width:1199px) and (min-width:992px){
+
+}
+@media (max-width:991px) and (min-width:768px){
+  #chat-messages label {
+    color: #777;
+    font-weight: 600;
+    font-size: 10px;
+    text-align: center;
+    margin: 15px 0;
+    width: 150px;
+    display: block;  
+  }
+  #chat-messages {
+    opacity: 1;
+    height: 280px;
+    overflow-y: scroll;  
+    overflow-x: hidden;
+  }
+  #chat-messages div.message {
+    padding: 6px 0 28px 39px;
+    clear: both;
+    margin-bottom: 50px;
+  }
+  .bubble{
+    font-size:10px !important;
+  }
+  .bubble span{
+    margin: 1px;
+    padding: 1px;
+  }
+
+}
+@media (max-width:767px){
+  .bubble{
+    font-size:10px !important;
+  }
+}
