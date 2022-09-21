@@ -181,7 +181,6 @@ export class ProjectRegistrationComponent implements OnInit {
     const totalFee = invoiceTotal / feesNumber;
     const newFee = new Fee();
     newFee.total = Math.round(totalFee);
-    console.log(feesNumber);
 
     const currentDate = moment();
     for (let index = 0; index < feesNumber; index++) {

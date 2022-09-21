@@ -48,6 +48,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     this.activatedRoute.params.subscribe((resp) => {
       this.projectId = parseInt(resp['id']);
       this.getProject(this.projectId);
+      this.getInvoices(this.projectId);
     });
     this.getRoleSelectedState();
   }
@@ -58,15 +59,16 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
 
   handleAccept(): void {
     const dialogRef = this.matDialog.open(DialogAcceptProjectComponent, {
-      width: '400px',
+      width: '600px',
       data: { projectId: this.projectId },
       autoFocus: false,
+      disableClose: true,
     });
 
     this.subscription.add(
       dialogRef.afterClosed().subscribe((resp) => {
         if (resp) {
-          this.store.dispatch(loadProject({ projectId: this.projectId }))
+          this.getProject(this.projectId);
           this.getInvoices(this.projectId);
         }
       })

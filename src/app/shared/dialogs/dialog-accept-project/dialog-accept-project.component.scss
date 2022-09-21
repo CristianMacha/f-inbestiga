@@ -1,0 +1,15 @@
+.student-info {
+  display: flex;
+  flex-direction: column;
+
+  & .info {
+    display: flex;
+  }
+}
+
+.vs_content_fee {
+  padding: .5rem;
+  border: 1px solid #8219F3;
+  border-radius: 5px;
+  background-color: #fff;
+}
