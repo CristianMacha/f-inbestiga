@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loading=true;
     this.authService.login(this.loginForm.value)
     .subscribe((resp) => {
+     
       this.remenberLogin();
       this.checkSeleccionado=true;
       localStorage.setItem('token', resp.token);
@@ -88,21 +89,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   remenberLogin():void{
-    let dato=localStorage.getItem('email');  
-    console.log(localStorage.getItem('email'));
-    if (!dato) {
+    let dato=localStorage.getItem('email');
+    console.log(this.loginForm.value.email)
+    if (!dato || this.checkSeleccionado) {
       localStorage.setItem('email',this.loginForm.value.email);  
       this.loginForm.value.email=dato;
-    }else{
-      (this.loginForm.controls['email'].patchValue(localStorage.getItem('email')));
-      console.log(this.loginForm.controls['email']);
-      this.checkSeleccionado=true;
-    }
-    if(this.checkSeleccionado){
-        
-      this.checkSeleccionado=true;
-    }else{
       this.checkSeleccionado=false;
+    }else{
+      this.loginForm.controls['email'].patchValue(localStorage.getItem('email'));
+      this.checkSeleccionado=true;
     }
   }
 }
