@@ -3,7 +3,7 @@ import { Fee, PaymentModel } from '@core/models';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 
-import { CFeeStatus, PaymentConceptEnum } from '@core/enums';
+import { CFeeStatus, CRole, PaymentConceptEnum } from '@core/enums';
 import { FeeService, PaymentService } from '@core/services';
 import { DialogPayFeeComponent } from '../../dialogs/dialog-pay-fee/dialog-pay-fee.component';
 import { DialogFeeEditComponent } from '../../dialogs/dialog-fee-edit/dialog-fee-edit.component';
@@ -19,10 +19,11 @@ export class FeeDetailComponent implements OnInit {
 
   title: string = 'PENDIENTE';
   cFeeStatus = CFeeStatus;
+  cRole = CRole;
   payments: PaymentModel[] = [];
   paymentStatus: any;
   invoiceIdActive!: number;
-
+  idUser:any="";
   constructor(
     private dialog: MatDialog,
     private paymentService: PaymentService,
@@ -33,6 +34,8 @@ export class FeeDetailComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((resp) => this.invoiceIdActive = resp['id']);
     this.getPayments();
+    this.idUser=localStorage.getItem('rId');
+
   }
 
   handleBtnEditFee(): void {
