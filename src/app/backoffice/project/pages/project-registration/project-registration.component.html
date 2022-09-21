@@ -1,220 +1,223 @@
-<div class="mb-5">
-  <h5 class="vs_title">INFORMACION DEL PROYECTO</h5>
-  <div class="mt-2">
-    <form [formGroup]="projectForm">
-      <div class="row g-2">
-        <div class="col-md-8">
-          <mat-form-field appearance="legacy" class="w-100">
-            <mat-label>Titulo del proyecto</mat-label>
-            <input
-              type="text"
-              matInput
-              placeholder="Titulo"
-              autocomplete="off"
-              formControlName="name">
-            <mat-error>El titulo del proyecto es necesario</mat-error>
-          </mat-form-field>
-        </div>
-        <div class="col-md-4" *ngIf="!showOtherCategory">
-          <div formGroupName="category">
-            <mat-form-field appearance="legacy" class="w-100">
-              <mat-label>Categoria</mat-label>
-              <mat-select formControlName="id">
-                <mat-option [value]="0">Seleccione categoria</mat-option>
-                <mat-option *ngFor="let category of categories" [value]="category.id">{{category.name}}</mat-option>
-              </mat-select>
-              <mat-error>La categoria es necesaria.</mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="col-md-4" *ngIf="showOtherCategory">
-          <mat-form-field appearance="legacy" class="w-100">
-            <mat-label>Otra categoria</mat-label>
-            <input type="text" matInput autocomplete="off" formControlName="otherCategory">
-            <button
-              mat-icon-button
-              matSuffix
-              type="button"
-              (click)="handleCloseOtherCategory()">
-              <mat-icon>close</mat-icon>
-            </button>
-          </mat-form-field>
-        </div>
-        <div class="col-md-2" >
-          <mat-form-field appearance="legacy" class="w-100">
-            <mat-label >Fecha de inicio</mat-label>
-            <input matInput [matDatepicker]="pickerStart"  formControlName="startDate" >
-            <mat-datepicker-toggle matSuffix [for]="pickerStart" ></mat-datepicker-toggle >
-            <mat-datepicker #pickerStart></mat-datepicker>
-            <mat-error>La fecha de finalizacion es necesaria.</mat-error>
-          </mat-form-field>
-        </div>
-        <div class="col-md-2">
-          <mat-form-field appearance="legacy" class="w-100">
-            <mat-label>Fecha de finalización</mat-label>
-            <input matInput [matDatepicker]="pickerEnd" formControlName="expirationDate">
-            <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
-            <mat-datepicker #pickerEnd></mat-datepicker>
-            <mat-error>La fecha de finalizacion es necesaria.</mat-error>
-          </mat-form-field>
-        </div>
-        <div class="col-md-8">
-          <mat-form-field appearance="legacy" class="w-100">
-            <mat-label>Descripci&oacute;n</mat-label>
-            <textarea matInput rows="1" formControlName="description"></textarea>
-          </mat-form-field>
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
-
-<div class="my-5">
-  <h5 class="vs_title">ESTUDIANTES</h5>
-  <div class="row g-2">
-    <div class="col-md-12">
-      <vs-search-person
-        [appearance]="'legacy'"
-        [roleName]="'estudiante'"
-        [roleId]="cRole.STUDENT"
-        (person)="setPerson(false, $event)">
-      </vs-search-person>
-    </div>
-    <div class="col-md-12">
-      <div *ngIf="students.length > 0">
-        <div class="vs_persons_content">
-          <div *ngFor="let student of students; let i= index;">
-            <div class="vs_person" [class.vs_disabled]="!student.active">
-              <div>
-                <span>{{student.person.fullName}} {{student.person.surnames}}</span>
-              </div>
-              <div>
-                <button mat-icon-button (click)="removeStudent(i, student)" *ngIf="student.active">
-                  <mat-icon>close</mat-icon>
-                </button>
-                <button mat-icon-button color="accent" (click)="removeStudent(i, student)" *ngIf="!student.active">
-                  <mat-icon>replay</mat-icon>
-                </button>
-              </div>
+<mat-card>
+  <mat-card-content>
+    <div class="mb-5">
+      <h5 class="vs_title">INFORMACION DEL PROYECTO</h5>
+      <div class="mt-2">
+        <form [formGroup]="projectForm">
+          <div class="row g-2">
+            <div class="col-md-8">
+              <mat-form-field appearance="legacy" class="w-100">
+                <mat-label>Titulo del proyecto</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  placeholder="Titulo"
+                  autocomplete="off"
+                  formControlName="name">
+                <mat-error>El titulo del proyecto es necesario</mat-error>
+              </mat-form-field>
             </div>
-          </div>
-        </div>
-      </div>
-      <div *ngIf="students.length == 0">
-        <p>No se asigno ningun estudiante a este proyecto</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="my-5">
-  <h5 class="vs_title">ASESORES</h5>
-  <div class="row g-2">
-    <div class="col-md-12">
-      <vs-search-person
-        [appearance]="'legacy'"
-        [roleName]="'asesor'"
-        [roleId]="cRole.ADVISOR"
-        (person)="setPerson(true, $event)">
-      </vs-search-person>
-    </div>
-    <div class="col-md-12">
-      <div *ngIf="advisors.length > 0">
-        <div class="vs_persons_content">
-          <div *ngFor="let advisor of advisors; let i= index;">
-            <div class="vs_person" [class.vs_disabled]="!advisor.active">
-              <div>
-                <span>{{advisor.person.fullName}} {{advisor.person.surnames}}</span>
-              </div>
-              <div>
-                <button mat-icon-button (click)="removeAdvisor(i, advisor)" *ngIf="advisor.active">
-                  <mat-icon>close</mat-icon>
-                </button>
-                <button mat-icon-button color="accent" (click)="removeAdvisor(i, advisor)" *ngIf="!advisor.active">
-                  <mat-icon>replay</mat-icon>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div *ngIf="advisors.length == 0">
-        <p>No se asigno ningun asesor a este proyecto</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="my-5">
-  <h5 class="vs_title">Costo</h5>
-  <div>
-    <form [formGroup]="invoiceForm">
-      <div class="row g-2">
-        <div class="col-md-4">
-          <mat-form-field appearance="legacy" class="w-100">
-            <mat-label>Costo total</mat-label>
-            <input
-              type="number"
-              matInput
-              autocomplete="off"
-              formControlName="total">
-            <mat-error>El costo total es necesario.</mat-error>
-          </mat-form-field>
-        </div>
-        <div class="col-md-4">
-          <mat-form-field appearance="legacy" class="w-100">
-            <mat-label>Numero de cuotas</mat-label>
-            <mat-select formControlName="feesNumber">
-              <mat-option [value]="1">1</mat-option>
-              <mat-option [value]="2">2</mat-option>
-              <mat-option [value]="3">3</mat-option>
-              <mat-option [value]="4">4</mat-option>
-              <mat-option [value]="5">5</mat-option>
-              <mat-option [value]="6">6</mat-option>
-            </mat-select>
-            <mat-error>El numero de coutas es necesario (max. 6)</mat-error>
-          </mat-form-field>
-        </div>
-      </div>
-    </form>
-  </div>
-
-  <form [formGroup]="feeForm">
-    <div formArrayName="fees">
-      <div class="row g-2">
-        <div *ngFor="let fee of feesFormArray.controls; let i= index;" class="col-md-6">
-          <div class="vs_content_fee">
-            <div>Cuota {{i + 1}}</div>
-            <div [formGroupName]="i" class="row g-2">
-              <div class="col-md-6">
+            <div class="col-md-4" *ngIf="!showOtherCategory">
+              <div formGroupName="category">
                 <mat-form-field appearance="legacy" class="w-100">
-                  <mat-label>Fecha de pago</mat-label>
-                  <input matInput [matDatepicker]="pickerPayDate" formControlName="paymentDate" >
-                  <mat-datepicker-toggle matSuffix [for]="pickerPayDate"></mat-datepicker-toggle>
-                  <mat-datepicker #pickerPayDate disabled="false"></mat-datepicker>
-                  <mat-error>La fecha de pago es necesaria.</mat-error>
-                </mat-form-field>
-              </div>
-              <div class="col-md-6">
-                <mat-form-field appearance="legacy" class="w-100">
-                  <mat-label>Pago</mat-label>
-                  <input type="number" matInput formControlName="total">
-                  <mat-error>El pago es necesario.</mat-error>
+                  <mat-label>Categoria</mat-label>
+                  <mat-select formControlName="id">
+                    <mat-option [value]="0">Seleccione categoria</mat-option>
+                    <mat-option *ngFor="let category of categories" [value]="category.id">{{category.name}}</mat-option>
+                  </mat-select>
+                  <mat-error>La categoria es necesaria.</mat-error>
                 </mat-form-field>
               </div>
             </div>
+            <div class="col-md-4" *ngIf="showOtherCategory">
+              <mat-form-field appearance="legacy" class="w-100">
+                <mat-label>Otra categoria</mat-label>
+                <input type="text" matInput autocomplete="off" formControlName="otherCategory">
+                <button
+                  mat-icon-button
+                  matSuffix
+                  type="button"
+                  (click)="handleCloseOtherCategory()">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2" >
+              <mat-form-field appearance="legacy" class="w-100">
+                <mat-label >Fecha de inicio</mat-label>
+                <input matInput [matDatepicker]="pickerStart"  formControlName="startDate" >
+                <mat-datepicker-toggle matSuffix [for]="pickerStart" ></mat-datepicker-toggle >
+                <mat-datepicker #pickerStart></mat-datepicker>
+                <mat-error>La fecha de finalizacion es necesaria.</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="legacy" class="w-100">
+                <mat-label>Fecha de finalización</mat-label>
+                <input matInput [matDatepicker]="pickerEnd" formControlName="expirationDate">
+                <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+                <mat-datepicker #pickerEnd></mat-datepicker>
+                <mat-error>La fecha de finalizacion es necesaria.</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-8">
+              <mat-form-field appearance="legacy" class="w-100">
+                <mat-label>Descripci&oacute;n</mat-label>
+                <textarea matInput rows="1" formControlName="description"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="my-5">
+      <h5 class="vs_title">ESTUDIANTES</h5>
+      <div class="row g-2">
+        <div class="col-md-12">
+          <vs-search-person
+            [appearance]="'legacy'"
+            [roleName]="'estudiante'"
+            [roleId]="cRole.STUDENT"
+            (person)="setPerson(false, $event)">
+          </vs-search-person>
+        </div>
+        <div class="col-md-12">
+          <div *ngIf="students.length > 0">
+            <div class="vs_persons_content">
+              <div *ngFor="let student of students; let i= index;">
+                <div class="vs_person" [class.vs_disabled]="!student.active">
+                  <div>
+                    <span>{{student.person.fullName}} {{student.person.surnames}}</span>
+                  </div>
+                  <div>
+                    <button mat-icon-button (click)="removeStudent(i, student)" *ngIf="student.active">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" (click)="removeStudent(i, student)" *ngIf="!student.active">
+                      <mat-icon>replay</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="students.length == 0">
+            <p>No se asigno ningun estudiante a este proyecto</p>
           </div>
         </div>
       </div>
     </div>
-  </form>
-</div>
 
-<div class="buttons_actions">
-  <button mat-button (click)="gotToProject()">CANCELAR</button>
-  <button
-    mat-flat-button
-    color="primary"
-    [disabled]="feeForm.invalid || projectForm.invalid || students.length == 0 || loading"
-    (click)="handleRegisterProject()">{{btnText | uppercase}}</button>
-</div>
+    <div class="my-5">
+      <h5 class="vs_title">ASESORES</h5>
+      <div class="row g-2">
+        <div class="col-md-12">
+          <vs-search-person
+            [appearance]="'legacy'"
+            [roleName]="'asesor'"
+            [roleId]="cRole.ADVISOR"
+            (person)="setPerson(true, $event)">
+          </vs-search-person>
+        </div>
+        <div class="col-md-12">
+          <div *ngIf="advisors.length > 0">
+            <div class="vs_persons_content">
+              <div *ngFor="let advisor of advisors; let i= index;">
+                <div class="vs_person" [class.vs_disabled]="!advisor.active">
+                  <div>
+                    <span>{{advisor.person.fullName}} {{advisor.person.surnames}}</span>
+                  </div>
+                  <div>
+                    <button mat-icon-button (click)="removeAdvisor(i, advisor)" *ngIf="advisor.active">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" (click)="removeAdvisor(i, advisor)" *ngIf="!advisor.active">
+                      <mat-icon>replay</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="advisors.length == 0">
+            <p>No se asigno ningun asesor a este proyecto</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="my-5">
+      <h5 class="vs_title">Costo</h5>
+      <div>
+        <form [formGroup]="invoiceForm">
+          <div class="row g-2">
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy" class="w-100">
+                <mat-label>Costo total</mat-label>
+                <input
+                  type="number"
+                  matInput
+                  autocomplete="off"
+                  formControlName="total">
+                <mat-error>El costo total es necesario.</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy" class="w-100">
+                <mat-label>Numero de cuotas</mat-label>
+                <mat-select formControlName="feesNumber">
+                  <mat-option [value]="1">1</mat-option>
+                  <mat-option [value]="2">2</mat-option>
+                  <mat-option [value]="3">3</mat-option>
+                  <mat-option [value]="4">4</mat-option>
+                  <mat-option [value]="5">5</mat-option>
+                  <mat-option [value]="6">6</mat-option>
+                </mat-select>
+                <mat-error>El numero de coutas es necesario (max. 6)</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <form [formGroup]="feeForm">
+        <div formArrayName="fees">
+          <div class="row g-2">
+            <div *ngFor="let fee of feesFormArray.controls; let i= index;" class="col-md-6">
+              <div class="vs_content_fee">
+                <div>Cuota {{i + 1}}</div>
+                <div [formGroupName]="i" class="row g-2">
+                  <div class="col-md-6">
+                    <mat-form-field appearance="legacy" class="w-100">
+                      <mat-label>Fecha de pago</mat-label>
+                      <input matInput [matDatepicker]="pickerPayDate" formControlName="paymentDate" >
+                      <mat-datepicker-toggle matSuffix [for]="pickerPayDate"></mat-datepicker-toggle>
+                      <mat-datepicker #pickerPayDate disabled="false"></mat-datepicker>
+                      <mat-error>La fecha de pago es necesaria.</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field appearance="legacy" class="w-100">
+                      <mat-label>Pago</mat-label>
+                      <input type="number" matInput formControlName="total">
+                      <mat-error>El pago es necesario.</mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-button (click)="gotToProject()">CANCELAR</button>
+    <button
+      mat-flat-button
+      color="primary"
+      [disabled]="feeForm.invalid || projectForm.invalid || students.length == 0 || loading"
+      (click)="handleRegisterProject()">{{btnText | uppercase}}</button>
+  </mat-card-actions>
+</mat-card>

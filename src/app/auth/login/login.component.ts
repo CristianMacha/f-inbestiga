@@ -20,12 +20,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   year = new Date().getFullYear();
   loginForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.email, Validators.required]),
-    password: new FormControl('', Validators.required)
+    password: new FormControl('', Validators.required),
+    rememberMe: new FormControl(false)
   });
-  
+
   subscription: Subscription = new Subscription();
   loading = false;
-  checkSeleccionado=false;
+
   constructor(
     private readonly store: Store<AppStateAuthFeature>,
     private authService: AuthService,
@@ -35,31 +36,56 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.remenberLogin();
+    this.verifyEmailLocalStorage();
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-  
+
   login(): void {
     this.loading=true;
     this.authService.login(this.loginForm.value)
+    .pipe(finalize(() => this.loading = false))
     .subscribe((resp) => {
-     
-      this.remenberLogin();
-      this.checkSeleccionado=true;
+      this.checkRememberMe();
       localStorage.setItem('token', resp.token);
       if (resp.personRoles && resp.personRoles.length > 1) {
-        this.openDialogRoles(resp);   
+        this.openDialogRoles(resp);
       }
-      
+
       if (resp.personRoles && resp.personRoles.length == 1) {
         localStorage.setItem('rId', resp.personRoles[0].role.id.toString());
         this.store.dispatch(loadRoleSelected({roleId: resp.personRoles[0].role.id}))
         this.refreshTokenAndRedirect();
       }
     });
+  }
+
+  checkRememberMe(): void {
+      const email = this.loginForm.controls['email'].value;
+      const rememberIsMark = this.loginForm.controls['rememberMe'].value;
+      if(rememberIsMark) {
+        this.setEmailLocalStorage(email);
+      } else {
+        this.removeEmailLocalStorage();
+      }
+  }
+
+  verifyEmailLocalStorage(): void {
+    const emailTemp = localStorage.getItem('email');
+    if(emailTemp) {
+      this.loginForm.controls['email'].patchValue(emailTemp);
+      this.loginForm.controls['rememberMe'].patchValue(true);
+    }
+  }
+
+  setEmailLocalStorage(email: string): void {
+    localStorage.setItem('email', email);
+  }
+
+  removeEmailLocalStorage(): void {
+    localStorage.removeItem('email');
   }
 
   openDialogRoles(respLogin: ILoginResponse): void {
@@ -86,18 +112,5 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authService.refreshToken()
     .pipe(finalize(()=>this.loading=false))
     .subscribe((resp) => resp && this.router.navigateByUrl('backoffice/dashboard'))
-  }
-
-  remenberLogin():void{
-    let dato=localStorage.getItem('email');
-    console.log(this.loginForm.value.email)
-    if (!dato || this.checkSeleccionado) {
-      localStorage.setItem('email',this.loginForm.value.email);  
-      this.loginForm.value.email=dato;
-      this.checkSeleccionado=false;
-    }else{
-      this.loginForm.controls['email'].patchValue(localStorage.getItem('email'));
-      this.checkSeleccionado=true;
-    }
   }
 }

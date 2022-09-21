@@ -25,7 +25,7 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
 
   projects: Project[] = [];
-  displayedColumns: string[] = ['name', 'advisor', 'student', 'expirationDate', 'status', 'actions'];
+  displayedColumns: string[] = ['name', 'advisor', 'student', 'expirationDate', 'status', 'progress', 'actions'];
   resultsLength = 0;
   pageSize = 30;
   pageIndex = 0;

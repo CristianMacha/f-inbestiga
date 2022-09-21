@@ -14,7 +14,7 @@ import { DialogUserPasswordComponent } from 'src/app/shared/dialogs/dialog-user-
   styleUrls: ['./user-form.component.scss']
 })
 export class UserFormComponent implements OnInit, OnDestroy {
-  
+
   personForm: FormGroup = new FormGroup({
     id: new FormControl(0, Validators.required),
     fullName: new FormControl('', Validators.required),
@@ -57,7 +57,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
       if(this.personId){
         this.title = 'Actualizar Usuario';
         this.btnActionText = 'Actualizar Usuario';
-        this.checkFormStatus(this.personId);      
+        this.checkFormStatus(this.personId);
       }
     })
   }
@@ -99,10 +99,10 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   updatePassword(){
-    const dialogRef = this.dialog.open(DialogUserPasswordComponent, {
+    this.dialog.open(DialogUserPasswordComponent, {
       width: '500px',
       data: { personId: this.personId},
-      disableClose:true,
+      disableClose: true,
     });
   }
 
