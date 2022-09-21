@@ -6,13 +6,14 @@
         [class.text-warning]="fee.status == cFeeStatus.PENDING"
         [class.text-info]="fee.status == cFeeStatus.PARTIAL"
         [class.text-success]="fee.status == cFeeStatus.PAID_OUT">
-            {{fee.status }}
+            {{fee.status}}
           </span>
     </mat-card-subtitle>
     <mat-card-subtitle class="titlePayment" *ngIf="fee.status == cFeeStatus.PARTIAL">
       {{(fee.total-paymentStatus) | currency}} | POR PAGAR
     </mat-card-subtitle>
-    <div style="position: absolute; top: 16px; right: 32px;">
+
+    <div style="position: absolute; top: 16px; right: 32px;" *ngIf="this.idUser==cRole.ADMINISTRATOR">
       <button mat-icon-button color="primary" (click)="handleBtnEditFee()">
         <mat-icon>edit</mat-icon>
       </button>

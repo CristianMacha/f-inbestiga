@@ -88,7 +88,7 @@
                   <mat-error> Ingresa un correo válido</mat-error>
                 </mat-form-field>
               </div>
-              <div class="col-md-6" *ngIf="personForm.invalid ">
+              <div class="col-md-6" *ngIf="!editMode">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Contraseña</mat-label>
                   <input type="password"  matInput formControlName="password"/>

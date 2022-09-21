@@ -3,9 +3,9 @@
     <div class="col-lg-6">
       <h5 class="card-title">Historial de documentos</h5>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-6 buttonEditUpdate"  *ngIf="status == cProjectStatus.ACCEPTED">
       <button
-        mat-flat-button
+        mat-button
         color="primary"
         (click)="handleUploadUpdate()">
         <mat-icon>file_upload</mat-icon>
