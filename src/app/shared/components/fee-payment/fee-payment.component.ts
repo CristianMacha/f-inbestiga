@@ -3,8 +3,8 @@ import { AngularFireStorage } from "@angular/fire/compat/storage";
 import { MatDialog } from "@angular/material/dialog";
 import { Store } from "@ngrx/store";
 import { finalize } from "rxjs";
-import { PaymentModel, Role } from "@core/models";
-import { CPaymentStatus, CRole, EStorage } from "@core/enums";
+import { Fee, PaymentModel, Role } from "@core/models";
+import { CPaymentStatus, CRole, EFeeStatus, EStorage } from "@core/enums";
 import { IDialogConfirm } from "@core/interfaces";
 import { DialogConfirmComponent } from "../../dialogs/dialog-confirm/dialog-confirm.component";
 import { PaymentService } from "@core/services";
@@ -20,11 +20,13 @@ import { uiRoleSelected } from "../../ui.selectors";
 export class FeePaymentComponent implements OnInit {
   @Output() updated = new EventEmitter<boolean>();
   @Input() payment!: PaymentModel;
+  @Input() fee!: Fee;
 
   loading = false;
   loadingFile = false;
   paymentStatus = CPaymentStatus;
   cRole = CRole;
+  eFeeStatus=EFeeStatus;
   roleSelected = new Role();
 
   constructor(

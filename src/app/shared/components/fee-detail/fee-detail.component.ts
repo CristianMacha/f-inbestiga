@@ -21,9 +21,10 @@ export class FeeDetailComponent implements OnInit {
   cFeeStatus = CFeeStatus;
   cRole = CRole;
   payments: PaymentModel[] = [];
-  paymentStatus: any;
+  paymentStatus: number=0;
   invoiceIdActive!: number;
   idUser:any="";
+  
   constructor(
     private dialog: MatDialog,
     private paymentService: PaymentService,

@@ -8,10 +8,10 @@
     </div>
     <div style="display: flex">
         <div *ngIf="payment.status == paymentStatus.PENDING && roleSelected.id == cRole.ADMINISTRATOR">
-            <button *ngIf="payment.status != paymentStatus.VERIFIED" mat-icon-button (click)="handleEdit()">
+            <button *ngIf="fee.status!=eFeeStatus.PAID_OUT" mat-icon-button (click)="handleEdit()">
         <mat-icon>edit</mat-icon>
       </button>
-            <button mat-icon-button color="accent" (click)="handleVerify()" [disabled]="loading">
+            <button *ngIf="fee.status!=eFeeStatus.PAID_OUT" mat-icon-button color="accent" (click)="handleVerify()" [disabled]="loading">
         <mat-icon>done</mat-icon>
       </button>
             <button mat-icon-button color="warn" (click)="handleRefuse()" [disabled]="loading">

@@ -9,7 +9,6 @@
         <mat-card-subtitle class="titlePayment" *ngIf="fee.status == cFeeStatus.PARTIAL">
             {{(fee.total-paymentStatus) | currency}} | POR PAGAR
         </mat-card-subtitle>
-
         <div style="position: absolute; top: 16px; right: 32px;" *ngIf="this.idUser==cRole.ADMINISTRATOR">
             <button mat-icon-button color="primary" (click)="handleBtnEditFee()">
         <mat-icon>edit</mat-icon>
@@ -25,7 +24,7 @@
             </div>
             <div class="row g-2" *ngIf="payments.length > 0">
                 <div class="col-md-12 p-3 bg-gray-100" style="border-radius: 4px;" *ngFor="let payment of payments">
-                    <vs-fee-payment [payment]="payment" (updated)="afterUpdatePayment($event)"></vs-fee-payment>
+                    <vs-fee-payment [payment]="payment" [fee]="fee" (updated)="afterUpdatePayment($event)"></vs-fee-payment>
                 </div>
             </div>
         </div>
