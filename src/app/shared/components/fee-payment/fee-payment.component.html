@@ -1,5 +1,4 @@
 <div class="vs_container_pay">
-
     <div style="line-height: 4px">
         <span class="text-bold" [class.text-warning]="payment.status == paymentStatus.PENDING" [class.text-success]="payment.status == paymentStatus.VERIFIED" [class.text-danger]="payment.status == paymentStatus.REFUSED">
             {{payment.status}}
