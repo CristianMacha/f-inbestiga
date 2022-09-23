@@ -29,44 +29,48 @@
           <ng-container matColumnDef="roles">
             <th mat-header-cell *matHeaderCellDef>ROL</th>
             <td mat-cell *matCellDef="let person">
-              <div style="display: flex;">
-                <span
-                  *ngFor="let personRole of person.personRoles"
-                  class="badge badge-pill"
-                  [class.bg-gradient-primary]="personRole.role.id == idRole.ADMINISTRATOR"
-                  [class.bg-gradient-dark]="personRole.role.id == idRole.STUDENT"
-                  [class.bg-gradient-success]="personRole.role.id == idRole.ADVISOR">
-                  {{personRole.role.name}}
-                </span>
+              <div style="display: flex; gap: 2px;">
+                <div *ngFor="let personRole of person.personRoles">
+                  <span
+                    *ngIf="personRole.active"
+                    class="badge badge-pill"
+                    [class.bg-gradient-primary]="personRole.role.id == idRole.ADMINISTRATOR"
+                    [class.bg-gradient-dark]="personRole.role.id == idRole.STUDENT"
+                    [class.bg-gradient-success]="personRole.role.id == idRole.ADVISOR">
+                    {{personRole.role.name}}
+                  </span>
+                </div>
               </div>
             </td>
           </ng-container>
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef>ACCIONES</th>
             <td mat-cell *matCellDef="let person">
-              <button
-                mat-icon-button
-                color="primary"
-                matTooltip="Editar"
-                matTooltipPosition="above"
-                (click)="handleBtnEdit(person.user.id)">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button
-                mat-icon-button
-                (click)="handleBtnView(person)"
-                matTooltip="Ver detalles"
-                matTooltipPosition="above">
-                <mat-icon>visibility</mat-icon>
-              </button>
-              <button
-                mat-icon-button
-                [color]="person.user.active ? 'accent' : 'warn'"
-                (click)="handleActive(person.user)"
-                [matTooltip]="person.user.active ? 'Desactivar': 'Activar'"
-                matTooltipPosition="above">
-                <mat-icon>{{person.user.active ? 'person' : 'person_off'}}</mat-icon>
-              </button>
+              <div style="display: flex;">
+                <button
+                  mat-icon-button
+                  color="primary"
+                  matTooltip="Editar"
+                  matTooltipPosition="above"
+                  (click)="handleBtnEdit(person.user.id)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  (click)="handleBtnView(person)"
+                  matTooltip="Ver detalles"
+                  matTooltipPosition="above">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  [color]="person.user.active ? 'accent' : 'warn'"
+                  (click)="handleActive(person.user)"
+                  [matTooltip]="person.user.active ? 'Desactivar': 'Activar'"
+                  matTooltipPosition="above">
+                  <mat-icon>{{person.user.active ? 'person' : 'person_off'}}</mat-icon>
+                </button>
+              </div>
             </td>
           </ng-container>
 

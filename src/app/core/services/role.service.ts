@@ -15,6 +15,10 @@ export class RoleService {
     this.uri = `${environment.url}/role`;
   }
 
+  getAll(): Observable<Role[]> {
+    return this.http.get<Role[]>(`${this.uri}`);
+  }
+
   getOne(roleId: number): Observable<Role> {
     return this.http.get<Role>(`${this.uri}/${roleId}`);
   }
