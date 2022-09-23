@@ -3,14 +3,15 @@ import { AngularFireStorage } from "@angular/fire/compat/storage";
 import { MatDialog } from "@angular/material/dialog";
 import { Store } from "@ngrx/store";
 import { finalize } from "rxjs";
-import { PaymentModel, Role } from "@core/models";
+import { Fee, PaymentModel, Role } from "@core/models";
 import { CPaymentStatus, CRole, EStorage } from "@core/enums";
 import { IDialogConfirm } from "@core/interfaces";
 import { DialogConfirmComponent } from "../../dialogs/dialog-confirm/dialog-confirm.component";
-import { PaymentService } from "@core/services";
+import {  FeeService, PaymentService } from "@core/services";
 import { DialogPaymentUpdateComponent } from "../../dialogs/dialog-payment-update/dialog-payment-update.component";
 import { appState } from "../../../app.reducers";
 import { uiRoleSelected } from "../../ui.selectors";
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'vs-fee-payment',
@@ -20,23 +21,31 @@ import { uiRoleSelected } from "../../ui.selectors";
 export class FeePaymentComponent implements OnInit {
   @Output() updated = new EventEmitter<boolean>();
   @Input() payment!: PaymentModel;
-
+  fee!: Fee;
   loading = false;
   loadingFile = false;
   paymentStatus = CPaymentStatus;
   cRole = CRole;
   roleSelected = new Role();
-
+  paymentId: number=0;
+  
   constructor(
     private dialog: MatDialog,
     private paymentService: PaymentService,
     private storage: AngularFireStorage,
+    private feeService:FeeService,
     private store: Store<appState>,
+    private activatedRoute:ActivatedRoute,
   ) {
   }
 
   ngOnInit(): void {
     this.getRoleSelected();
+    this.activatedRoute.params.subscribe((resp) => {
+      this.paymentId = parseInt(resp['id']);
+      this.getFee();
+
+    });
   }
 
   handleVerify(): void {
@@ -110,5 +119,9 @@ export class FeePaymentComponent implements OnInit {
         this.roleSelected = role;
       }
     })
+  }
+
+  getFee(): void {
+    this.feeService.getOne(this.paymentId).subscribe((resp) => (console.log(resp)));
   }
 }
