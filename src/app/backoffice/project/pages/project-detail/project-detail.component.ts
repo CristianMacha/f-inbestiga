@@ -106,8 +106,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     this.projectService.getProject(projectId, false)
       .subscribe({
         next: (resp) => {
-          this.statusActive=resp.active
-          !resp.id && this.router.navigateByUrl('backoffice/project');
+          !resp && this.router.navigateByUrl('backoffice/project');
           this.project = resp;
         },
         error: () => this.router.navigateByUrl('backoffice/project')
@@ -121,8 +120,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
       disableClose: true
     });
     dialogRef.afterClosed().subscribe((resp) => resp && this.getProject(this.projectId));
-
-    //this.store.dispatch(activeFormR({active: true}));
   }
 
   handleBtnToggleActiveProject() {

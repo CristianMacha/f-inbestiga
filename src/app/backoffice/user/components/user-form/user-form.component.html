@@ -43,7 +43,6 @@
             <mat-error> Ingresa los apellidos</mat-error>
           </mat-form-field>
         </div>
-
         <div class="col-md-6">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Celular</mat-label>
@@ -56,23 +55,35 @@
           </mat-form-field>
         </div>
         <div class="col-md-6">
-          <div formArrayName="personRoles">
-            <div *ngFor="let roleF of rolesForm.controls; let i = index">
-              <div [formGroupName]="i">
-                <div formGroupName="role">
-                  <mat-form-field class="w-100" appearance="outline">
-                    <mat-label>Rol</mat-label>
-                    <mat-select formControlName="id">
-                      <mat-option selected [value]="0">Seleccione rol</mat-option>
-                      <mat-option [value]="1">ESTUDIANTE</mat-option>
-                      <mat-option [value]="2">ADMINISTRADOR</mat-option>
-                      <mat-option [value]="3">ASESOR</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-              </div>
-            </div>
-          </div>
+          <mat-form-field class="example-chip-list" appearance="outline" class="w-100">
+            <mat-label>Roles</mat-label>
+            <mat-chip-list #chipList aria-label="Fruit selection">
+              <mat-chip
+                *ngFor="let personRole of personRolesSelected"
+                (removed)="remove(personRole)">
+                {{personRole.role.name}}
+                <button matChipRemove *ngIf="personRole.active">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+                <button matChipRemove *ngIf="!personRole.active">
+                  <mat-icon>replay</mat-icon>
+                </button>
+              </mat-chip>
+              <input
+                placeholder="Agregar rol"
+                #roleInput
+                [formControl]="roleCtrl"
+                [matAutocomplete]="auto"
+                [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+            </mat-chip-list>
+            <mat-error *ngIf="chipList.errorState">Seleccione almenos un rol.</mat-error>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+              <mat-option *ngFor="let role of roles" [value]="role.id">
+                {{role.name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
         </div>
         <div class="col-md-12">
           <div formGroupName="user">
@@ -112,19 +123,19 @@
     mat-flat-button
     color="primary"
     type="accent"
-    [disabled]="personForm.invalid || loading"
+    [disabled]="loading"
     *ngIf="!editMode"
-    (click)="create()">
-    {{btnActionText | uppercase}}
+    (click)="hanldeCreate()">
+    CREAR USUARIO
   </button>
     <button
     mat-flat-button
     color="primary"
     type="accent"
     *ngIf="editMode"
-    [disabled]="personForm.invalid || loading"
-    (click)="update()">
-    {{btnActionText | uppercase}}
+    [disabled]=" loading"
+    (click)="handleUpdate()">
+    ACTUALIZAR USUARIO
   </button>
   </mat-card-actions>
 </mat-card>
