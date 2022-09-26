@@ -35,9 +35,11 @@ export class DialogFeeEditComponent implements OnInit {
 
   getTotalPaidOut(): void {
     this.loading = true;
+    console.log(this.data.feeId);
     this.paymentService.getTotalPaidOutFee(this.data.feeId)
       .pipe(finalize(() => this.loading = false))
       .subscribe((resp) => {
+        console.log(resp);
         if (resp.total) {
           this.totalPaidOut = resp.total;
           this.amountControl.addValidators(Validators.min(this.totalPaidOut));

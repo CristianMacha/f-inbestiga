@@ -1,13 +1,13 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {FormControl, UntypedFormGroup, Validators} from "@angular/forms";
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { FormControl, UntypedFormGroup, Validators } from "@angular/forms";
 
-import {EStorage, PaymentMethodEnum} from "@core/enums";
-import {SnackBarService} from "@core/services";
-import {Fee, PaymentModel} from "@core/models";
-import {AngularFireStorage} from "@angular/fire/compat/storage";
-import {PaymentService} from "../../../core/services/payment.service";
-import {finalize} from "rxjs";
+import { EStorage, PaymentConceptEnum, PaymentMethodEnum } from "@core/enums";
+import { FeeService, SnackBarService } from "@core/services";
+import { Fee, PaymentModel } from "@core/models";
+import { AngularFireStorage } from "@angular/fire/compat/storage";
+import { PaymentService } from "../../../core/services/payment.service";
+import { finalize } from "rxjs";
 
 @Component({
   selector: 'vs-dialog-pay-fee',
@@ -15,12 +15,13 @@ import {finalize} from "rxjs";
   styleUrls: ['./dialog-pay-fee.component.scss']
 })
 export class DialogPayFeeComponent implements OnInit {
-  paymentMethods: PaymentMethodEnum [] = [
+  paymentMethods: PaymentMethodEnum[] = [
     PaymentMethodEnum.TRANSFER_OR_DEPOSIT,
     PaymentMethodEnum.CASH_PAYMENT,
     PaymentMethodEnum.PLIN,
     PaymentMethodEnum.YAPE,
   ];
+  paymentStatus: number = 0;
 
   paymentForm = new UntypedFormGroup({
     conceptId: new FormControl(this.data.fee.id, [Validators.required, Validators.min(1)]),
@@ -33,22 +34,27 @@ export class DialogPayFeeComponent implements OnInit {
   fileSelected: boolean = false;
   showFileMessageError = false;
   loading: boolean = false;
-  paymentStatus:  any;
+  payments: PaymentModel[] = [];
+  totalPayment: number = 0;
 
   constructor(
     public dialogRef: MatDialogRef<DialogPayFeeComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { fee: Fee },
     private storage: AngularFireStorage,
     private paymentService: PaymentService,
+    private feeService: FeeService,
     private snackBar: SnackBarService,
   ) {
   }
 
   ngOnInit(): void {
+    this.getPayments();
   }
 
+
+
   handleSelectFile(event: any): void {
-    if(event.target.files.length == 0) {
+    if (event.target.files.length == 0) {
       return;
     }
 
@@ -97,13 +103,38 @@ export class DialogPayFeeComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close();
   }
+
+  getPayments(): void {
+    this.paymentService
+      .getByConcept(this.data.fee.id, PaymentConceptEnum.FEE)
+      .subscribe((resp) => {
+        if (resp.length != 0) {
+          this.payments = resp;
+          this.calculateDebt(this.payments);
+        } else {
+          this.calculatePrice();
+        }
+      });
+  }
+
   calculateDebt(payments: PaymentModel[]): void {
     let sum = 0;
     payments.forEach((payment) => {
       if (payment.status == 'VERIFICADO') {
-        this.paymentStatus = sum += payment.amount;
-        console.log(this.paymentStatus)
+        let totalSum = sum += payment.amount;
+        this.calculatePrice(totalSum);
       }
     });
+  }
+  calculatePrice(totalCal?: number): void {
+    this.feeService.getOne(this.data.fee.id)
+      .subscribe((resp) => {
+        let total = resp.total;
+        if (!totalCal) {
+          this.paymentStatus = total;
+        } else {
+          this.paymentStatus = resp.total - totalCal;
+        }
+      });
   }
 }

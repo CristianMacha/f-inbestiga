@@ -31,7 +31,8 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   activeFormR: boolean = false;
   roleSelected: Role = new Role();
   cRole = CRole;
-
+  statusProject:any;
+  statusActive!: boolean  ;
   constructor(
     private activatedRoute: ActivatedRoute,
     private store: Store<AppStateProjectFeature>,
@@ -122,7 +123,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   }
 
   handleBtnToggleActiveProject() {
-    this.store.dispatch(updateProjectActive({ projectId: this.projectId }));
+    this.projectService.updateActive(this.projectId).subscribe((resp) => this.statusActive=resp.active)
   }
 
   handleBtnArrowBack() {
