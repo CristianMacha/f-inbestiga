@@ -123,14 +123,26 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((resp) => resp && this.getProject(this.projectId));
   }
 
-  handleBtnToggleActiveProject() {
-    DialogAcceptProjectComponent
+  handleBtnToggleActiveProject(confirm: boolean) {
+    const data:IDialogConfirm={
+      accept: confirm,
+      title: confirm ? 'Habilitar proyecto' : 'Desabilitar Proyecto',
+      description:"",
+      action: confirm ? 'Habilitar proyecto' : 'Desabilitar Proyecto',
+    }
     const dialogRef = this.matDialog.open(DialogConfirmComponent, {
-      width: '300px',
-      data: { projectId: this.projectId },
-      disableClose: true
+      width: '400px',
+      data,
     });
-    dialogRef.afterClosed().subscribe((resp) => resp && this.getProject(this.projectId));
+    dialogRef.afterClosed().subscribe((resp) => {
+      if (resp) {
+        this.updateProjectActive();
+      }
+    });
+  }
+
+  updateProjectActive() {
+    this.projectService.updateActive(this.projectId).subscribe(resp=> resp && this.getProject(this.projectId))
   }
 
   handleBtnArrowBack() {
