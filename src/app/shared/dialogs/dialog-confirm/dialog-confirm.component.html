@@ -1,17 +1,16 @@
-<h5 mat-dialog-title>{{data.title}}</h5>
+<h5 mat-dialog-title>
+    {{data.title}}</h5>
+<h5 mat-dialog-title *ngIf="datas">
+    Desea {{opciones}} el proyecto
+</h5>
 <div>
-  <p>{{data.description}}</p>
+    <p>{{data.description}}</p>
 </div>
 <div mat-dialog-actions [align]="'end'">
-  <button
-    mat-button
-    (click)="onNoClick()">
+    <button mat-button (click)="onNoClick()">
     Cancelar
   </button>
-  <button
-    mat-flat-button
-    [color]="data.accept ? 'accent' : 'warn'"
-    (click)="handleBtnAction()">
+    <button mat-flat-button [color]="data.accept ? 'accent' : 'warn'" (click)="handleBtnAction()">
     Si, {{data.action | titlecase}}
   </button>
 </div>

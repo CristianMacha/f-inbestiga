@@ -69,7 +69,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     this.subscription.add(
       dialogRef.afterClosed().subscribe((resp) => {
         if (resp) {
-          this.getProject(this.projectId);
           this.getInvoices(this.projectId);
         }
       })
@@ -108,6 +107,8 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         next: (resp) => {
           !resp && this.router.navigateByUrl('backoffice/project');
           this.project = resp;
+          this.statusActive=resp.active;
+          this.getProject(this.projectId);
         },
         error: () => this.router.navigateByUrl('backoffice/project')
       });
@@ -123,7 +124,13 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   }
 
   handleBtnToggleActiveProject() {
-    this.projectService.updateActive(this.projectId).subscribe((resp) => this.statusActive=resp.active)
+    DialogAcceptProjectComponent
+    const dialogRef = this.matDialog.open(DialogConfirmComponent, {
+      width: '300px',
+      data: { projectId: this.projectId },
+      disableClose: true
+    });
+    dialogRef.afterClosed().subscribe((resp) => resp && this.getProject(this.projectId));
   }
 
   handleBtnArrowBack() {
