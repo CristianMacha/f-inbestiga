@@ -26,7 +26,7 @@ export class FeePaymentComponent implements OnInit {
   loadingFile = false;
   paymentStatus = CPaymentStatus;
   cRole = CRole;
-  eFeeStatus=EFeeStatus;
+  eFeeStatus = EFeeStatus;
   roleSelected = new Role();
 
   constructor(
@@ -49,7 +49,19 @@ export class FeePaymentComponent implements OnInit {
       description: ''
     }
 
-    this.openDialog(dialogData);
+    const dialogRef = this.dialog.open(DialogConfirmComponent, {
+      width: '400px',
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe((resp) => resp && this.verifyPaymentFee())
+  }
+
+  verifyPaymentFee(): void {
+    this.loading = true;
+    this.paymentService.verifyPaymentFee(this.payment.id)
+      .pipe(finalize(() => this.loading = false))
+      .subscribe((resp) => this.updated.emit(true))
   }
 
   handleRefuse(): void {
@@ -60,23 +72,19 @@ export class FeePaymentComponent implements OnInit {
       description: '',
     }
 
-    this.openDialog(dialogData);
-  }
-
-  openDialog(data: IDialogConfirm): void {
     const dialogRef = this.dialog.open(DialogConfirmComponent, {
       width: '400px',
-      data,
+      data: dialogData
     });
 
-    dialogRef.afterClosed().subscribe((resp) => (resp) && this.approvePayment(data.accept));
+    dialogRef.afterClosed().subscribe((resp) => resp && this.refusePaymentFee())
   }
 
-  approvePayment(approve: boolean): void {
+  refusePaymentFee(): void {
     this.loading = true;
-    this.paymentService.approvePaymentFee(this.payment.id, approve)
+    this.paymentService.refusePaymentFee(this.payment.id)
       .pipe(finalize(() => this.loading = false))
-      .subscribe((resp) => this.updated.emit(true));
+      .subscribe((resp) => this.updated.emit(true))
   }
 
   openFile(): void {

@@ -42,7 +42,8 @@ export class PaymentDetailComponent implements OnInit {
   }
 
   getInvoiceIdUpdated(invoiceId: number): void {
-    this.getInvoice(invoiceId)
+    this.getInvoice(invoiceId);
+    this.getFees(invoiceId);
   }
 
   getFees(invoiceId: number): void {

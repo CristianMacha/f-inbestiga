@@ -4,6 +4,7 @@ import {EFeeStatus} from "@core/enums";
 export class Fee {
   public id: number;
   public total: number;
+  public numberFee: number;
   public status: EFeeStatus;
   public observation: string;
   public paymentDate: Date;
@@ -15,6 +16,7 @@ export class Fee {
   constructor() {
     this.id = 0;
     this.total = 0;
+    this.numberFee = 0;
     this.status = EFeeStatus.PENDING;
     this.observation = '';
     this.paymentDate = new Date();

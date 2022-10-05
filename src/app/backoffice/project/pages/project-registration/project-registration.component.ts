@@ -185,6 +185,7 @@ export class ProjectRegistrationComponent implements OnInit {
     const currentDate = moment();
     for (let index = 0; index < feesNumber; index++) {
       newFee.paymentDate = currentDate.clone().add(index, 'month').toDate();
+      newFee.numberFee += 1;
       this.feesFormArray.push(this.createFeeForm(newFee));
     }
   }

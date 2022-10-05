@@ -4,7 +4,7 @@
     <mat-card-subtitle>{{invoice.project.description}}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <div>
+    <div *ngIf="showMembers">
       <h6>Asesores</h6>
       <ul>
         <div *ngFor="let personProject of invoice.project.personProjects">
@@ -13,15 +13,15 @@
       </ul>
     </div>
     <mat-list>
-      <mat-list-item>
+      <mat-list-item *ngIf="showInfoPayment">
         <mat-icon mat-list-icon color="accent">payments</mat-icon>
         <div mat-line>TOTAL</div>
         <div mat-line>{{invoice.total | currency}}</div>
       </mat-list-item>
-      <mat-list-item>
+      <mat-list-item *ngIf="showInfoPayment">
         <mat-icon mat-list-icon color="primary">wallet</mat-icon>
         <div mat-line>CUOTAS</div>
-        <div mat-line>{{invoice.feesNumber}}</div>
+        <div mat-line>{{invoice.feesPaidOut}} de {{invoice.feesNumber}}</div>
       </mat-list-item>
       <mat-list-item>
         <mat-icon mat-list-icon
@@ -31,15 +31,6 @@
         </mat-icon>
         <div mat-line>ESTADO</div>
         <div mat-line>{{invoice.status}}</div>
-      </mat-list-item>
-      <mat-list-item *ngIf="countOut">
-        <mat-icon mat-list-icon
-                  [class.text-danger]="invoice.status == cInvoiceStatus.PENDING"
-                  [class.text-info]="invoice.status == cInvoiceStatus.PARTIAL"
-                  [class.text-success]="invoice.status == cInvoiceStatus.PAID_OUT">payments
-        </mat-icon>
-        <div mat-line>CUOTAS PAGADAS</div>
-        <div mat-line>{{(countOut)}}</div>
       </mat-list-item>
     </mat-list>
   </mat-card-content>

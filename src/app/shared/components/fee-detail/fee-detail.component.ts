@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Fee, PaymentModel } from '@core/models';
+import { Fee, PaymentModel, Role } from '@core/models';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -7,6 +7,10 @@ import { CFeeStatus, CRole, PaymentConceptEnum } from '@core/enums';
 import { FeeService, PaymentService } from '@core/services';
 import { DialogPayFeeComponent } from '../../dialogs/dialog-pay-fee/dialog-pay-fee.component';
 import { DialogFeeEditComponent } from '../../dialogs/dialog-fee-edit/dialog-fee-edit.component';
+import { Store } from '@ngrx/store';
+import { appState } from '../../../app.reducers';
+import { Subscription } from 'rxjs';
+import { uiRoleSelected } from '../../ui.selectors';
 
 @Component({
   selector: 'vs-fee-detail',
@@ -17,26 +21,28 @@ export class FeeDetailComponent implements OnInit {
   @Output() invoiceId: EventEmitter<number> = new EventEmitter();
   @Input() fee!: Fee;
 
+  subscription: Subscription = new Subscription()
+  roleSelected: Role = new Role();
+
   title: string = 'PENDIENTE';
   cFeeStatus = CFeeStatus;
   cRole = CRole;
   payments: PaymentModel[] = [];
-  paymentStatus: number=0;
+  paymentPaidOut: number = 0;
   invoiceIdActive!: number;
-  idUser:any="";
-  
+
   constructor(
     private dialog: MatDialog,
     private paymentService: PaymentService,
     private feeService: FeeService,
     private route: ActivatedRoute,
+    private store: Store<appState>
   ) { }
 
   ngOnInit(): void {
+    this.getRoleSelectedState();
     this.route.params.subscribe((resp) => this.invoiceIdActive = resp['id']);
     this.getPayments();
-    this.idUser=localStorage.getItem('rId');
-
   }
 
   handleBtnEditFee(): void {
@@ -88,8 +94,14 @@ export class FeeDetailComponent implements OnInit {
     let sum = 0;
     payments.forEach((payment) => {
       if (payment.status == 'VERIFICADO') {
-        this.paymentStatus = sum += payment.amount;
+        this.paymentPaidOut = sum += payment.amount;
       }
     });
+  }
+
+  getRoleSelectedState(): void {
+    this.subscription.add(
+      this.store.select(uiRoleSelected).subscribe((resp) => this.roleSelected = resp),
+    )
   }
 }

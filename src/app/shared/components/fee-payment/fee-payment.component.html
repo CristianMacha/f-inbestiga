@@ -7,14 +7,14 @@
         <small style="margin: 0; font-weight: 200">{{payment.updatedAt | date}}</small>
     </div>
     <div style="display: flex">
-        <div *ngIf="payment.status == paymentStatus.PENDING && roleSelected.id == cRole.ADMINISTRATOR">
-            <button *ngIf="fee.status!=eFeeStatus.PAID_OUT" mat-icon-button (click)="handleEdit()">
+        <div *ngIf="roleSelected.id == cRole.ADMINISTRATOR">
+            <button mat-icon-button (click)="handleEdit()">
         <mat-icon>edit</mat-icon>
       </button>
-            <button *ngIf="fee.status!=eFeeStatus.PAID_OUT" mat-icon-button color="accent" (click)="handleVerify()" [disabled]="loading">
+            <button *ngIf="roleSelected.id == cRole.ADMINISTRATOR && payment.status == paymentStatus.PENDING" mat-icon-button color="accent" (click)="handleVerify()" [disabled]="loading">
         <mat-icon>done</mat-icon>
       </button>
-            <button mat-icon-button color="warn" (click)="handleRefuse()" [disabled]="loading">
+            <button *ngIf="roleSelected.id == cRole.ADMINISTRATOR && payment.status == paymentStatus.PENDING" mat-icon-button color="warn" (click)="handleRefuse()" [disabled]="loading">
         <mat-icon>close</mat-icon>
       </button>
         </div>

@@ -54,6 +54,8 @@ export class PaymentTableComponent implements OnInit {
   getInvoices(roleId: number, filter: InvoiceFilterInterface): void {
     this.invoiceService.getInvoices(roleId, filter)
       .subscribe((resp) => {
+        console.log(resp);
+
         this.resultsLength = resp.total;
         this.invoices = resp.data;
       });

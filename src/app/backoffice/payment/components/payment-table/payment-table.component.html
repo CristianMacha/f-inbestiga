@@ -31,7 +31,7 @@
           </ng-container>
           <ng-container matColumnDef="feesNumber">
             <th mat-header-cell *matHeaderCellDef>Cuotas</th>
-            <td mat-cell *matCellDef="let invoice">{{invoice.feesNumber}}</td>
+            <td mat-cell *matCellDef="let invoice">{{invoice.feesPaidOut}} de {{invoice.feesNumber}}</td>
           </ng-container>
           <ng-container matColumnDef="expirationDate">
             <th mat-header-cell *matHeaderCellDef>Fecha de vencimiento</th>

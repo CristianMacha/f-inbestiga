@@ -5,6 +5,7 @@ import { Project } from "./project.model";
 export class Invoice {
   public id: number;
   public total: number;
+  public feesPaidOut: number;
   public feesNumber: number;
   public code: string;
   public status: EInvoiceStatus;
@@ -19,6 +20,7 @@ export class Invoice {
   constructor() {
     this.id = 0;
     this.total = 0;
+    this.feesPaidOut = 0;
     this.feesNumber = 0;
     this.code = '';
     this.status = EInvoiceStatus.PENDING;

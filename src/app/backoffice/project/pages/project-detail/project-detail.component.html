@@ -13,11 +13,11 @@
         </div>
 
         <div *ngIf="roleSelected.id == cRole.ADMINISTRATOR && roleSelected.id !== 0 && project.status != cProjectStatus.REQUIRED && project.status != cProjectStatus.REFUSED && project.status !== cProjectStatus.COMPLETED">
-            <button mat-flat-button color="warn" *ngIf="statusActive" (click)="handleBtnToggleActiveProject()">
+            <button mat-flat-button color="warn" *ngIf="project.active" (click)="handleBtnToggleActiveProject()">
         <mat-icon>block</mat-icon>
         Deshabilitar Proyecto
       </button>
-            <button mat-flat-button color="accent" *ngIf="!statusActive" (click)="handleBtnToggleActiveProject()">
+            <button mat-flat-button color="accent" *ngIf="!project.active" (click)="handleBtnToggleActiveProject()">
         <mat-icon>restore_page</mat-icon>
         Habilitar Proyecto
       </button>
@@ -50,11 +50,14 @@
         <div class="row g-3">
             <div class="col-md-12" *ngIf="invoices.length > 0">
                 <div *ngFor="let invoice of invoices">
-                    <vs-invoice-detail [invoice]="invoice">
+                    <vs-invoice-detail
+                      [invoice]="invoice"
+                      [showMembers]="roleSelected.id != cRole.ADVISOR ? true : false"
+                      [showInfoPayment]="roleSelected.id != cRole.ADVISOR ? true : false">
                     </vs-invoice-detail>
                 </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12" *ngIf="roleSelected.id != cRole.ADVISOR">
                 <mat-card>
                     <mat-card-header>
                         <mat-card-title>Adjuntos</mat-card-title>

@@ -28,8 +28,12 @@ export class PaymentService {
     return this.http.post<PaymentModel>(`${this.uri}`, paymentCreate);
   }
 
-  approvePaymentFee(paymentId: number, approve: boolean): Observable<PaymentModel> {
-    return this.http.post<PaymentModel>(`${this.uri}/approve/fee`, { paymentId, approve });
+  verifyPaymentFee(paymentId: number): Observable<PaymentModel> {
+    return this.http.get<PaymentModel>(`${this.uri}/verify/fee/${paymentId}`);
+  }
+
+  refusePaymentFee(paymentId: number): Observable<PaymentModel> {
+    return this.http.get<PaymentModel>(`${this.uri}/refuse/fee/${paymentId}`);
   }
 
   updateAmountFee(paymentId: number, amount: number): Observable<PaymentModel> {
