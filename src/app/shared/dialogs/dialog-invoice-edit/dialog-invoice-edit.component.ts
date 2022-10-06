@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, UntypedFormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PaymentStatusEnum } from '@core/enums';
 import { Invoice, PaymentModel } from '@core/models';
@@ -16,12 +16,13 @@ export class DialogInvoiceEditComponent implements OnInit {
   loading: boolean = false;
 
   totalPaidOut: number = 0;
-  totalControl = new FormControl('', Validators.required);
+  totalControl = new UntypedFormControl('', Validators.required);
 
   constructor(
     public dialogRef: MatDialogRef<DialogInvoiceEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Invoice,
     private paymentService: PaymentService,
+    private invoiceService: InvoiceService,
   ) { }
 
   ngOnInit(): void {
@@ -30,6 +31,16 @@ export class DialogInvoiceEditComponent implements OnInit {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  updateInvoice(): void {
+    this.loading = true;
+    this.invoiceService.updateTotal(this.data.id, this.totalControl.value)
+      .pipe(finalize(() => this.loading = false))
+      .subscribe({
+        next: (resp) => this.dialogRef.close(resp),
+        error: () => this.totalControl.reset(this.totalPaidOut),
+      })
   }
 
   getPayments(): void {

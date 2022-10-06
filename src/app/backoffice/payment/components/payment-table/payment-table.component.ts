@@ -1,16 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {Store} from "@ngrx/store";
-import {Subscription} from "rxjs";
+import { Component, OnInit } from '@angular/core';
+import { Store } from "@ngrx/store";
+import { Subscription } from "rxjs";
 
-import {Invoice, Role} from "@core/models";
-import {AppStatePaymentFeature} from "../../store/payment.reducers";
-import {CInvoiceStatus, EInvoiceStatus} from "../../../../core/enums/invoice.enum";
-import {uiRoleSelected} from "../../../../shared/ui.selectors";
-import {InvoiceService} from "@core/services";
-import {PageEvent} from "@angular/material/paginator";
-import {ERole} from "@core/enums";
-import {InvoiceFilterInterface} from "@core/interfaces";
-import {Router} from "@angular/router";
+import { Invoice, Role } from "@core/models";
+import { AppStatePaymentFeature } from "../../store/payment.reducers";
+import { CInvoiceStatus, EInvoiceStatus } from "../../../../core/enums/invoice.enum";
+import { uiRoleSelected } from "../../../../shared/ui.selectors";
+import { InvoiceService } from "@core/services";
+import { PageEvent } from "@angular/material/paginator";
+import { ERole } from "@core/enums";
+import { InvoiceFilterInterface } from "@core/interfaces";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'vs-payment-table',
@@ -43,12 +43,16 @@ export class PaymentTableComponent implements OnInit {
 
   getUiRoleSelectedState(): void {
     this.subscription.add(
-      this.store.select(uiRoleSelected).subscribe((resp) => (resp.id) && this.getInvoices(resp.id, {
-        status: EInvoiceStatus.ALL,
-        take: 30,
-        skip: 0
+      this.store.select(uiRoleSelected).subscribe((resp) => {
+        this.roleSelected = resp;
+        if (resp.id) {
+          this.getInvoices(resp.id, {
+            status: EInvoiceStatus.ALL,
+            take: 30,
+            skip: 0
+          });
+        }
       }))
-    )
   }
 
   getInvoices(roleId: number, filter: InvoiceFilterInterface): void {
@@ -62,7 +66,9 @@ export class PaymentTableComponent implements OnInit {
   }
 
   pageEventInvoice(event: PageEvent) {
-    this.getInvoices(ERole.STUDENT, {status: EInvoiceStatus.ALL, take: event.pageSize, skip: event.pageIndex});
+    console.log(event);
+
+    this.getInvoices(this.roleSelected.id, { status: EInvoiceStatus.ALL, take: event.pageSize, skip: event.pageIndex });
   }
 
 }

@@ -17,6 +17,11 @@
         <mat-icon mat-list-icon color="accent">payments</mat-icon>
         <div mat-line>TOTAL</div>
         <div mat-line>{{invoice.total | currency}}</div>
+        <div>
+          <button mat-icon-button color="primary" (click)="handleEditTotalInvoice()">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
       </mat-list-item>
       <mat-list-item *ngIf="showInfoPayment">
         <mat-icon mat-list-icon color="primary">wallet</mat-icon>

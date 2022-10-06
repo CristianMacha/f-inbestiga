@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { FeeService, InvoiceService } from "@core/services";
 import { Fee, Invoice } from "@core/models";
+import { CFeeStatus } from "@core/enums"
 import { MatDialog } from '@angular/material/dialog';
 import { DialogPaymentMethodsComponent } from 'src/app/shared/dialogs/dialog-payment-methods/dialog-payment-methods.component';
 
@@ -13,6 +14,8 @@ import { DialogPaymentMethodsComponent } from 'src/app/shared/dialogs/dialog-pay
 export class PaymentDetailComponent implements OnInit {
   invoice: Invoice = new Invoice();
   fees: Fee[] = [];
+
+  cFeeStatus = CFeeStatus;
 
   constructor(
     private route: ActivatedRoute,

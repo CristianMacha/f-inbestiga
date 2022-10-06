@@ -1,10 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from "@angular/router";
 
 import { Invoice } from "@core/models";
 import { CInvoiceStatus } from "../../../core/enums/invoice.enum";
-import { Router } from "@angular/router";
 import { CFeeStatus } from '@core/enums';
-import { FeeService } from '@core/services';
+import { DialogInvoiceEditComponent } from '../../dialogs/dialog-invoice-edit/dialog-invoice-edit.component';
 
 @Component({
   selector: 'vs-invoice-detail',
@@ -22,7 +23,7 @@ export class InvoiceDetailComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private feeService: FeeService,
+    private matDialog: MatDialog,
   ) {
   }
 
@@ -31,5 +32,19 @@ export class InvoiceDetailComponent implements OnInit {
 
   handleViewDetails(): void {
     this.router.navigateByUrl(`backoffice/pagos/${this.invoice.id}`);
+  }
+
+  handleEditTotalInvoice() {
+    const dialogRef = this.matDialog.open(DialogInvoiceEditComponent, {
+      width: '400px',
+      data: this.invoice,
+    });
+
+    dialogRef.afterClosed().subscribe((resp) => {
+      if(resp) {
+        this.invoice.status = resp.status;
+        this.invoice.total = resp.total;
+      }
+    })
   }
 }

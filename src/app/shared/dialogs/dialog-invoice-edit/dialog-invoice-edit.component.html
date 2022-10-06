@@ -2,6 +2,12 @@
 <div mat-dialog-content>
   <h5>Costo: {{data.total | currency}} <small>en {{data.feesNumber}} cuotas.</small></h5>
   <h6>Pagado: {{totalPaidOut | currency}}</h6>
+  <div class="content_alert">
+    <div>
+      <mat-icon>info</mat-icon>
+    </div>
+    <div>El costo de las cuotas no se modificaran, tendra que actualizarlos manualmente.</div>
+  </div>
   <div>
     <mat-form-field appearance="outline" class="w-100">
       <mat-label>Nuevo costo</mat-label>
@@ -10,6 +16,13 @@
     </mat-form-field>
   </div>
 </div>
-<div mat-dialog-actions>
+<div mat-dialog-actions [align]="'end'">
   <button type="button" mat-button (click)="onNoClick()">CANCELAR</button>
+  <button
+    mat-flat-button
+    color="primary"
+    [disabled]="totalControl.invalid || loading"
+    (click)="updateInvoice()">
+    ACTUALIZAR COSTO TOTAL
+  </button>
 </div>
