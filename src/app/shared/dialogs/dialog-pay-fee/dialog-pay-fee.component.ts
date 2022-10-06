@@ -74,7 +74,7 @@ export class DialogPayFeeComponent implements OnInit {
   createNewPayment(): void {
     this.loading = true;
     this.paymentService.createPaymentFee(this.paymentForm.value)
-      .pipe(finalize(() => this.loading = false))
+      .pipe(finalize(() => this.loading = true))
       .subscribe((resp) => this.uploadImage(resp));
   }
 

@@ -19,12 +19,12 @@ export class FeeService {
     return this.http.get<Fee>(`${this.uri}/${feeId}`);
   }
 
-  updateTotal(feeId: number, total: number): Observable<Fee> {
-    return this.http.patch<Fee>(`${this.uri}/total/${feeId}`, { total });
+  updateTotal(feeId: number, feeInfo: { total: number, paymentDate: Date, numberFee: number }): Observable<Fee> {
+    return this.http.patch<Fee>(`${this.uri}/total/${feeId}`, feeInfo);
   }
 
-  create(fee: Fee): Observable<Fee> {
-    return this.http.post<Fee>(`${this.uri}`, fee);
+  create(invoiceId: number, fee: Fee): Observable<Fee> {
+    return this.http.post<Fee>(`${this.uri}/invoice/${invoiceId}`, fee);
   }
 
   getByInvoice(invoiceId: number): Observable<Fee[]> {
@@ -33,5 +33,9 @@ export class FeeService {
 
   getByProject(projectId: number): Observable<Fee[]> {
     return this.http.get<Fee[]>(`${this.uri}/project/${projectId}`);
+  }
+
+  updateActive(feeId: number): Observable<Fee> {
+    return this.http.get<Fee>(`${this.uri}/update/active/${feeId}`);
   }
 }

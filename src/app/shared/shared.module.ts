@@ -26,6 +26,7 @@ import { Error404Component } from './components/error404/error404.component';
 import { DialogUserPasswordComponent } from './dialogs/dialog-user-password/dialog-user-password.component';
 import { DialogInvoiceEditComponent } from './dialogs/dialog-invoice-edit/dialog-invoice-edit.component';
 import { DialogFeeEditComponent } from './dialogs/dialog-fee-edit/dialog-fee-edit.component';
+import { DialogFeeCreateComponent } from './dialogs/dialog-fee-create/dialog-fee-create.component';
 
 const COMPONENTS_SHARED = [
   BackofficeNavComponent,
@@ -49,7 +50,8 @@ const COMPONENTS_SHARED = [
   Error404Component,
   DialogInvoiceEditComponent,
   DialogFeeEditComponent,
-  DialogUserPasswordComponent
+  DialogUserPasswordComponent,
+  DialogFeeCreateComponent,
 ]
 
 @NgModule({

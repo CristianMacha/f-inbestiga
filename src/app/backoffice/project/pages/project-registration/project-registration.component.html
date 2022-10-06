@@ -186,7 +186,7 @@
           <div class="row g-2">
             <div *ngFor="let fee of feesFormArray.controls; let i= index;" class="col-md-6">
               <div class="vs_content_fee">
-                <div>Cuota {{i + 1}}</div>
+                <div>Cuota {{fee.get('numberFee')?.getRawValue()}}</div>
                 <div [formGroupName]="i" class="row g-2">
                   <div class="col-md-6">
                     <mat-form-field appearance="legacy" class="w-100">

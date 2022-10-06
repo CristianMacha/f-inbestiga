@@ -1,0 +1,27 @@
+<div mat-dialog-title>Cuota {{data.numberFee}}</div>
+<div mat-dialog-content>
+  <form [formGroup]="feeForm" autocomplete="off">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Fecha de pago</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="paymentDate">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error>La fecha de pago es necesario.</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Monto</mat-label>
+      <input type="number" matInput formControlName="total">
+      <mat-error>El monto es necesario.</mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions [align]="'end'">
+  <button mat-button (click)="onNoClick()">CANCELAR</button>
+  <button
+    mat-flat-button
+    color="primary"
+    [disabled]="feeForm.invalid || loading"
+    (click)="createFee()">
+    AGREGAR CUOTA
+  </button>
+</div>

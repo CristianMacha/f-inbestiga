@@ -51,12 +51,27 @@
             </div>
         </div>
 
-        <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Nuevo costo de la cuota</mat-label>
-            <input type="number" matInput autocomplete="off" [formControl]="amountControl">
-            <mat-error>El costo es necesesario (min. {{totalPaidOut | currency}})</mat-error>
-        </mat-form-field>
+        <form [formGroup]="feeForm" autocomplete="off">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Fecha de pago</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="paymentDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error>La fecha de pago es necesario.</mat-error>
+          </mat-form-field>
 
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Nro de cuota</mat-label>
+            <input type="number" matInput formControlName="numberFee">
+            <mat-error>El numero de cuota es necesario.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Nuevo costo de la cuota</mat-label>
+              <input type="number" matInput autocomplete="off" formControlName="total">
+              <mat-error>El costo es necesesario (min. {{totalPaidOut | currency}})</mat-error>
+          </mat-form-field>
+        </form>
     </div>
 </div>
 <div mat-dialog-actions [align]="'end'">

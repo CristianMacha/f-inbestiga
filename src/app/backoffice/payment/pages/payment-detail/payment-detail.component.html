@@ -13,15 +13,27 @@
       </button>
       </div>
 
-      <div class="col-md-12" *ngFor="let fee of fees">
-        <vs-fee-detail [fee]="fee" (invoiceId)="getInvoiceIdUpdated($event)"></vs-fee-detail>
+      <div class="col-md-12">
+        <mat-accordion multi>
+          <mat-expansion-panel *ngFor="let fee of fees" expanded>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Cuota {{fee.numberFee}}
+              </mat-panel-title>
+              <mat-panel-description>
+                {{fee.paymentDate | date}}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <vs-fee-detail [fee]="fee" (invoiceId)="getInvoiceIdUpdated($event)"></vs-fee-detail>
+          </mat-expansion-panel>
+        </mat-accordion>
       </div>
     </div>
   </div>
 </div>
 
 <div class="btn_fab_action">
-  <button mat-fab color="primary">
+  <button mat-fab color="primary" (click)="openDialogForCreateFee()">
     <mat-icon>add</mat-icon>
   </button>
 </div>

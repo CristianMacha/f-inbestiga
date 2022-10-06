@@ -108,6 +108,7 @@ export class ProjectRegistrationComponent implements OnInit {
     const fee = this.builder.group({
       id: new FormControl((feeValue?.id || 0)),
       total: new UntypedFormControl((feeValue?.total || ''), Validators.required),
+      numberFee: new UntypedFormControl(feeValue?.numberFee || 0, Validators.required),
       paymentDate: new UntypedFormControl((feeValue?.paymentDate || ''), [Validators.required]),
       active: new FormControl((feeValue?.active || true))
     });

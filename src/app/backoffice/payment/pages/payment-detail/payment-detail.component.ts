@@ -5,6 +5,7 @@ import { Fee, Invoice } from "@core/models";
 import { CFeeStatus } from "@core/enums"
 import { MatDialog } from '@angular/material/dialog';
 import { DialogPaymentMethodsComponent } from 'src/app/shared/dialogs/dialog-payment-methods/dialog-payment-methods.component';
+import { DialogFeeCreateComponent } from 'src/app/shared/dialogs/dialog-fee-create/dialog-fee-create.component';
 
 @Component({
   selector: 'vs-payment-detail',
@@ -16,6 +17,7 @@ export class PaymentDetailComponent implements OnInit {
   fees: Fee[] = [];
 
   cFeeStatus = CFeeStatus;
+  invoiceId = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,8 +30,9 @@ export class PaymentDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((resp) => {
-      this.getInvoice(resp['id']);
-      this.getFees(resp['id']);
+      this.invoiceId = parseInt(resp['id']);
+      this.getInvoice(this.invoiceId);
+      this.getFees(this.invoiceId);
     });
   }
 
@@ -51,7 +54,7 @@ export class PaymentDetailComponent implements OnInit {
 
   getFees(invoiceId: number): void {
     this.feeService.getByInvoice(invoiceId)
-      .subscribe((resp) => this.fees = resp);
+      .subscribe((resp) => this.fees = resp.filter((f) => f.active));
   }
 
   handlePaymentMethods(): void {
@@ -60,4 +63,19 @@ export class PaymentDetailComponent implements OnInit {
     })
   }
 
+  openDialogForCreateFee(): void {
+    const dialogref = this.dialog.open(DialogFeeCreateComponent, {
+      width: '400px',
+      data: {
+        numberFee: this.fees.length + 1,
+        invoiceId: this.invoiceId
+      },
+      autoFocus: false,
+    });
+
+    dialogref.afterClosed().subscribe((resp) => {
+      resp && this.fees.push(resp);
+      resp && this.getInvoice(this.invoiceId);
+    })
+  }
 }
