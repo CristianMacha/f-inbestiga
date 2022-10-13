@@ -1,15 +1,15 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import {Store} from '@ngrx/store';
-import {Subscription} from 'rxjs';
-import {FormControl, Validators} from "@angular/forms";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { FormControl, Validators } from "@angular/forms";
 
-import {appState} from '../app.reducers';
-import {PersonRoles, ResourceModel, Role, User} from '@core/models';
-import {loadPerson, loadPersonRoles, loadResources, loadRoleSelected, logout, unsetUser} from '../shared/ui.actions';
-import {uiFeatureUser, uiPersonRoles, uiRoleSelected} from '../shared/ui.selectors';
-import {AuthService, ResourceService} from "@core/services";
-import {CRole} from "@core/enums";
+import { appState } from '../app.reducers';
+import { PersonRoles, ResourceModel, Role, User } from '@core/models';
+import { loadPerson, loadPersonRoles, loadResources, loadRoleSelected, logout, unsetUser } from '../shared/ui.actions';
+import { uiFeatureUser, uiPersonRoles, uiRoleSelected } from '../shared/ui.selectors';
+import { AuthService, ResourceService } from "@core/services";
+import { CRole } from "@core/enums";
 
 declare function toggleSidenav(): any;
 
@@ -29,7 +29,7 @@ export class BackofficeComponent implements OnInit, OnDestroy {
 
   btnCloseSidenav: boolean = false;
   cRole = CRole;
-
+  nameUrl: string = "";
   constructor(
     private store: Store<appState>,
     private router: Router,
@@ -40,19 +40,23 @@ export class BackofficeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+    this.getBreadcrum(this.router.url);
     this.router.events.subscribe((e) => {
-      if(e instanceof  NavigationEnd) {
-        let dato=localStorage.getItem('token');  
+      if (e instanceof NavigationEnd) {
+        let dato = localStorage.getItem('token');
         if (!dato) {
           this.router.navigateByUrl('auth/login');
         }
         console.log(e.url);
+        this.getBreadcrum(e.url);
+
       }
     });
     this.getUser();
     this.store.dispatch(loadPersonRoles());
-    this.store.dispatch(loadPerson({userId: this.authService.user.id}))
-    this.store.dispatch(loadRoleSelected({roleId: parseInt((localStorage.getItem('rId') as string))}))
+    this.store.dispatch(loadPerson({ userId: this.authService.user.id }))
+    this.store.dispatch(loadRoleSelected({ roleId: parseInt((localStorage.getItem('rId') as string)) }))
     this.getPersonRoles();
     this.getRoleSelected();
     this.roleControl.valueChanges.subscribe((resp) => {
@@ -62,6 +66,31 @@ export class BackofficeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+  }
+  getBreadcrum(urlB:String): void{
+    switch (urlB) {
+      case urlB = "/backoffice/user":
+        this.nameUrl = this.route.routeConfig?.children?.[0].data?.["title"];
+        break;
+      case urlB = "/backoffice/category":
+        this.nameUrl = this.route.routeConfig?.children?.[1].data?.["title"];
+        break;
+      case urlB = "/backoffice/project":
+        this.nameUrl = this.route.routeConfig?.children?.[2].data?.["title"];
+        break;
+      case urlB = "/backoffice/profile":
+        this.nameUrl = this.route.routeConfig?.children?.[3].data?.["title"];
+        break;
+      case urlB = "/backoffice/pagos":
+        this.nameUrl = this.route.routeConfig?.children?.[4].data?.["title"];
+        break;
+      case urlB = "/backoffice/project":
+        this.nameUrl = this.route.routeConfig?.children?.[5].data?.["title"];
+        break;
+      default:
+        this.nameUrl = this.route.routeConfig?.children?.[6].data?.["title"];
+        break;
+    }
   }
 
   getRoleSelected(): void {
@@ -76,7 +105,7 @@ export class BackofficeComponent implements OnInit, OnDestroy {
 
   dispatchResources(roleId: number): void {
     this.resourceService.getAllByRoleId(roleId)
-      .subscribe((resp) => this.store.dispatch(loadResources({resources: resp})))
+      .subscribe((resp) => this.store.dispatch(loadResources({ resources: resp })))
   }
 
   getPersonRoles(): void {
@@ -92,7 +121,7 @@ export class BackofficeComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.store.select(uiFeatureUser).subscribe((resp) => {
         this.user = resp;
-        this.store.dispatch(loadPerson({userId: this.user.id}));
+        this.store.dispatch(loadPerson({ userId: this.user.id }));
       })
     )
   }
