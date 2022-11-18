@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterContentInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {Subscription} from "rxjs";
 
@@ -10,13 +10,14 @@ import {MatDialog} from "@angular/material/dialog";
 import {
   DialogPaymentMethodsComponent
 } from "../../shared/dialogs/dialog-payment-methods/dialog-payment-methods.component";
+import { BreadCrumbService } from '@core/services';
 
 @Component({
   selector: 'vs-payment',
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.scss']
 })
-export class PaymentComponent implements OnInit, OnDestroy {
+export class PaymentComponent implements OnInit, OnDestroy, AfterContentInit {
   subscription: Subscription = new Subscription();
 
   showInvoiceDetail: boolean = false;
@@ -25,6 +26,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<AppStatePaymentFeature>,
     private dialog: MatDialog,
+    private breadcrumbService: BreadCrumbService,
     ) {
   }
 
@@ -37,6 +39,10 @@ export class PaymentComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  ngAfterContentInit(): void {
+    this.breadcrumbService.setTitle('Pagos');
   }
 
   getInvoice() {

@@ -20,6 +20,7 @@ import { UiEffects } from './shared/ui.effects';
 import {MaterialModule} from "./material/material.module";
 
 import localePE from '@angular/common/locales/es-PE';
+import { MAT_PAGINATOR_DEFAULT_OPTIONS } from '@angular/material/paginator';
 registerLocaleData(localePE, 'es');
 
 @NgModule({
