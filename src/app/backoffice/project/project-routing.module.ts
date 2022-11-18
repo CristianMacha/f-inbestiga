@@ -24,6 +24,7 @@ const routes: Routes = [
         path: 'register',
         component: ProjectRegistrationComponent,
         title: 'Registro de proyecto',
+        data: { title: 'Registro' }
       },
       {
         path: 'edit/:id',

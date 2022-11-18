@@ -27,6 +27,7 @@ import { DialogUserPasswordComponent } from './dialogs/dialog-user-password/dial
 import { DialogInvoiceEditComponent } from './dialogs/dialog-invoice-edit/dialog-invoice-edit.component';
 import { DialogFeeEditComponent } from './dialogs/dialog-fee-edit/dialog-fee-edit.component';
 import { DialogFeeCreateComponent } from './dialogs/dialog-fee-create/dialog-fee-create.component';
+import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 
 const COMPONENTS_SHARED = [
   BackofficeNavComponent,
@@ -52,6 +53,7 @@ const COMPONENTS_SHARED = [
   DialogFeeEditComponent,
   DialogUserPasswordComponent,
   DialogFeeCreateComponent,
+  BreadcrumbComponent
 ]
 
 @NgModule({
@@ -62,7 +64,7 @@ const COMPONENTS_SHARED = [
     MaterialModule,
     ReactiveFormsModule
   ],
-  exports: [COMPONENTS_SHARED]
+  exports: [COMPONENTS_SHARED],
 })
 export class SharedModule {
 }

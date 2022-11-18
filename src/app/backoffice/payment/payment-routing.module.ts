@@ -16,7 +16,8 @@ const routes: Routes = [
       {
         path: ':id',
         component: PaymentDetailComponent,
-        title: 'Detalles de factura'
+        title: 'Detalles de factura',
+        data: { title: 'Detalles de pagos'}
       }
     ],
   }

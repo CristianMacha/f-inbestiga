@@ -17,13 +17,15 @@ const routes: Routes = [
       {
         path: ':id',
         component: UserFormComponent,
-        title: 'Actualizar del Usuario'
+        title: 'Registro de usuario',
+        data: { title: 'Registro de usuario' }
       }
       ,
       {
         path: 'detalle/:id',
         component: UserDetailComponent,
-        title: 'Detalles del Usuario'
+        title: 'Detalles del Usuario',
+        data: { title: 'Detalles de usuario' }
       }
     ]
   }

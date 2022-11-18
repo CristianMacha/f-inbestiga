@@ -1,96 +1,111 @@
 <div mat-dialog-title>¿A DONDE PAGO?</div>
 <div mat-dialog-content>
-  <div class="row g-3">
-    <div class="col-md-6">
-      <div style="display: flex; gap: 1rem">
-        <div style="background: #002A8D">
-          <img src="assets/svgs/bcp.svg">
+  <div class="content">
+    <div class="method">
+      <div style="color: #0039A6; font-weight: bold;">INTERBANK</div>
+      <div class="account">
+        <div class="account-item">
+          <div>
+            <small>Cuenta en Soles</small>
+            <div>N°: 500-3004188829</div>
+          </div>
+          <div>
+            <button
+              mat-icon-button
+              [cdkCopyToClipboard]="interbankSoles">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          </div>
         </div>
-        <div>
-          <h4>YAPE</h4>
+        <div class="account-item">
+          <div>
+            <small>Cuenta en Dolares</small>
+            <div>N°: 500-3004188836</div>
+          </div>
+          <div>
+            <button
+              mat-icon-button
+              [cdkCopyToClipboard]="interbankDolares">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-md-6"></div>
-  </div>
-  <div class="mt-4">
-    <div class="row g-4">
-      <div class="col-md-4"
-           style="background: #002A8D; border-radius: 4px; display: flex; align-items: center; justify-content: center">
-        <img src="assets/svgs/bcp.svg" width="200" height="200">
-      </div>
-      <div class="col-md-8">
-        <strong>BCP</strong>
-        <p>Berenice Cervantes Poma</p>
-        <strong>Cuenta en soles</strong>
-        <p>355-02157385-0-13</p>
-        <strong>CCI Soles</strong>
-        <p>002-355-102157385013-63</p>
-        <strong>Cuenta en dolares</strong>
-        <p>355-02678615-1-08</p>
-        <strong>CCI Dolates</strong>
-        <p>002-355-102678615108-68</p>
+
+    <div class="method">
+      <div style="color: #ff7800; font-weight: bold;">BCP</div>
+      <div class="account">
+        <div class="account-item">
+          <div>
+            <small>Cuenta en Soles</small>
+            <div>N°: 355-98625226-0-30</div>
+          </div>
+          <div>
+            <button
+              mat-icon-button
+              [cdkCopyToClipboard]="bcpSoles">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <mat-divider class="mt-4"></mat-divider>
-
-  <div class="mt-4">
-    <div class="row g-4">
-      <div class="col-md-4"
-           style="background: #05be50; border-radius: 4px; display: flex; align-items: center; justify-content: center">
-        <img src="assets/svgs/interbank.svg" width="200" height="200">
-      </div>
-      <div class="col-md-8">
-        <strong>INTERBANK</strong>
-        <p>Termina tu tesus S.A.C</p>
-        <strong>Cuenta en soles</strong>
-        <p>898-300382076-3</p>
-        <strong>CCI Soles</strong>
-        <p>003-898-003003820763-42</p>
-        <strong>Cuenta en dolares</strong>
-        <p>898-300382077-3</p>
-        <strong>CCI Dolates</strong>
-        <p>003-898-003003820770-47</p>
+    <div class="method">
+      <div style="color: #1973b8; font-weight: bold;">BBVA</div>
+      <div class="account">
+        <div class="account-item">
+          <div>
+            <small>Cuenta en Soles</small>
+            <div>N°: 0011-0235-0201838132</div>
+          </div>
+          <div>
+            <button
+              mat-icon-button
+              [cdkCopyToClipboard]="bbvaSoles">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <mat-divider class="mt-4"></mat-divider>
-
-  <div class="mt-4">
-    <div class="row g-4">
-      <div class="col-md-4"
-           style="background: #072146; border-radius: 4px; display: flex; align-items: center; justify-content: center">
-        <img src="assets/svgs/bbva.svg" width="200" height="200">
-      </div>
-      <div class="col-md-8">
-        <strong>INTERBANK</strong>
-        <p>Nicolet Joyce Allasi Galarza</p>
-        <strong>Cuenta en soles</strong>
-        <p>011-235-000201531517-95</p>
-        <strong>CCI Soles</strong>
-        <p>003-898-0030038207663-42</p>
+    <div class="method">
+      <div style="color: #741893; font-weight: bold;">YAPE</div>
+      <div class="account">
+        <div class="account-item">
+          <div>
+            <small>Still Allasi Galarza</small>
+            <div>926 708 058</div>
+          </div>
+          <div>
+            <button
+              mat-icon-button
+              [cdkCopyToClipboard]="yape">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <mat-divider class="mt-4"></mat-divider>
-
-  <div class="mt-4">
-    <div class="row g-4">
-      <div class="col-md-4"
-           style="background: #ed0722; border-radius: 4px; display: flex; align-items: center; justify-content: center">
-        <img src="assets/svgs/scotiabank.svg" width="200" height="200">
-      </div>
-      <div class="col-md-8">
-        <strong>SCOTIABANK</strong>
-        <p>Nicolet Joyce Allasi Galarza</p>
-        <strong>Cuenta en soles</strong>
-        <p>6740134280</p>
-        <strong>CCI Soles</strong>
-        <p>009-674-206740134280-30</p>
+    <div class="method">
+      <div style="color: #1bb5d2; font-weight: bold;">PLIN</div>
+      <div class="account">
+        <div class="account-item">
+          <div>
+            <small>Berenice Cervantes Poma</small>
+            <div>948 780 668</div>
+          </div>
+          <div>
+            <button
+              mat-icon-button
+              [cdkCopyToClipboard]="plin">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

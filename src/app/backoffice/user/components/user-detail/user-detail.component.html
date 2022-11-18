@@ -1,8 +1,10 @@
+<vs-breadcrumb></vs-breadcrumb>
+
 <div style="display: flex; flex-direction: row; gap: .5rem; align-items: center; margin-bottom: .5rem">
   <button mat-icon-button (click)="handleBtnBack()">
     <mat-icon>arrow_back</mat-icon>
   </button>
-  <h2 style="margin: 0">{{userPerson.fullName | titlecase}} {{userPerson.surnames | titlecase}}</h2>
+  <h2 style="margin: 0" *ngIf="userPerson">{{userPerson.fullName | titlecase}} {{userPerson.surnames | titlecase}}</h2>
 </div>
 
 <div class="row g-3">
@@ -12,7 +14,7 @@
         <mat-card-title>Informacion personal</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <div>
+        <div *ngIf="userPerson">
           <p><strong>Email: </strong>{{userPerson.user.email}}</p>
           <p><strong>Telefono: </strong>{{userPerson.phone}}</p>
           <p><strong>Rol: </strong>{{userPerson.personRoles[0].role.name}}</p>

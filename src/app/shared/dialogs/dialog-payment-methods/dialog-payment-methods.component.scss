@@ -1,0 +1,28 @@
+.content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.method {
+  border: 1px solid #dfdfdf;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.account {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+  width: 100%;
+}
+
+.account-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

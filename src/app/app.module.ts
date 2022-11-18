@@ -8,7 +8,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { appReducer } from './app.reducers';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
-import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
+import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { registerLocaleData } from '@angular/common';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -17,23 +17,27 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RequestapiInterceptor } from './core/interceptors/requestapi.interceptor';
 import { UiEffects } from './shared/ui.effects';
-import {MaterialModule} from "./material/material.module";
+import { MaterialModule } from './material/material.module';
 
 import localePE from '@angular/common/locales/es-PE';
-import { MAT_PAGINATOR_DEFAULT_OPTIONS } from '@angular/material/paginator';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { PaginatorIntlService } from './material/custom-paginator';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 registerLocaleData(localePE, 'es');
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
+    TranslateModule.forRoot(),
     HttpClientModule,
     BrowserModule,
     RouterModule,
     AppRoutingModule,
     StoreModule.forRoot(appReducer),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
     EffectsModule.forRoot([UiEffects]),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireStorageModule,
@@ -48,15 +52,27 @@ registerLocaleData(localePE, 'es');
       multi: true,
     },
     {
-      provide: LOCALE_ID, useValue: 'es'
+      provide: LOCALE_ID,
+      useValue: 'es',
     },
     {
-      provide: MAT_DATE_LOCALE, useValue: 'es-ES'
+      provide: MAT_DATE_LOCALE,
+      useValue: 'es-ES',
     },
     {
-      provide: DEFAULT_CURRENCY_CODE, useValue: 'PEN'
-    }
+      provide: DEFAULT_CURRENCY_CODE,
+      useValue: 'PEN',
+    },
+    {
+      provide: MatPaginatorIntl,
+      useFactory: (translate: any) => {
+        const service = new PaginatorIntlService();
+        service.injectTranslateService(translate);
+        return service;
+      },
+      deps: [TranslateService],
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

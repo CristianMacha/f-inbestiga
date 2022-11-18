@@ -1,0 +1,33 @@
+<div class="content">
+  <div class="content-breadcrumb">
+    <div>Inicio / <span *ngIf="title != 'Inicio'" style="font-weight: bold;">{{title | titlecase}}</span></div>
+    <div class="content-right">
+      <button mat-icon-button (click)="toggleMenu()" class="menu-hamburger">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <div>
+        <span
+          class="badge"
+          *ngIf="roleSelected.id"
+          [class.bg-gradient-faded-primary]="roleSelected.id == cRole.ADMINISTRATOR"
+          [class.bg-gradient-faded-success]="roleSelected.id == cRole.ADVISOR"
+          [class.bg-gradient-faded-dark]="roleSelected.id == cRole.STUDENT">
+          {{roleSelected.name}}
+        </span>
+      </div>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>person</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+
+<mat-menu #menu="matMenu">
+  <div mat-menu-item>{{ user.email }}</div>
+  <button mat-menu-item (click)="logout()">
+    <mat-icon>logout</mat-icon>
+    Cerrar sesion
+  </button>
+</mat-menu>
+
+<div style="height: 10px;"></div>

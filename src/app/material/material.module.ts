@@ -21,6 +21,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatMenuModule } from '@angular/material/menu';
+
+import {ClipboardModule} from '@angular/cdk/clipboard';
 
 const MATERIAL_COMPONENTS = [
   MatDialogModule,
@@ -44,7 +47,9 @@ const MATERIAL_COMPONENTS = [
   MatAutocompleteModule,
   MatStepperModule,
   MatSlideToggleModule,
-  MatExpansionModule
+  MatExpansionModule,
+  ClipboardModule,
+  MatMenuModule
 ]
 
 @NgModule({

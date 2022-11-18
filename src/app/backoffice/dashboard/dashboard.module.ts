@@ -8,6 +8,7 @@ import {DashboardAdvisorComponent} from './layouts/dashboard-advisor/dashboard-a
 import {DashboardAdminComponent} from './layouts/dashboard-admin/dashboard-admin.component';
 import {MaterialModule} from "../../material/material.module";
 import { SharedModule } from 'src/app/shared/shared.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     DashboardRoutingModule,
     SharedModule,
     MaterialModule,
+    RouterModule,
   ]
 })
 export class DashboardModule {

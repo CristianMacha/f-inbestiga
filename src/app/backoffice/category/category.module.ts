@@ -11,6 +11,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { CategoryEffects } from './store/category.effects';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material/material.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { MaterialModule } from 'src/app/material/material.module';
     StoreModule.forFeature(categoryFeatureKey,_categoryReducer),
     EffectsModule.forFeature([CategoryEffects]),
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
+    SharedModule,
   ]
 })
 export class CategoryModule { }

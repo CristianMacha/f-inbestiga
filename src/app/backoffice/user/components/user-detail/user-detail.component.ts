@@ -45,7 +45,6 @@ export class UserDetailComponent implements OnInit, OnDestroy {
   getPerson(persontId:number): void {
     this.personService.getByUser(persontId).subscribe((resp)=>{
       this.userPerson=resp;
-      console.log(resp)
       this.getProjects(resp.id)
     })
   }

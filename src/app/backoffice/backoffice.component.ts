@@ -43,6 +43,7 @@ export class BackofficeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.breadcrumbService.getTitlePage$().subscribe((resp) => console.log(resp));
     this.title$ = this.breadcrumbService.getTitlePage$();
     this.router.events.subscribe((e) => {
       if (e instanceof NavigationEnd) {
@@ -117,6 +118,5 @@ export class BackofficeComponent implements OnInit, OnDestroy {
 
   toggleSidenav(active: boolean) {
     toggleSidenav();
-    this.btnCloseSidenav = active;
   }
 }

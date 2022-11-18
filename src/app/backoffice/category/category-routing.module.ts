@@ -16,7 +16,8 @@ const routes: Routes = [
       {
         path: ':id',
         component: CategoryFormComponent,
-        title: 'Detalles de la Categoria'
+        title: 'Detalles de la Categoria',
+        data: { title: 'Registro de categoria' }
       }
     ]
   }
