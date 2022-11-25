@@ -5,16 +5,16 @@
         <i class="material-icons cursor-pointer" (click)="handleBtnArrowBack()">arrow_back</i> {{project.name | titlecase}}
     </h2>
     <div class="list-button">
-        <div class="list-button" *ngIf="roleSelected.id == cRole.ADMINISTRATOR && project.status === cProjectStatus.REQUIRED">
+        <div class="list-button" *ngIf="roleSelected.id == cRole.ADMINISTRATOR && project.status === cProjectStatus.PENDING">
             <button mat-flat-button color="warn" (click)="handleRefuse()">
-        Rechazar
-      </button>
+                Rechazar
+            </button>
             <button mat-flat-button color="accent" (click)="handleAccept()">
-        Aceptar
-      </button>
+                Aceptar
+            </button>
         </div>
 
-        <div *ngIf="roleSelected.id == cRole.ADMINISTRATOR && roleSelected.id !== 0 && project.status != cProjectStatus.REQUIRED && project.status != cProjectStatus.REFUSED && project.status !== cProjectStatus.COMPLETED">
+        <div *ngIf="roleSelected.id == cRole.ADMINISTRATOR && roleSelected.id !== 0 && project.status != cProjectStatus.REQUIRED && project.status != cProjectStatus.REFUSED && project.status != cProjectStatus.COMPLETED && project.status != cProjectStatus.PENDING">
             <button mat-flat-button color="warn" *ngIf="project.active" (click)="handleBtnToggleActiveProject()">
         <mat-icon>block</mat-icon>
         Deshabilitar Proyecto

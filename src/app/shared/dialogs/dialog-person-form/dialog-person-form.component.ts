@@ -16,7 +16,7 @@ export class DialogPersonFormComponent implements OnInit {
   loading: boolean = false;
 
   personForm: FormGroup = new UntypedFormGroup({
-    fullname: new FormControl('', Validators.required),
+    fullName: new FormControl('', Validators.required),
     surnames: new FormControl('', Validators.required),
     phone: new FormControl('', [Validators.required, Validators.minLength(9)]),
     user: new FormGroup({
