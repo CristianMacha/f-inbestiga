@@ -4,8 +4,8 @@ import { FeeService, InvoiceService } from "@core/services";
 import { Fee, Invoice } from "@core/models";
 import { CFeeStatus } from "@core/enums"
 import { MatDialog } from '@angular/material/dialog';
-import { DialogPaymentMethodsComponent } from 'src/app/shared/dialogs/dialog-payment-methods/dialog-payment-methods.component';
-import { DialogFeeCreateComponent } from 'src/app/shared/dialogs/dialog-fee-create/dialog-fee-create.component';
+import { DialogPaymentMethodsComponent } from '../../../../shared/dialogs/dialog-payment-methods/dialog-payment-methods.component';
+import { DialogFeeCreateComponent } from '../../../../shared/dialogs/dialog-fee-create/dialog-fee-create.component';
 
 @Component({
   selector: 'vs-payment-detail',
