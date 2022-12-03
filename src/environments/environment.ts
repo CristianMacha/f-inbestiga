@@ -13,7 +13,6 @@ export const environment = {
     measurementId: 'G-TWS80VYMHW',
   },
   production: false,
-  //url: 'https://inbestiga.herokuapp.com',
   url: 'http://localhost:3000',
 };
 

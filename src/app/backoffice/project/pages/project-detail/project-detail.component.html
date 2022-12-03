@@ -4,8 +4,8 @@
     <h2 class="card-title">
         <i class="material-icons cursor-pointer" (click)="handleBtnArrowBack()">arrow_back</i> {{project.name | titlecase}}
     </h2>
-    <div class="list-button">
-        <div class="list-button" *ngIf="roleSelected.id == cRole.ADMINISTRATOR && project.status === cProjectStatus.PENDING">
+    <div class="list-button" *ngIf="project.id">
+        <div class="list-button" *ngIf="roleSelected.id == cRole.ADMINISTRATOR && (project.status === cProjectStatus.PENDING || project.status === cProjectStatus.REQUIRED)">
             <button mat-flat-button color="warn" (click)="handleRefuse()">
                 Rechazar
             </button>
