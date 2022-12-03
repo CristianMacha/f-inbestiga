@@ -24,8 +24,9 @@
                 <mat-form-field appearance="legacy" class="w-100">
                   <mat-label>Categoria</mat-label>
                   <mat-select formControlName="id">
-                    <mat-option [value]="0">Seleccione categoria</mat-option>
+                    <mat-option [value]="'select'">Seleccione categoria</mat-option>
                     <mat-option *ngFor="let category of categories" [value]="category.id">{{category.name}}</mat-option>
+                    <mat-option [value]="0">Otro</mat-option>
                   </mat-select>
                   <mat-error>La categoria es necesaria.</mat-error>
                 </mat-form-field>

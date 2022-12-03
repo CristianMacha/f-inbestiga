@@ -17,7 +17,7 @@ export class ProjectRegistrationComponent implements OnInit {
     id: new FormControl(0),
     name: new FormControl('', [Validators.required]),
     category: new UntypedFormGroup({
-      id: new FormControl(0, [Validators.required, Validators.min(1)]),
+      id: new FormControl('select', [Validators.required, Validators.min(0)]),
     }, Validators.required),
     startDate: new FormControl(),
     expirationDate: new FormControl('', Validators.required),
@@ -163,7 +163,7 @@ export class ProjectRegistrationComponent implements OnInit {
   valueChangesCategory(): void {
     const categoryControl = (this.projectForm.controls['category'] as UntypedFormGroup).controls['id'];
     categoryControl.valueChanges.subscribe((id) => {
-      if (id == 9) {
+      if (id == 0) {
         this.showOtherCategory = true;
       } else {
         this.showOtherCategory = false;
