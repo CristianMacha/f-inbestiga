@@ -9,5 +9,5 @@ export const environment = {
     measurementId: 'G-TWS80VYMHW',
   },
   production: true,
-  url: 'https://inbestiga.herokuapp.com',
+  url: 'https://web-production-6c40.up.railway.app',
 };
