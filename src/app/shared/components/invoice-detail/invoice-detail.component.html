@@ -18,7 +18,8 @@
         <div mat-line>TOTAL</div>
         <div mat-line>{{invoice.total | currency}}</div>
         <div>
-          <button mat-icon-button color="primary" (click)="handleEditTotalInvoice()">
+          <button mat-icon-button color="primary" (click)="handleEditTotalInvoice()"
+            *ngIf="roleSelected.id == cRole.ADMINISTRATOR">
             <mat-icon>edit</mat-icon>
           </button>
         </div>
@@ -29,10 +30,9 @@
         <div mat-line>{{invoice.feesPaidOut}} de {{invoice.feesNumber}}</div>
       </mat-list-item>
       <mat-list-item>
-        <mat-icon mat-list-icon
-                  [class.text-danger]="invoice.status == cInvoiceStatus.PENDING"
-                  [class.text-info]="invoice.status == cInvoiceStatus.PARTIAL"
-                  [class.text-success]="invoice.status == cInvoiceStatus.PAID_OUT">sell
+        <mat-icon mat-list-icon [class.text-danger]="invoice.status == cInvoiceStatus.PENDING"
+          [class.text-info]="invoice.status == cInvoiceStatus.PARTIAL"
+          [class.text-success]="invoice.status == cInvoiceStatus.PAID_OUT">sell
         </mat-icon>
         <div mat-line>ESTADO</div>
         <div mat-line>{{invoice.status}}</div>
